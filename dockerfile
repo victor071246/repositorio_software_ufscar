@@ -9,29 +9,23 @@ WORKDIR /usr/src/app
 # Passo 3: Ativar o Corepack
 RUN corepack enable
 
-# Passo 4: Copiar somente os arquivos de definição de pacotes
+# Passo 4: Copiar arquivos de definição de pacotes
 COPY package.json yarn.lock .pnp.cjs .yarnrc.yml ./
 
-# --- INÍCIO DA CORREÇÃO DE PERMISSÃO ---
-# Muda para o usuário root para ter permissão de instalar pacotes
+# --- Permissões ---
 USER root
-
-# Concede a propriedade da pasta da aplicação ao usuário node
 RUN chown -R node:node /usr/src/app
+USER node
 
-# Instala dependências como root para evitar problemas de permissão
-RUN corepack prepare yarn@4.6.0 --activate
+# Passo 5: Instalar Yarn globalmente e instalar dependências
+RUN corepack prepare yarn@stable --activate
 RUN yarn install
 
-# Volta para o usuário node, que é mais seguro para rodar a aplicação
-USER node
-# --- FIM DA CORREÇÃO DE PERMISSÃO ---
-
-# Passo 5: Copiar o restante do código da aplicação
+# Passo 6: Copiar o restante do código
 COPY --chown=node:node . .
 
-# Passo 6: Expor a porta que a aplicação vai usar
+# Passo 7: Expor porta
 EXPOSE 3001
 
-# Passo 7: Comando para iniciar a aplicação
+# Passo 8: Rodar aplicação
 CMD ["node", "app/src/server.js"]
