@@ -25,7 +25,7 @@ create table Intercorrencias (
     criado_em timestamp default current_timestamp,
     constraint fk_intercorrencia_equipamento
     foreign key (equipamento_id)
-    references (Equipamentos_id)
+    references Equipamentos(id)
 )
 
 create table Historico_Equipamentos (
@@ -43,7 +43,7 @@ create table Historico_Equipamentos (
 
     constraint fk_historico_usuario
     foreign key (usuario_id)
-    references Usuarios(id),
+    references Usuarios(id)
 )
 
 create table Usuarios(
@@ -61,7 +61,7 @@ create table Usuarios(
 
 create table Agendamentos(
     id int primary key auto_increment,
-    equiapmento_id int not null,
+    equipamento_id int not null,
     usuario_id int not null,
     horario_inicio datetime not null,
     horario_fim datetime not null,

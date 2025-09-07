@@ -1,0 +1,16 @@
+{
+  "name": "projeto_laboratorio",
+  "packageManager": "yarn@4.6.0",
+  "dependencies": {
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "sucrase": "^3.35.0"
+  },
+  "scripts": {
+    "start": "node -r sucrase/register server.js",
+    "dev": "nodemon -r sucrase/register server.js"
+  }
+}
