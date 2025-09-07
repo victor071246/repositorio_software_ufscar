@@ -16,6 +16,17 @@ create table Equipamentos (
     references Departamentos(id)
 )
 
+create table Intercorrencias (
+    id int primary key auto_increment,
+    tipo varchar(30) not null,
+    descricao varchar(255) not null,
+    equipamento_id int not null,
+    criado_em timestamp default current_timestamp,
+    constraint fk_intercorrencia_equipamento
+    foreign key (equipamento_id)
+    references (Equipamentos_id)
+)
+
 create table Usuarios(
     id int primary key auto_increment,
     nome varchar(255) not null,
@@ -40,7 +51,7 @@ create table Agendamentos(
     constraint fk_agendamentos_equipamentos
     foreign key (equipamento_id)
     references Equipamentos(id),
-
+    
     constraint fk_agendamentos_usuarios
     foreign key (usuario_id)
     references Usuarios(id)
