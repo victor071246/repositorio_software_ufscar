@@ -1,4 +1,4 @@
-# Arquivo: Dockerfile (na raiz do projeto)
+# Arquivo: Dockerfile
 
 # Passo 1: Imagem base
 FROM node:18-alpine
@@ -6,16 +6,16 @@ FROM node:18-alpine
 # Passo 2: Diretório de trabalho
 WORKDIR /usr/src/app
 
-# Passo 3: Copiar TUDO relacionado ao Yarn para aproveitar o cache.
-# Isso inclui os binários do Yarn v4 que estão na pasta .yarn
-COPY package.json yarn.lock .pnp.cjs .yarnrc.yml ./
-COPY .yarn ./.yarn
-
-# Passo 4 (NOVO): Habilitar o Corepack para gerenciar as versões do Yarn
+# Passo 3: Ativar o Corepack PRIMEIRO
 RUN corepack enable
 
-# Passo 5: Instalar as dependências. Agora o Corepack usará o Yarn v4
-RUN yarn install --frozen-lockfile
+# Passo 4: Copiar SOMENTE os arquivos de definição de pacotes
+COPY package.json yarn.lock .pnp.cjs .yarnrc.yml ./
+
+# Passo 5: Rodar o yarn install. O Corepack vai baixar a versão
+# correta do Yarn (definida no .yarnrc.yml) e depois instalar
+# as dependências do projeto.
+RUN yarn install --immutable
 
 # Passo 6: Copiar o restante do código da aplicação
 COPY . .
