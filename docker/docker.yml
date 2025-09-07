@@ -1,68 +1,57 @@
-# Define a versão do Docker Compose que estamos usando
+# Arquivo: docker/docker.yml
+
 version: '3.8'
 
-# Define os serviços (contêineres) que compõem nossa aplicação
 services:
-    # Serviço do banco de dados MariaDB
-    db:
-        image: mariadb:10.6 # Usa a imagem oficial do MariaDB
-        container_name: mariadb_agendamentos
-        restart: always # Reinicia o contêiner se ele parar
-        environment:
-            # As senhas e nomes vêm do nosso arquivo .env
-            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-            MYSQL_DATABASE: ${DB_NAME}
-            MYSQL_USER: ${DB_USER}
-            MYSQL_PASSWORD: ${DB_PASSWORD}
-        ports:
-            # Mapeia a porta 3306 do contêiner para a 3307 da sua máquina
-            - '3307:3306'
-        volumes:
-            # Garante que os dados do banco de dados persistam
-            - mysql_data:/var/lib/mysql
-            # Mapeia o nosso script SQL para ser executado na primeira inicialização
-            - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-        networks:
-            - app-network
+  # Serviço do banco de dados (sem alterações necessárias aqui, além do caminho do volume)
+  db:
+    image: mariadb:10.6
+    container_name: mariadb_agendamentos
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - '3307:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+      # CORREÇÃO: Apontar para o script SQL na pasta 'sql'
+      - ../sql/entidades.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network
+    env_file:
+      - ../.env
 
-        env_file:
-            - ../.env
+  # Serviço da API Node.js
+  api:
+    container_name: api_agendamentos
+    # CORREÇÃO: Apontar o contexto do build para a raiz do projeto (onde está o Dockerfile)
+    build: ..
+    restart: always
+    ports:
+      - '3001:3001'
+    volumes:
+      # Mapeia o código da aplicação para dentro do contêiner para desenvolvimento (hot-reload)
+      # Qualquer alteração na pasta 'app' do seu PC será refletida no contêiner.
+      - ../app:/usr/src/app/app
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      PORT: 3001
+    networks:
+      - app-network
+    env_file:
+      - ../.env
 
-    # Serviço da nossa API Node.js/Express
-    api:
-        container_name: api_agendamentos
-        # Constrói a imagem a partir do Dockerfile na pasta atual
-        build: .
-        restart: always
-        ports:
-            # Mapeia a porta 3001 do contêiner para a 3001 da sua máquina
-            - '3001:3001'
-        volumes:
-            # Mapeia o código da nossa aplicação para o contêiner (hot reload)
-            - ./server:/usr/src/app/server
-            - ./server.js:/usr/src/app/server.js
-            - ./package.json:/usr/src/app/package.json
-        depends_on:
-            # Garante que o serviço 'db' seja iniciado antes do serviço 'api'
-            - db
-        environment:
-            # Passa as variáveis de ambiente para a nossa aplicação
-            DB_HOST: db # O nome do serviço 'db' é o hostname na rede do docker
-            DB_USER: ${DB_USER}
-            DB_PASSWORD: ${DB_PASSWORD}
-            DB_NAME: ${DB_NAME}
-            PORT: 3001 # Define a porta interna da aplicação
-        networks:
-            - app-network
-
-        env_file:
-            - ../.env
-
-# Define as redes que os contêineres usarão para se comunicar
 networks:
-    app-network:
-        driver: bridge
+  app-network:
+    driver: bridge
 
-# Define os volumes nomeados
 volumes:
-    mysql_data:
+  mysql_data:
