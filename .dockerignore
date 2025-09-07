@@ -1,0 +1,4 @@
+# Arquivo: .dockerignore
+
+node_modules
+.env

@@ -1,29 +1,27 @@
-# Passo 1: Usar uma imagem oficial do Node.js como base.
-# A tag 'alpine' se refere a uma versão mínima e leve do Linux, ideal para contêineres.
+# Arquivo: Dockerfile (na raiz do projeto)
+
+# Passo 1: Imagem base
 FROM node:18-alpine
 
-# Passo 2: Definir o diretório de trabalho dentro do contêiner.
-# Todos os comandos seguintes serão executados a partir desta pasta.
+# Passo 2: Diretório de trabalho
 WORKDIR /usr/src/app
 
-# Passo 3: Copiar os arquivos de manifesto de pacotes.
-# Copiamos estes primeiro para aproveitar o cache do Docker. Se eles não mudarem,
-# o Docker não precisará reinstalar as dependências toda vez que você reconstruir a imagem.
-COPY package.json yarn.lock ./
+# Passo 3: Copiar TUDO relacionado ao Yarn para aproveitar o cache.
+# Isso inclui os binários do Yarn v4 que estão na pasta .yarn
+COPY package.json yarn.lock .pnp.cjs .yarnrc.yml ./
+COPY .yarn ./.yarn
 
-# Passo 4: Instalar as dependências do projeto usando Yarn.
-# O '--frozen-lockfile' garante que as versões exatas do yarn.lock sejam instaladas.
+# Passo 4 (NOVO): Habilitar o Corepack para gerenciar as versões do Yarn
+RUN corepack enable
+
+# Passo 5: Instalar as dependências. Agora o Corepack usará o Yarn v4
 RUN yarn install --frozen-lockfile
 
-# Passo 5: Copiar o restante do código da sua aplicação para o diretório de trabalho.
-# O primeiro '.' representa a pasta atual no seu computador (a raiz do projeto).
-# O segundo '.' representa o diretório de trabalho dentro do contêiner (/usr/src/app).
+# Passo 6: Copiar o restante do código da aplicação
 COPY . .
 
-# Passo 6: Expor a porta que sua aplicação usa dentro do contêiner.
-# Isso é mais uma documentação. A porta real é mapeada no docker-compose.yml.
+# Passo 7: Expor a porta
 EXPOSE 3001
 
-# Passo 7: Definir o comando para iniciar a aplicação quando o contêiner rodar.
-# Com base na sua estrutura, o arquivo de entrada parece ser 'app/src/server.js'.
+# Passo 8: Comando para iniciar a aplicação
 CMD ["node", "app/src/server.js"]
