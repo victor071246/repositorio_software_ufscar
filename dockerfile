@@ -20,7 +20,8 @@ USER root
 RUN chown -R node:node /usr/src/app
 
 # Instala dependências como root para evitar problemas de permissão
-RUN yarn install --immutable
+RUN corepack prepare yarn@4.6.0 --activate
+RUN yarn install
 
 # Volta para o usuário node, que é mais seguro para rodar a aplicação
 USER node
