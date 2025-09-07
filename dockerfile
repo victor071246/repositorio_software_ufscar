@@ -12,9 +12,8 @@ RUN corepack enable
 # Passo 4: Copiar SOMENTE os arquivos de definição de pacotes
 COPY package.json yarn.lock .pnp.cjs .yarnrc.yml ./
 
-# Passo 5: Rodar o yarn install. O Corepack vai baixar a versão
-# correta do Yarn (definida no .yarnrc.yml) e depois instalar
-# as dependências do projeto.
+# Passo 5: Rodar o yarn install. O Corepack vai usar o .yarnrc.yml
+# para baixar a versão correta do Yarn e depois instalar as dependências.
 RUN yarn install --immutable
 
 # Passo 6: Copiar o restante do código da aplicação
