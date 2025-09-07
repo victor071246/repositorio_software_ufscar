@@ -25,7 +25,7 @@ USER node
 
 # Passo 5: Rodar o yarn install. Agora, como usuário 'node' mas com as permissões corretas,
 # o Corepack vai conseguir baixar e instalar tudo sem problemas.
-RUN yarn install --immutable
+RUN sudo yarn install --immutable
 
 # Passo 6: Copiar o restante do código da aplicação
 COPY --chown=node:node . .
