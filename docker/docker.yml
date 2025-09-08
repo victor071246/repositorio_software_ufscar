@@ -21,8 +21,6 @@ services:
       - ../sql/entidades.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - app-network
-    env_file:
-      - ../.env
 
   # Serviço da API Node.js
   api:
@@ -46,8 +44,6 @@ services:
       PORT: 3001
     networks:
       - app-network
-    env_file:
-      - ../.env
 
 networks:
   app-network:
