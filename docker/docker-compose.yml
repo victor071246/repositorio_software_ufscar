@@ -32,7 +32,7 @@ services:
       - '3001:3001'
     volumes:
       # Mapeia o código da aplicação para dentro do contêiner para desenvolvimento (hot-reload)
-      # Qualquer alteração na pasta 'app' do seu PC será refletida no contêiner.
+      # Qualquer alteração na pasta 'app' do seu PC será refletida no contêiner..
       - ../app:/usr/src/app/app
     depends_on:
       - db
