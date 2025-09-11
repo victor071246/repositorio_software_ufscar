@@ -28,6 +28,19 @@ create table Intercorrencias (
     references Equipamentos(id)
 )
 
+create table Usuarios(
+    id int primary key auto_increment,
+    nome varchar(255) not null,
+    email varchar(255) unique not null,
+    senha_hash varchar(255) not null,
+    supervisor boolean not null default false,
+    departamento_id int,
+    criado_em timestamp default current_timestamp,
+    constraint fk_usuarios_departamento
+    foreign key (departamento_id)
+    references Departamentos(id)
+)
+
 create table Historico_Equipamentos (
     id int primary key auto_increment,
 
@@ -44,19 +57,6 @@ create table Historico_Equipamentos (
     constraint fk_historico_usuario
     foreign key (usuario_id)
     references Usuarios(id)
-)
-
-create table Usuarios(
-    id int primary key auto_increment,
-    nome varchar(255) not null,
-    email varchar(255) unique not null,
-    senha_hash varchar(255) not null,
-    supervisor boolean not null default false,
-    departamento_id int,
-    criado_em timestamp default current_timestamp,
-    constraint fk_usuarios_departamento
-    foreign key (departamento_id)
-    references Departamentos(id)
 )
 
 create table Agendamentos(
