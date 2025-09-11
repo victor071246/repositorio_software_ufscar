@@ -75,4 +75,3 @@ create table Agendamentos(
     foreign key (usuario_id)
     references Usuarios(id)
 )
-
