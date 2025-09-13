@@ -35,6 +35,12 @@ const Departamento = {
     const [rows] = await connection.execute(sqlSelectById, [id]);
     return rows[0] || null;
   },
+
+  async findByNome(nome) {
+    const sql = 'select * from departamentos where nome = ?;';
+    const [rows] = await connection.execute(sql, [nome]);
+    return rows[0] || null;
+  },
 };
 
 export default Departamento;

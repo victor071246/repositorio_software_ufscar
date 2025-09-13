@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import departamentosRoutes from './departamentoRoutes.js';
+import equipamentosRoutes from './equipamentoRoutes.js';
 
 const routes = Router();
 
@@ -8,3 +9,4 @@ routes.get('/', (req, res) => {
 });
 
 routes.use('/departamentos', departamentosRoutes);
+routes.use('/equipamentos', equipamentosRoutes);
