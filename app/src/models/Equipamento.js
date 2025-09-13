@@ -1,0 +1,41 @@
+import connection from '../database/connection';
+
+const Equipamento = {
+  async create({ nome, descricao, estado = 'disponível', departamento_id }) {
+    const sqlInsert =
+      'insert into equipamentos (nome, descricao, estado, departamento_id) values (?, ?, ?, ?);';
+    const params = [nome, descricao, estado, departamento_id];
+    const [result] = await connection.execute(sqlInsert, params);
+  },
+
+  async update(id, { nome, descricao, estado, departamento_id }) {
+    const sqlUpdate =
+      'update equipamentos set nome = ?, descricao = ?, estado = ?, departamento_id = ? where id = ?;';
+
+    const params = [nome, descricao, estado, departamento_id, id];
+    const [result] = await connection.execute(sqlUpdate, params);
+    if (result.affectedRows === 0) {
+      return null;
+    }
+    return this.findById(id);
+  },
+
+  async delete(id) {
+    const sqlDelete = 'delete from equipamentos where id = ?;';
+    const [result] = await connection.execute(sqlDelete, [id]);
+    return result.affectedRows > 0;
+  },
+
+  async findAll() {
+    const sql = 'select * from equipamentos order by nome asc;';
+    const [rows] = await connection.execute(sql);
+    return rows;
+  },
+
+  async findById(id) {
+    const sql = 'select * from equipamentos where id = ?;';
+    const [rows] = await connection.execute(sql, [id]);
+    return rows[0] || null;
+  },
+};
+export default Equipamento;
