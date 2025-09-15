@@ -79,6 +79,11 @@ const Usuario = {
       params.push(`%${filters.email}`);
     }
 
+    if (filters.departamento_id) {
+      whereClauses.push('(departamento_id) like (?)');
+      params.push(``);
+    }
+
     if (filters.supervisor !== undefined) {
       whereClauses.push('supervisor = ?');
       params.push(filters.supervisor === 'true');
