@@ -1,12 +1,16 @@
 import { Router } from 'express';
 import departamentosRoutes from './departamentoRoutes.js';
 import equipamentosRoutes from './equipamentoRoutes.js';
+import usuarioRoutes from './usuarioRoutes.js';
 
-const routes = Router();
+const router = Router();
 
-routes.get('/', (req, res) => {
+router.get('/', (req, res) => {
   res.json({ message: 'API de Laboratório rodando!' });
 });
 
-routes.use('/departamentos', departamentosRoutes);
-routes.use('/equipamentos', equipamentosRoutes);
+router.use('/departamentos', departamentosRoutes);
+router.use('/equipamentos', equipamentosRoutes);
+router.use('/usuarios', usuarioRoutes);
+
+export default router;
