@@ -6,6 +6,7 @@ const Equipamento = {
       'insert into equipamentos (nome, descricao, estado, departamento_id) values (?, ?, ?, ?);';
     const params = [nome, descricao, estado, departamento_id];
     const [result] = await connection.execute(sqlInsert, params);
+    return [result];
   },
 
   async update(id, { nome, descricao, estado, departamento_id }) {
@@ -26,9 +27,33 @@ const Equipamento = {
     return result.affectedRows > 0;
   },
 
-  async findAll() {
-    const sql = 'select * from equipamentos order by nome asc;';
-    const [rows] = await connection.execute(sql);
+  async findAll(filters = {}) {
+    let sql = 'select * from equipamentos';
+    const params = [];
+    const whereClauses = [];
+
+    if (filters.nome) {
+      whereClauses.push('lower(nome) like lower(?)');
+      params.push(`%${filters.nome}%`);
+    }
+
+    if (filters.estado) {
+      whereClauses.push('lower(estado) = lower(?)');
+      params.push(`${filters.estado}`);
+    }
+
+    if (filters.departamento_id) {
+      whereClauses.push('departamento_id = ?');
+      params.push(filters.departamento_id);
+    }
+
+    if (whereClauses.length > 0) {
+      sql += ` where ${whereClauses.join(' and ')}`;
+    }
+
+    sql += ' order by nome asc;';
+
+    const [rows] = await connection.execute(sql, params);
     return rows;
   },
 

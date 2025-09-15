@@ -7,7 +7,7 @@ const EquipamentoController = {
       const { nome, descricao, estado, nome_departamento } = req.body;
       if (!nome || !descricao || !nome_departamento) {
         return res.status(400).json({
-          message: "Os cmapso 'nome', 'descricao' e 'nome_departamento' são obrigatórios.",
+          message: "Os campos 'nome', 'descricao' e 'nome_departamento' são obrigatórios.",
         });
       }
       const departamento = await Departamento.findByNome(nome_departamento);
@@ -26,7 +26,11 @@ const EquipamentoController = {
       });
       res.status(201).json(novoEquipamento);
     } catch (e) {
-      res.status(500).json({ message: e.map((e) => e.errors.message) });
+      if (e.errors) {
+        res.status(500).json({ message: e.errors.map((err) => err.message) });
+      } else {
+        res.status(500).json({ message: e.message });
+      }
     }
   },
 
@@ -35,19 +39,25 @@ const EquipamentoController = {
       const equipamentos = await Equipamento.findAll();
       res.status(200).json(equipamentos);
     } catch (e) {
-      res.status(500).json({ message: e.map((e) => e.errors.message) });
+      if (e.errors) {
+        res.status(500).json({ message: e.errors.map((err) => err.message) });
+      } else {
+        res.status(500).json({ message: e.message });
+      }
     }
   },
 
   async findOne(req, res) {
     try {
-      const { id } = req.params;
-      const equipamento = await Equipamento.findById(id);
-      if (!equipamento) {
-        return res.status(404).json({ message: 'Equipamento não encontrado' });
-      }
+      const filters = req.query;
+      const equipamentos = await Equipamento.findAll(filters);
+      res.status(200).json(equipamentos);
     } catch (e) {
-      res.status(500).json({ message: e.map((e) => e.errors.message) });
+      if (e.errors) {
+        res.status(500).json({ message: e.errors.map((err) => err.message) });
+      } else {
+        res.status(500).json({ message: e.message });
+      }
     }
   },
 
@@ -57,7 +67,7 @@ const EquipamentoController = {
       const { nome, descricao, estado, nome_departamento } = req.body;
 
       // Lógica para buscar departamento pelo nome antes de atualizar
-      if (!nome || !descricao | !estado | !nome_departamento) {
+      if (!nome || !descricao || !estado || !nome_departamento) {
         return res.status(400).json({
           message:
             "Todos os campos ('nome', 'descricao', 'estado', 'nome_departamento') são obrigatórios para atualização.",
@@ -83,7 +93,11 @@ const EquipamentoController = {
       }
       res.status(200).json(equipamentoAtualizado);
     } catch (e) {
-      res.status(500).json({ message: e.map((e) => e.erros.message) });
+      if (e.errors) {
+        res.status(500).json({ message: e.errors.map((err) => err.message) });
+      } else {
+        res.status(500).json({ message: e.message });
+      }
     }
   },
 
@@ -95,9 +109,12 @@ const EquipamentoController = {
         return res.status(404).json({ message: 'Equipamento não encontrado para deletar.' });
       }
       res.status(204).send(); // 204 No Content
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Erro ao deletar equipamento.', details: error.message });
+    } catch (e) {
+      if (e.errors) {
+        res.status(500).json({ message: e.errors.map((err) => err.message) });
+      } else {
+        res.status(500).json({ message: e.message });
+      }
     }
   },
 };
