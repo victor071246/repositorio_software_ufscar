@@ -31,13 +31,13 @@ const Departamento = {
   },
 
   async findById(id) {
-    const sqlSelectById = 'SELECT * FROM Departamentos WHERE id = ?;';
+    const sqlSelectById = 'select * from Departamentos WHERE id = ?;';
     const [rows] = await connection.execute(sqlSelectById, [id]);
     return rows[0] || null;
   },
 
   async findByNome(nome) {
-    const sql = 'select * from departamentos where nome = ?;';
+    const sql = 'select * from Departamentos where nome = ?;';
     const [rows] = await connection.execute(sql, [nome]);
     return rows[0] || null;
   },

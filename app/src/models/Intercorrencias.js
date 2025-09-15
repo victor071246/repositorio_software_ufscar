@@ -3,7 +3,7 @@ import connection from '../database/connection';
 const Intercorrencias = {
   async create({ tipo, descricao, data_e_hora, equipamento_id }) {
     const sql =
-      'insert into intercorrencias (tipo, descricao, data_e_hora, equipamento_id) values (?, ?, ?, ?);';
+      'insert into Intercorrencias (tipo, descricao, data_e_hora, equipamento_id) values (?, ?, ?, ?);';
     const params = [tipo, descricao, data_e_hora, equipamento_id];
 
     const [result] = await connection.execute(sql, params);
@@ -11,7 +11,7 @@ const Intercorrencias = {
   },
 
   async update(id, { tipo, descricao, data_e_hora }) {
-    const sql = 'update intercorrencias set tipo = ?, descricao = ?, data_e_hora = ? where id = ?;';
+    const sql = 'update Intercorrencias set tipo = ?, descricao = ?, data_e_hora = ? where id = ?;';
     const params = [tipo, descricao, data_e_hora, id];
     const [result] = await connection.execute(sql, params);
 
@@ -22,13 +22,13 @@ const Intercorrencias = {
   },
 
   async delete(id) {
-    const sql = 'delete from intercorrencias where id = ?;';
+    const sql = 'delete from Intercorrencias where id = ?;';
     const [result] = await connection.execute(sql, [id]);
     return result.affectedRows > 0;
   },
 
   async findAll(filters = {}) {
-    let sql = 'select * from intercorrencias';
+    let sql = 'select * from Intercorrencias';
     const params = [];
     const whereClauses = [];
 
@@ -53,7 +53,7 @@ const Intercorrencias = {
   },
 
   async findById(id) {
-    const sql = 'select * from intercorrencias where id = ?;';
+    const sql = 'select * from Intercorrencias where id = ?;';
     const [rows] = await connection.execute(sql, [id]);
     return rows[0] || null;
   },

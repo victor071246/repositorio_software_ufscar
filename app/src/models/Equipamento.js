@@ -3,7 +3,7 @@ import connection from '../database/connection';
 const Equipamento = {
   async create({ nome, descricao, estado = 'disponível', departamento_id }) {
     const sqlInsert =
-      'insert into equipamentos (nome, descricao, estado, departamento_id) values (?, ?, ?, ?);';
+      'insert into Equipamentos (nome, descricao, estado, departamento_id) values (?, ?, ?, ?);';
     const params = [nome, descricao, estado, departamento_id];
     const [result] = await connection.execute(sqlInsert, params);
     return [result];
@@ -11,7 +11,7 @@ const Equipamento = {
 
   async update(id, { nome, descricao, estado, departamento_id }) {
     const sqlUpdate =
-      'update equipamentos set nome = ?, descricao = ?, estado = ?, departamento_id = ? where id = ?;';
+      'update Equipamentos set nome = ?, descricao = ?, estado = ?, departamento_id = ? where id = ?;';
 
     const params = [nome, descricao, estado, departamento_id, id];
     const [result] = await connection.execute(sqlUpdate, params);
@@ -22,13 +22,13 @@ const Equipamento = {
   },
 
   async delete(id) {
-    const sqlDelete = 'delete from equipamentos where id = ?;';
+    const sqlDelete = 'delete from Equipamentos where id = ?;';
     const [result] = await connection.execute(sqlDelete, [id]);
     return result.affectedRows > 0;
   },
 
   async findAll(filters = {}) {
-    let sql = 'select * from equipamentos';
+    let sql = 'select * from Equipamentos';
     const params = [];
     const whereClauses = [];
 
@@ -58,7 +58,7 @@ const Equipamento = {
   },
 
   async findById(id) {
-    const sql = 'select * from equipamentos where id = ?;';
+    const sql = 'select * from Equipamentos where id = ?;';
     const [rows] = await connection.execute(sql, [id]);
     return rows[0] || null;
   },

@@ -8,7 +8,7 @@ const Usuario = {
     const senha_hash = await bcrypt.hash(senha, saltRounds);
 
     const sql =
-      'insert into usuarios (nome, email, senha_hash, supervisor, admin, departamento_id) values (?, ?, ?, ?, ?)';
+      'insert into Usuarios (nome, email, senha_hash, supervisor, admin, departamento_id) values (?, ?, ?, ?, ?)';
     const params = [nome, email, senha_hash, supervisor, admin, departamento_id];
 
     const [result] = await connection.execute(sql, params);
@@ -47,7 +47,7 @@ const Usuario = {
     }
 
     params.push(id);
-    const sql = `update usuarios set ${fields.join(', ')} where id = ?;`;
+    const sql = `update Usuarios set ${fields.join(', ')} where id = ?;`;
 
     const [result] = await connection.execute(sql, params);
 
@@ -58,14 +58,14 @@ const Usuario = {
   },
 
   async delete(id) {
-    const sql = 'delete from usuarios where id = ?';
+    const sql = 'delete from Usuarios where id = ?';
     const [result] = await connection.execute(sql, [id]);
     return result.affectedRows > 0;
   },
 
   async findAll(filters = {}) {
     const sql =
-      'select id, nome, email, supervisor, admin, departamento_id, criado_em from usuarios ';
+      'select id, nome, email, supervisor, admin, departamento_id, criado_em from Usuarios ';
     const params = [];
     const whereClauses = [];
 
@@ -106,13 +106,13 @@ const Usuario = {
 
   async findById(id) {
     const sql =
-      'select id, nome, email, supervisor, admin, departamento_id, criado_em from usuarios where id = ?;';
+      'select id, nome, email, supervisor, admin, departamento_id, criado_em from Usuarios where id = ?;';
     const [rows] = await connection.execute(sql, [id]);
     return rows[0] || null;
   },
 
   async findByEmail(email) {
-    const sql = 'select * from usuarios where email = ?;';
+    const sql = 'select * from Usuarios where email = ?;';
     const [rows] = await connection.execute(sql, [email]);
     return rows[0] || null;
   },

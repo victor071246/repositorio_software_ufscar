@@ -3,20 +3,20 @@ import connection from '../database/connection';
 const Agendamento = {
   async create({ equipamento_id, usuario_id, horario_inicio, horario_fim }) {
     const sql =
-      'insert into agendamentos (equipamento_id, usuario_id, horario_inicio, horario_fim) values (?, ?, ?, ?);';
+      'insert into Agendamentos (equipamento_id, usuario_id, horario_inicio, horario_fim) values (?, ?, ?, ?);';
     const params = [equipamento_id, usuario_id, horario_inicio, horario_fim];
     const [result] = await connection.execute(sql, params);
     return this.findById(result.insertId);
   },
 
   async delete(id) {
-    const sql = 'delete from agendamentos where id = ?';
+    const sql = 'delete from Agendamentos where id = ?';
     const [result] = await connection.execute(sql, [id]);
     return result.affectedRows > 0;
   },
 
   async findAll(filters = {}) {
-    let sql = 'select * from agendamentos';
+    let sql = 'select * from Agendamentos';
     const params = [];
     const whereClauses = [];
 
@@ -41,14 +41,14 @@ const Agendamento = {
   },
 
   async findById(id) {
-    const sql = 'select * from agendamentos where id =?;';
+    const sql = 'select * from Agendamentos where id =?;';
     const [rows] = await connection.execute(sql, [id]);
     return rows[0] || null;
   },
 
   async findOverlapping(equipamento_id, horario_inicio, horario_fim, excludeId = null) {
     let sql = `
-      select * from agendamentos
+      select * from Agendamentos
       where equipamento_id = ?
       and (
         (horario_inicio < ? and horario_fim > ?) or
