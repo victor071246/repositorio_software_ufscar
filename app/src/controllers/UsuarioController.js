@@ -85,7 +85,7 @@ const UsuarioController = {
         if (!departamento) {
           return res
             .status(404)
-            .json({ message: `Departamento '${nome_departamento}' não encontrado.` });
+            .json({ message: `Departamento '${departamento_id}' não encontrado.` });
         }
         departamento_id = departamento.id;
       }
@@ -112,10 +112,10 @@ const UsuarioController = {
       if (!sucesso) {
         return res.status(404).json({ message: 'Usuário não encontrado.' });
       }
-      res.status(204).send();
+      return res.status(200).json({ message: 'Usuário deletado com sucesso' });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Erro ao deletar usuário.', details: error.message });
+      return res.status(500).json({ message: 'Erro ao deletar usuário.', details: error.message });
     }
   },
 

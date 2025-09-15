@@ -27,9 +27,9 @@ const EquipamentoController = {
       res.status(201).json(novoEquipamento);
     } catch (e) {
       if (e.errors) {
-        res.status(500).json({ message: e.errors.map((err) => err.message) });
+        return res.status(500).json({ message: e.errors.map((err) => err.message) });
       } else {
-        res.status(500).json({ message: e.message });
+        return res.status(500).json({ message: e.message });
       }
     }
   },
@@ -40,9 +40,9 @@ const EquipamentoController = {
       res.status(200).json(equipamentos);
     } catch (e) {
       if (e.errors) {
-        res.status(500).json({ message: e.errors.map((err) => err.message) });
+        return res.status(500).json({ message: e.errors.map((err) => err.message) });
       } else {
-        res.status(500).json({ message: e.message });
+        return res.status(500).json({ message: e.message });
       }
     }
   },
@@ -54,9 +54,9 @@ const EquipamentoController = {
       res.status(200).json(equipamentos);
     } catch (e) {
       if (e.errors) {
-        res.status(500).json({ message: e.errors.map((err) => err.message) });
+        return res.status(500).json({ message: e.errors.map((err) => err.message) });
       } else {
-        res.status(500).json({ message: e.message });
+        return res.status(500).json({ message: e.message });
       }
     }
   },
@@ -94,9 +94,9 @@ const EquipamentoController = {
       res.status(200).json(equipamentoAtualizado);
     } catch (e) {
       if (e.errors) {
-        res.status(500).json({ message: e.errors.map((err) => err.message) });
+        return res.status(500).json({ message: e.errors.map((err) => err.message) });
       } else {
-        res.status(500).json({ message: e.message });
+        return res.status(500).json({ message: e.message });
       }
     }
   },
@@ -108,12 +108,12 @@ const EquipamentoController = {
       if (!sucesso) {
         return res.status(404).json({ message: 'Equipamento não encontrado para deletar.' });
       }
-      res.status(204).send(); // 204 No Content
+      return res.status(200).json({ message: 'Equipamento deletado com sucesso' });
     } catch (e) {
       if (e.errors) {
-        res.status(500).json({ message: e.errors.map((err) => err.message) });
+        return res.status(500).json({ message: e.errors.map((err) => err.message) });
       } else {
-        res.status(500).json({ message: e.message });
+        return res.status(500).json({ message: e.message });
       }
     }
   },
