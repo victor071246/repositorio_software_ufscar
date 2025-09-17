@@ -65,7 +65,7 @@ const EquipamentoController = {
   async update(req, res) {
     try {
       const { id } = req.params;
-      const { nome, descricao, estado, nome_departamento } = req.body;
+      const { nome, descricao, estado, nome_departamento, usuario_id } = req.body;
 
       // Lógica para buscar departamento pelo nome antes de atualizar
       if (!nome || !descricao || !estado || !nome_departamento) {
@@ -74,25 +74,44 @@ const EquipamentoController = {
             "Todos os campos ('nome', 'descricao', 'estado', 'nome_departamento') são obrigatórios para atualização.",
         });
       }
-      const departamento = await Departamento.findByNome(nome_departamento);
 
+      // 1. Buscar o estado atual do equipamento
+
+      const equipamentoAtual = await Equipamento.findById(id);
+      if (!equipamentoAtual) {
+        res.status(404).json({ message: 'Equipamento não encontrado para atualizar.' });
+      }
+      const estado_anterior = equipamentoAtual.estado;
+
+      // Lógica para buscar departamento pelo nome
+
+      const departamento = await Departamento.findByNome(nome_departamento);
       if (!departamento) {
         return res
           .status(404)
-          .json({ message: `Departamento com nome '${nome_departamento}' não encontrado.` });
+          .json({ message: `Departamento com nome '${nome_departamento}' não encontrado` });
       }
 
-      const equipamentoAtualizado = await Equipamento.update(id, {
-        nome,
-        descricao,
-        estado,
-        departamento_id: departamento.id,
-      });
+      // 2. Realizar a atualização
 
-      if (!equipamentoAtualizado) {
-        return res.status(404).json({ message: 'Equipamento não encontrado para atualizar.' });
+      const dadosParaAtualizar = { nome, descricao, estado, departamento_id: departamento.id };
+      const equipamentoAtualizado = await Equipamento.update(id, dadosParaAtualizar);
+
+      // 3. Se a atualização funcionou e o estado mudou, cria o registro
+      if (equipamentoAtualizado && estado && estado !== estado_anterior) {
+        if (!usuario_id) {
+          return res
+            .status(404)
+            .json({ message: 'Usuário para realizar a atualização não encontrado' });
+        }
+        await HistoricoEquipamentos.create({
+          equipamento_id: id,
+          usuario_id: usuario_id,
+          estado_anterior: estado_anterior,
+          novo_estado: estado,
+        });
       }
-      res.status(200).json(equipamentoAtualizado);
+      return res.status(200).json({ message: 'Equipamento atualizado' });
     } catch (e) {
       if (e.errors) {
         return res.status(500).json({ message: e.errors.map((err) => err.message) });

@@ -3,7 +3,6 @@ import HistoricoEquipamentos from '../models/HistoricoEquipamentos';
 const HistoricoEquipamentosController = {
   async listAll(req, res) {
     try {
-      const filters = req.query;
       const historico = await HistoricoEquipamentos.findAll(filters);
       res.status(200).json(historico);
     } catch (e) {
