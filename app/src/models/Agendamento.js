@@ -1,4 +1,4 @@
-import connection from '../database/connection';
+import connection from '../database/connection.js';
 
 const Agendamento = {
   async create({ equipamento_id, usuario_id, horario_inicio, horario_fim }) {

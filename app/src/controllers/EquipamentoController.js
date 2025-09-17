@@ -1,6 +1,6 @@
-import Departamento from '../models/Departamento';
-import Equipamento from '../models/Equipamento';
-import HistoricoEquipamentos from '../models/HistoricoEquipamentos';
+import Departamento from '../models/Departamento.js';
+import Equipamento from '../models/Equipamento.js';
+import HistoricoEquipamentos from '../models/HistoricoEquipamentos.js';
 
 const EquipamentoController = {
   async create(req, res) {

@@ -1,4 +1,4 @@
-import HistoricoEquipamentos from '../models/HistoricoEquipamentos';
+import HistoricoEquipamentos from '../models/HistoricoEquipamentos.js';
 
 const HistoricoEquipamentosController = {
   async listAll(req, res) {

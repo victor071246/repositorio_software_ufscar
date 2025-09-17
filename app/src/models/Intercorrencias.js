@@ -1,4 +1,4 @@
-import connection from '../database/connection';
+import connection from '../database/connection.js';
 
 const Intercorrencias = {
   async create({ tipo, descricao, data_e_hora, equipamento_id }) {

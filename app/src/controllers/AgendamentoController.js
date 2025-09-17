@@ -1,6 +1,6 @@
-import Agendamento from '../models/Agendamento';
-import Usuario from '../models/Usuario';
-import Equipamento from '../models/Equipamento';
+import Agendamento from '../models/Agendamento.js';
+import Usuario from '../models/Usuario.js';
+import Equipamento from '../models/Equipamento.js';
 
 const AgendamentoController = {
   async create(req, res) {

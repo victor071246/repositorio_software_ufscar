@@ -1,4 +1,4 @@
-import connection from '../database/connection';
+import connection from '../database/connection.js';
 import bcrypt from 'bcrypt';
 
 const saltRounds = 10;

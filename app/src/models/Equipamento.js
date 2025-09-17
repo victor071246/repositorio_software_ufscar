@@ -1,4 +1,4 @@
-import connection from '../database/connection';
+import connection from '../database/connection.js';
 
 const Equipamento = {
   async create({ nome, descricao, estado = 'disponível', departamento_id }) {

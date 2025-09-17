@@ -1,5 +1,5 @@
-import Intercorrencias from '../models/Intercorrencias';
-import Equipamento from '../models/Equipamento';
+import Intercorrencias from '../models/Intercorrencias.js';
+import Equipamento from '../models/Equipamento.js';
 import { json } from 'express';
 
 const IntercorrenciasController = {

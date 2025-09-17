@@ -1,4 +1,4 @@
-import connection from '../database/connection';
+import connection from '../database/connection.js';
 
 const HistoricoEquipamentos = {
   async create({ equipamento_id, usuario_id, estado_anterior, novo_estado }) {
