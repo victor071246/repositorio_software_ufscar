@@ -14,6 +14,6 @@
   },
   "scripts": {
     "start": "node -r sucrase/register server.js",
-    "dev": "nodemon -r sucrase/register server.js"
+    "dev": "nodemon -r sucrase/register app/src/server.js"
   }
 }
