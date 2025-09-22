@@ -119,6 +119,16 @@ const UsuarioController = {
     }
   },
 
+  async findByUsername(req, res) {
+    try {
+      const { username } = req.body;
+      Usuario.findByUsername(username);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Erro ao deletar usuário.', details: error.message });
+    }
+  },
+
   async promoteToSupervisor(req, res) {
     try {
       const { id } = req.params;

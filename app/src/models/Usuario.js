@@ -111,8 +111,8 @@ const Usuario = {
     return rows[0] || null;
   },
 
-  async findByEmail(email) {
-    const sql = 'select * from Usuarios where email = ?;';
+  async findByUsername(username) {
+    const sql = 'select * from Usuarios where username = ?;';
     const [rows] = await connection.execute(sql, [email]);
     return rows[0] || null;
   },
