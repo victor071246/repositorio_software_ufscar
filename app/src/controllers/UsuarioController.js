@@ -13,16 +13,16 @@ const sanatizeUser = (user) => {
 const UsuarioController = {
   async create(req, res) {
     try {
-      const { nome, email, senha, supervisor, admin, departamento_id } = req.body;
-      if (!nome || !email || !senha || !departamento_id) {
+      const { usuario, senha, supervisor, admin, departamento_id } = req.body;
+      if (!usuario || !senha || !departamento_id) {
         return res.status(400).json({
-          message: "Os campos 'nome', 'email', 'senha' e 'departamento_id' são obrigatórios.",
+          message: "Os campos 'nome', 'senha' e 'departamento_id' são obrigatórios.",
         });
       }
 
-      const emailExistente = await Usuario.findByEmail(email);
-      if (emailExistente) {
-        return res.status(409).json({ message: 'Este email já está em uso.' }); // 409 Conflict
+      const usuarioExistente = await Usuario.findByUsername(usuario);
+      if (usuarioExistente) {
+        return res.status(409).json({ message: 'Este usuário já está em uso.' }); // 409 Conflict
       }
 
       // Validação: Busca o departamento pelo nome
@@ -34,8 +34,7 @@ const UsuarioController = {
       }
 
       const novoUsuario = await Usuario.create({
-        nome,
-        email,
+        usuario,
         senha,
         supervisor,
         admin,
@@ -78,7 +77,7 @@ const UsuarioController = {
     try {
       const { id } = req.params;
       // Pegamos apenas os campos que podem ser atualizados
-      const { nome, email, senha, supervisor, departamento_id } = req.body;
+      const { nome, senha, supervisor, departamento_id } = req.body;
 
       if (departamento_id) {
         const departamento = await Departamento.findById(departamento_id);
@@ -90,7 +89,7 @@ const UsuarioController = {
         departamento_id = departamento.id;
       }
 
-      const dadosParaAtualizar = { nome, email, senha, supervisor, departamento_id };
+      const dadosParaAtualizar = { nome, senha, supervisor, departamento_id };
 
       const usuarioAtualizado = await Usuario.update(id, dadosParaAtualizar);
 
