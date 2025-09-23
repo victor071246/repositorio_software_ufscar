@@ -4,39 +4,37 @@ import bcrypt from 'bcrypt';
 const saltRounds = 10;
 
 const Usuario = {
-  async create({ nome, email, senha, supervisor = false, departamento_id, admin = false }) {
+  async create({ usuario, senha, supervisor = false, departamento_id, admin = false }) {
     const senha_hash = await bcrypt.hash(senha, saltRounds);
 
     const sql =
-      'insert into Usuarios (nome, email, senha_hash, supervisor, admin, departamento_id) values (?, ?, ?, ?, ?)';
-    const params = [nome, email, senha_hash, supervisor, admin, departamento_id];
+      'insert into Usuarios (usuario, senha_hash, supervisor, admin, departamento_id) values (?, ?, ?, ?, ?)';
+    const params = [usuario, senha_hash, supervisor, admin, departamento_id];
 
     const [result] = await connection.execute(sql, params);
     return this.findById(result.insertId);
   },
 
-  async update(id, { nome, email, senha, supervisor, departamento_id }) {
-    let senha_hash;
-    if (senha) {
-      senha_hash = await bcrpytp.hash(senha, saltRounds);
-    }
-
+  async update(id, { usuario, senha, supervisor, departamento_id }) {
     const fields = [];
     const params = [];
 
-    if (nome) {
-      fields.push('nome = ?');
-      params.push(nome);
+    if (senha) {
+      const senha_hash = await bcrypt.hash(senha, saltRounds);
+      fields.push('senha_hash = ?');
+      params.push(senha_hash);
     }
-    if (email) {
-      fields.push('email = ?');
-      params.push(email);
+
+    if (usuario) {
+      fields.push('usuario = ?');
+      params.push(usuario);
     }
     if (supervisor !== undefined) {
       fields.push('supervisor = ?');
       params.push(supervisor);
     }
-    if (departamento_id) {
+    if (departamento_id != null) {
+      // pega 0, mas ignora undefined e null
       fields.push('departamento_id = ?');
       params.push(departamento_id);
     }
@@ -64,8 +62,7 @@ const Usuario = {
   },
 
   async findAll(filters = {}) {
-    const sql =
-      'select id, nome, email, supervisor, admin, departamento_id, criado_em from Usuarios ';
+    const sql = 'select id, nome,  supervisor, admin, departamento_id, criado_em from Usuarios ';
     const params = [];
     const whereClauses = [];
 
@@ -74,14 +71,9 @@ const Usuario = {
       params.push(`%${filters.nome}%`);
     }
 
-    if (filters.email) {
-      whereClauses.push('lower(email) like lower(?)');
-      params.push(`%${filters.email}`);
-    }
-
     if (filters.departamento_id) {
-      whereClauses.push('(departamento_id) like (?)');
-      params.push(``);
+      whereClauses.push('departamento_id = ?');
+      params.push(filters.departamento_id);
     }
 
     if (filters.supervisor !== undefined) {
@@ -106,14 +98,14 @@ const Usuario = {
 
   async findById(id) {
     const sql =
-      'select id, nome, email, supervisor, admin, departamento_id, criado_em from Usuarios where id = ?;';
+      'select id, nome, supervisor, admin, departamento_id, criado_em from Usuarios where id = ?;';
     const [rows] = await connection.execute(sql, [id]);
     return rows[0] || null;
   },
 
   async findByUsername(username) {
-    const sql = 'select * from Usuarios where username = ?;';
-    const [rows] = await connection.execute(sql, [email]);
+    const sql = 'select * from Usuarios where usuario = ?;';
+    const [rows] = await connection.execute(sql, [username]);
     return rows[0] || null;
   },
 

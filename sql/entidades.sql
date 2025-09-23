@@ -31,7 +31,6 @@ create table Intercorrencias (
 create table Usuarios(
     id int primary key auto_increment,
     usuario varchar(255) not null,
-    email varchar(255) unique not null,
     senha_hash varchar(255) not null,
     supervisor boolean not null default false,
     departamento_id int,
