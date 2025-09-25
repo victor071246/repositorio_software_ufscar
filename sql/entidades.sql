@@ -1,76 +1,72 @@
-create table Departamentos (
-    id int primary key auto_increment,
-    nome varchar(255) not null,
-    criado_em timestamp default current_timestamp 
-)
+CREATE TABLE Departamentos (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
-create table Equipamentos (
-    id int primary key auto_increment,
-    nome varchar(255) not null,
-    descricao varchar(255) not null,
-    estado varchar(50) default 'disponível',
-    departamento_id int,
-    criado_em timestamp default current_timestamp,
-    constraint fk_equipamentos_departamento
-    foreign key (departamento_id)
-    references Departamentos(id)
-)
+CREATE TABLE Equipamentos (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    descricao VARCHAR(255) NOT NULL,
+    estado VARCHAR(50) DEFAULT 'disponível',
+    departamento_id INT,
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_equipamentos_departamento
+        FOREIGN KEY (departamento_id)
+        REFERENCES Departamentos(id)
+);
 
-create table Intercorrencias (
-    id int primary key auto_increment,
-    tipo varchar(30) not null,
-    descricao varchar(255) not null,
-    data_e_hora datetime not null, 
-    equipamento_id int not null,
-    criado_em timestamp default current_timestamp,
-    constraint fk_intercorrencia_equipamento
-    foreign key (equipamento_id)
-    references Equipamentos(id)
-)
+CREATE TABLE Intercorrencias (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    tipo VARCHAR(30) NOT NULL,
+    descricao VARCHAR(255) NOT NULL,
+    data_e_hora DATETIME NOT NULL,
+    equipamento_id INT NOT NULL,
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_intercorrencia_equipamento
+        FOREIGN KEY (equipamento_id)
+        REFERENCES Equipamentos(id)
+);
 
-create table Usuarios(
-    id int primary key auto_increment,
-    usuario varchar(255) not null,
-    senha_hash varchar(255) not null,
-    supervisor boolean not null default false,
-    departamento_id int,
-    criado_em timestamp default current_timestamp,
-    constraint fk_usuarios_departamento
-    foreign key (departamento_id)
-    references Departamentos(id)
-)
+CREATE TABLE Usuarios (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    usuario VARCHAR(255) NOT NULL,
+    senha_hash VARCHAR(255) NOT NULL,
+    supervisor BOOLEAN NOT NULL DEFAULT FALSE,
+    admin BOOLEAN NOT NULL DEFAULT FALSE,
+    departamento_id INT,
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_usuarios_departamento
+        FOREIGN KEY (departamento_id)
+        REFERENCES Departamentos(id)
+);
 
-create table Historico_Equipamentos (
-    id int primary key auto_increment,
+CREATE TABLE Historico_Equipamentos (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    equipamento_id INT NOT NULL,
+    usuario_id INT NOT NULL,
+    estado_anterior VARCHAR(50) NOT NULL,
+    novo_estado VARCHAR(50) NOT NULL,
+    data_e_hora DATETIME NOT NULL,
+    CONSTRAINT fk_historico_equipamento
+        FOREIGN KEY (equipamento_id)
+        REFERENCES Equipamentos(id),
+    CONSTRAINT fk_historico_usuario
+        FOREIGN KEY (usuario_id)
+        REFERENCES Usuarios(id)
+);
 
-    equipamento_id int not null,
-    usuario_id int not null,
-    estado_anterior varchar(50) not null,
-    novo_estado varchar(50) not null,
-    data_e_hora DATETIME not null,
-
-    constraint fk_historico_equipamento
-    foreign key (equipamento_id)
-    references Equipamentos(id)
-
-    constraint fk_historico_usuario
-    foreign key (usuario_id)
-    references Usuarios(id)
-)
-
-create table Agendamentos(
-    id int primary key auto_increment,
-    equipamento_id int not null,
-    usuario_id int not null,
-    horario_inicio datetime not null,
-    horario_fim datetime not null,
-    criado_em timestamp default current_timestamp,
-
-    constraint fk_agendamentos_equipamentos
-    foreign key (equipamento_id)
-    references Equipamentos(id),
-    
-    constraint fk_agendamentos_usuarios
-    foreign key (usuario_id)
-    references Usuarios(id)
-)
+CREATE TABLE Agendamentos (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    equipamento_id INT NOT NULL,
+    usuario_id INT NOT NULL,
+    horario_inicio DATETIME NOT NULL,
+    horario_fim DATETIME NOT NULL,
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_agendamentos_equipamentos
+        FOREIGN KEY (equipamento_id)
+        REFERENCES Equipamentos(id),
+    CONSTRAINT fk_agendamentos_usuarios
+        FOREIGN KEY (usuario_id)
+        REFERENCES Usuarios(id)
+);

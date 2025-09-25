@@ -19,7 +19,7 @@ class TokenController {
         return res.status(400).json({ message: 'Usuário não encontrado' });
       }
 
-      const senhaValida = await Usuario.comparePassword(senha, usuario.senha_hash);
+      const senhaValida = await Usuario.comparePassword(senha, user.senha_hash);
       if (!senhaValida) {
         return res.status(400).json({ message: 'Senha incorreta' });
       }
@@ -38,20 +38,17 @@ class TokenController {
 
       res.cookie('token', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
-        maxAge: 1000 * 60 * 60 * 24 * 15, // 15 dias
+        maxAge: 1000 * 60 * 60 * 24 * 30 * 6, // 180 dias
       });
 
       return res.status(200).json({
-        message: `${usuario.usuario}`,
+        message: `${user.usuario}`,
       });
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .json({ message: 'Erro ao alterar status de supervisor.', details: error.message });
+      res.status(500).json({ message: 'Erro ao fazer login.', details: error.message });
     }
   }
 
