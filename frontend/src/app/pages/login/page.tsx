@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import styles from './LoginPage.module.css';
+import styles from './login_page.module.css';
 
 export default function LoginPage() {
   const [usuario, setUsuario] = useState('');
@@ -33,29 +33,35 @@ export default function LoginPage() {
 
   return (
     <>
-      <div className={styles.loginContainer}></div>
-      <h2>Bem-vindo</h2>
-      {error && <div className={styles.erro}>{error}</div>}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Usuário"
-          value={usuario}
-          onChange={(e) => setUsuario(e.target.value)}
-          required
-        ></input>
-        <input
-          type="password"
-          placeholder="Senha"
-          value={senha}
-          onChange={(e) => setSenha(e.target.value)}
-        ></input>
-        <button type="submit">Entrar</button>
-        {error}
-      </form>
-      <p className={styles.signup}>
-        <a>Cadastrar Novo Pesquisador</a>
-      </p>
+      <div className={styles.bodyContainer}>
+        <div className={styles.loginContainer}>
+          <h2 className={styles.loginTitle}>Bem-vindo</h2>
+          {error && <div className={styles.erro}>{error}</div>}
+          <form className={styles.loginForm} onSubmit={handleSubmit}>
+            <input
+              className={styles.loginInput}
+              type="text"
+              placeholder="Usuário"
+              value={usuario}
+              onChange={(e) => setUsuario(e.target.value)}
+              required
+            />
+            <input
+              className={styles.loginInput}
+              type="password"
+              placeholder="Senha"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+            />
+            <button className={styles.loginButton} type="submit">
+              Entrar
+            </button>
+          </form>
+          <p className={styles.signup}>
+            <a>Cadastrar Novo Pesquisador</a>
+          </p>
+        </div>
+      </div>
     </>
 
     //reconstruir tela de cadastro e sql do banco

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Usuario from '../models/UsuarioModel';
-import jwt, { SignOptions } from 'jsonwebtoken';
+import { SignJWT } from 'jose';
 
 class TokenCotroller {
   async post(req: NextRequest) {
@@ -29,10 +29,13 @@ class TokenCotroller {
         supervisor: user.supervisor,
       };
 
-      const secret: string = process.env.TOKEN_SECRET!;
+      const secret = new TextEncoder().encode(process.env.TOKEN_SECRET!);
       if (!secret) throw new Error('TOKEN_SECRET não definido');
       const expiresInSeconds = 60 * 60 * 24 * 90;
-      const token = jwt.sign(payload, secret, { expiresIn: expiresInSeconds });
+      const token = await new SignJWT(payload)
+        .setProtectedHeader({ alg: 'HS256' })
+        .setExpirationTime(`${expiresInSeconds}s`)
+        .sign(secret);
 
       const response = NextResponse.json(
         { message: 'Login realizado' },
@@ -46,6 +49,7 @@ class TokenCotroller {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
         maxAge: expiresInSeconds,
+        path: '/',
       });
 
       return response;
