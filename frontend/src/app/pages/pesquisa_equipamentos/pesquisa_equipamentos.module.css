@@ -1,0 +1,13 @@
+.bodyContainer {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 1rem;
+  background-color: linear-gradient(135deg, #4e54c8, #8f94fb);
+  color: black;
+}
+
+.container_pesquisa {
+  display: flex;
+}

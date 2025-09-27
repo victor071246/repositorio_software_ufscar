@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Usuario from '../models/UsuarioModel';
-import { getUserFromRequest } from '../auth';
+import { getUserFromServer } from '../auth';
 
 class UsuarioController {
   static async create(req: NextRequest) {
     try {
-      const user = await getUserFromRequest(req);
+      const user = await getUserFromServer();
 
       if (!user!.admin && !user!.supervisor) {
         return NextResponse.json({ error: 'Sem permissão' }, { status: 403 });

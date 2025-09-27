@@ -8,6 +8,9 @@ export async function middleware(req: NextRequest) {
   const token = req.cookies.get('token')?.value;
   const url = req.nextUrl.clone();
 
+  if (req.nextUrl.pathname === '/login') {
+    return NextResponse.next();
+  }
   if (req.nextUrl.pathname === '/' || req.nextUrl.pathname === '') {
     if (token) {
       try {
@@ -34,5 +37,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/'],
+  matcher: ['/:path*'],
 };
