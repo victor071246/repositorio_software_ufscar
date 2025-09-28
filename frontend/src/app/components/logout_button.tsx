@@ -4,9 +4,9 @@
 import { FaSignOutAlt } from 'react-icons/fa';
 import styles from './header.module.css';
 export default function LogoutButton() {
-  const logout = () => {
-    document.cookie = 'token=; path=/; max-age=0';
-    window.location.href = '/pages/login';
+  const logout = async () => {
+    await fetch('/api/logout', { method: 'POST' });
+    window.location.href = '/login';
   };
 
   return (

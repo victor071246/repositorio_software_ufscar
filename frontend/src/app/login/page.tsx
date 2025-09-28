@@ -20,7 +20,7 @@ export default function LoginPage() {
       });
 
       if (res.ok) {
-        window.location.href = '/pages/dashboard';
+        window.location.href = '/dashboard';
       } else {
         const data = await res.json();
         setError(data.message || 'Erro ao realizar login');

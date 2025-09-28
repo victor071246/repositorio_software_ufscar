@@ -22,9 +22,9 @@ export async function middleware(req: NextRequest) {
         // const admin = payload.admin;
         // const supervisor = payload.supervisor;
 
-        url.pathname = '/pages/dashboard';
+        url.pathname = '/dashboard';
       } catch (e) {
-        url.pathname = '/pages/login';
+        url.pathname = '/login';
       }
     } else {
       url.pathname = '/login';

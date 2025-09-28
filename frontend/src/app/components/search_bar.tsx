@@ -1,5 +1,4 @@
 'use client';
-
 import { useState } from 'react';
 import styles from './search_bar.module.css';
 
@@ -16,18 +15,19 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
   };
 
   return (
-    <>
-      <form className={styles.container} onSubmit={handleSubmit}>
+    <div className={styles.container}>
+      <form onSubmit={handleSubmit} className={styles.searchForm}>
         <input
           type="text"
-          className={styles.input}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-        ></input>
+          placeholder="Pesquisar equipamento"
+          className={styles.input}
+        />
         <button type="submit" className={styles.button}>
           Buscar
         </button>
       </form>
-    </>
+    </div>
   );
 }

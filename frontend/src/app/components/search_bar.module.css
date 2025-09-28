@@ -5,6 +5,15 @@
   align-items: center;
   border-radius: 5px;
   overflow: hidden;
+  background-color: black;
+  color: black;
+}
+
+.searchForm {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .input {
@@ -12,6 +21,7 @@
   width: 80vw;
   padding: 0 0.5rem;
   font-size: 1rem;
+  background-color: white;
 }
 
 .button {
@@ -20,6 +30,8 @@
   border: none;
   cursor: pointer;
   transition: background 0.3s ease;
+  background-color: white;
+  width: 10%;
 }
 
 .button:hover {

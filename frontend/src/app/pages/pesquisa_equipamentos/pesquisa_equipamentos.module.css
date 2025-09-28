@@ -1,13 +1,66 @@
-.bodyContainer {
-  height: 100vh;
+/* pesquisa_equipamentos.module.css */
+
+.main {
+  max-width: 90%;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: #1a1a1a;
+  color: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
   display: flex;
-  justify-content: center;
-  font-family: 'Segoe UI', sans-serif;
-  padding: 1rem;
-  background-color: linear-gradient(135deg, #4e54c8, #8f94fb);
-  color: black;
+  flex-direction: column;
 }
 
-.container_pesquisa {
+.title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.mensagem {
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #f87171; /* vermelho leve para erros */
+  text-align: center;
+}
+
+.lista {
+  list-style: none;
+  padding: 0;
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.item {
+  padding: 1rem;
+  background-color: #2a2a2a;
+  border-radius: 0.75rem;
   display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.item strong {
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.item:hover {
+  background-color: #3a3a3a;
+  transform: translateY(-0.1rem);
+}
+
+/* Responsividade */
+@media (min-width: 768px) {
+  .lista {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .lista {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }

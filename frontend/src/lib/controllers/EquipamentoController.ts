@@ -5,9 +5,9 @@ import { error } from 'console';
 class EquipamentoController {
   static async create(req: NextRequest) {
     try {
-      const { nome, descricao, estado, departamento_id } = await req.json();
+      const { nome, descricao, estado } = await req.json();
 
-      if (!nome || !departamento_id) {
+      if (!nome) {
         return NextResponse.json({ error: 'Nome e departamento obrigatórios' }, { status: 400 });
       }
 
@@ -15,7 +15,6 @@ class EquipamentoController {
         nome,
         descricao,
         estado,
-        departamento_id,
       });
       return NextResponse.json(novoEquipamento, { status: 201 });
     } catch (e: unknown) {

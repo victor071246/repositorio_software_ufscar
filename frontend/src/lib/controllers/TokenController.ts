@@ -58,5 +58,11 @@ class TokenCotroller {
       return NextResponse.json({ message: 'Erro ao fazer login' }, { status: 500 });
     }
   }
+
+  async logout() {
+    const response = NextResponse.json({ sucess: true });
+    response.cookies.set('token', '', { path: '/', maxAge: 0 });
+    return response;
+  }
 }
 export default new TokenCotroller();
