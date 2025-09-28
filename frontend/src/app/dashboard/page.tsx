@@ -12,7 +12,7 @@ export default function DashboardPage() {
           <p>Visualizar ou selecionar equipamento</p>
         </Link>
 
-        <Link href="/dashboard/usuarios" className={styles.block}>
+        <Link href="/pages/pesquisa_usuarios" className={styles.block}>
           <h2>Pesquisadores</h2>
           <p>Buscar e gerenciar usuários</p>
         </Link>
@@ -22,9 +22,9 @@ export default function DashboardPage() {
           <p>Cadastrar um novo equipamento</p>
         </Link>
 
-        <Link href="/dashboard/agendar" className={styles.block}>
-          <h2>Intercorrências</h2>
-          <p>Visualizar intercorrências</p>
+        <Link href="/pages/cadastro" className={styles.block}>
+          <h2>Novo Pesquisador</h2>
+          <p>Cadastre Um Novo Pesquisador</p>
         </Link>
       </main>
     </div>

@@ -6,7 +6,7 @@ import styles from './header.module.css';
 export default function LogoutButton() {
   const logout = async () => {
     await fetch('/api/logout', { method: 'POST' });
-    window.location.href = '/login';
+    window.location.href = '/pages/login';
   };
 
   return (

@@ -24,10 +24,10 @@ export async function middleware(req: NextRequest) {
 
         url.pathname = '/dashboard';
       } catch (e) {
-        url.pathname = '/login';
+        url.pathname = '/pages/login';
       }
     } else {
-      url.pathname = '/login';
+      url.pathname = '/pages/login';
       console.log('token_não_logado');
     }
     return NextResponse.redirect(url);
