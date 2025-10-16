@@ -31,14 +31,20 @@ CREATE TABLE Intercorrencias (
 CREATE TABLE Usuarios (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario VARCHAR(255) NOT NULL,
+    nome VARCHAR(255),
     senha_hash VARCHAR(255) NOT NULL,
     supervisor BOOLEAN NOT NULL DEFAULT FALSE,
     admin BOOLEAN NOT NULL DEFAULT FALSE,
-    departamento_id INT,
+    departamento VARCHAR(50) DEFAULT NULL,
+    created_by INT DEFAULT NULL,
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_usuarios_departamento
         FOREIGN KEY (departamento_id)
-        REFERENCES Departamentos(id)
+        REFERENCES Departamentos(id),
+    CONSTRAINT fk_created_by
+        FOREIGN KEY (created_by)
+        REFERENCES Usuarios(id)
+        ON DELETE SET NULL
 );
 
 CREATE TABLE Historico_Equipamentos (
