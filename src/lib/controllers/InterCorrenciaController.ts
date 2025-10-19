@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Intercorrencia from '../models/InterCorrenciaModel';
 import { getUserFromServer } from '../auth';
+import Usuario from '../models/UsuarioModel';
 
 class IntercorrenciaController {
   static async create(req: NextRequest) {
@@ -55,7 +56,19 @@ class IntercorrenciaController {
   static async findByEquipamentId(req: NextRequest, equipamento_id: number) {
     const intercorrencias = await Intercorrencia.findByEquipamentoId(equipamento_id);
 
-    return NextResponse.json(intercorrencias);
+    const comUsuarios = await Promise.all(
+      intercorrencias.map(async (intercorrencia) => {
+        const usuario = await Usuario.findById(intercorrencia.usuario_id);
+        console.log(usuario?.nome);
+
+        return {
+          ...intercorrencia,
+          usuario_nome: usuario?.usuario || 'Usuário desconhecido',
+        };
+      }),
+    );
+
+    return NextResponse.json(comUsuarios);
   }
 }
 

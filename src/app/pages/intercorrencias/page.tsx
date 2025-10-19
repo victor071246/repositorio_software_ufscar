@@ -4,19 +4,20 @@ import { useSearchParams } from 'next/navigation';
 import Header from '@/app/components/header';
 import styles from './intercorrencias.module.css';
 
-type Intercorrencia = {
+type IntercorrenciaComUsuario = {
   id: number;
   titulo: string;
   descricao: string;
   usuario_id: number;
   criado_em: string;
+  usuario_nome: string;
 };
 
 export default function IntercorrenciasPage() {
   const searchParams = useSearchParams();
   const equipamentoId = searchParams.get('equipamentoId');
 
-  const [intercorrencias, setIntercorrencias] = useState<Intercorrencia[]>([]);
+  const [intercorrencias, setIntercorrencias] = useState<IntercorrenciaComUsuario[]>([]);
   const [erro, setErro] = useState('');
   const [titulo, setTitulo] = useState('');
   const [descricao, setDescricao] = useState('');
@@ -151,6 +152,7 @@ export default function IntercorrenciasPage() {
               <li key={i.id} className={styles.item}>
                 <div className={styles.info}>
                   <strong>{i.titulo}</strong>
+                  <span>{i.usuario_nome}</span>
                   <p>{i.descricao}</p>
                   <small>Criada em {new Date(i.criado_em).toLocaleString('pt-BR')}</small>
                 </div>
