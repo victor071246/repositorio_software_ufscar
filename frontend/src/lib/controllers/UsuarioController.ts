@@ -116,9 +116,9 @@ class UsuarioController {
       }
 
       const body = await req.json();
-      const { new_password, old_password } = body;
+      const { senhaAntiga, novaSenha } = body;
 
-      if (!new_password || !old_password) {
+      if (!senhaAntiga || !novaSenha) {
         return NextResponse.json(
           { message: 'Usuário, senha e senha antiga são obrigatórios' },
           {
@@ -128,11 +128,15 @@ class UsuarioController {
       }
 
       const user = await Usuario.findById(loggedUser.id);
-      const senhaValida = await Usuario.comparePassword(old_password, user!.senha_hash);
+      const senhaValida = await Usuario.comparePassword(senhaAntiga, user!.senha_hash);
 
       if (senhaValida) {
-        await Usuario.mudarSenhaAntigaSenhaNova(user!.id, new_password);
+        await Usuario.mudarSenhaAntigaSenhaNova(user!.id, novaSenha);
       }
+      if (!senhaValida) {
+        return NextResponse.json({ error: 'Não autorizado ' }, { status: 401 });
+      }
+      return NextResponse.json({ message: 'Senha resetada para o valor escolhido' });
     } catch (e) {
       console.log(e);
     }
