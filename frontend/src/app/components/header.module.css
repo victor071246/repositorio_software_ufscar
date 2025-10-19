@@ -1,7 +1,7 @@
 .header {
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   gap: 50%;
   align-items: center;
   background-color: #eaf2fd;
@@ -14,12 +14,12 @@
 .userArea {
   display: flex;
   align-items: center;
-  gap: 85vw;
+  gap: 0;
+  margin-left: 1vw;
 }
 
 .logoutButton {
   background-color: #dc2626;
-  padding: 0.25rem 0.75rem;
   border-radius: 0.375rem;
   cursor: pointer;
   border: none;
@@ -35,4 +35,12 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  margin-left: 4vw;
+}
+.configContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-left: 76vw;
+  margin-right: 0;
 }

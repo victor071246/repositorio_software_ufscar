@@ -1,4 +1,3 @@
-import { NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 

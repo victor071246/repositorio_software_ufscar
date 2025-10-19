@@ -91,7 +91,7 @@ class Equipamento {
   static async findById(id: number): Promise<EquipamentoType | null> {
     const sql = 'select * from Equipamentos where id = ?';
     const [rows] = await pool.query(sql, [id]);
-    return (rows as EquipamentoType[])[0] || null;
+    return (rows as EquipamentoType[])[0];
   }
 }
 

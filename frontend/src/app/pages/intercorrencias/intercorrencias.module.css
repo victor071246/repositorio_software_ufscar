@@ -1,0 +1,202 @@
+.container {
+  overflow: hidden;
+  width: 100vw;
+  min-height: 100vh;
+  padding: 4vh 6vw;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f7f9fc;
+  color: black;
+}
+
+.popupFullScreen {
+  display: flex;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  opacity: 0.8;
+  justify-content: center;
+  align-items: center;
+  color: black;
+}
+
+.boxTitulo {
+  margin-top: 2vh;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+.boxTitulo input {
+  width: 100%;
+  padding: 1.2vh 1vw;
+  border: 0.1vw solid #ccc;
+  border-radius: 0.6vw;
+  font-size: 1vw;
+  font-family: 'Segoe UI', sans-serif;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+  font-size: medium;
+}
+.boxTitulo input:focus {
+  border-color: #4e54c8;
+  box-shadow: 0 0 0.8vw rgba(78, 84, 200, 0.3);
+  outline: none;
+}
+
+.boxDescricao {
+  display: flex;
+  width: 90%;
+  flex-direction: column;
+}
+
+.boxDescricao textarea {
+  width: 100%;
+  height: 12vh;
+  padding: 1.2vh 1vw;
+  border: 0.1vw solid #ccc;
+  border-radius: 0.6vw;
+  font-size: 1vw;
+  font-family: 'Segoe UI', sans-serif;
+  resize: none;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+  font-size: medium;
+}
+
+.boxDescricao textarea:focus {
+  border-color: #4e54c8;
+  box-shadow: 0 0 0.8vw rgba(78, 84, 200, 0.3);
+  outline: none;
+}
+
+.titulo {
+  color: #4e54c8;
+  font-size: 2.2vw;
+  margin-bottom: 3vh;
+  text-align: center;
+}
+
+.excluirModal {
+  position: absolute;
+  left: 96vw;
+  top: 4vh;
+}
+
+.divCriarIntercorrenciaForm {
+  border-radius: 10px;
+  background-color: white;
+  height: 30.5vh;
+  width: 20vw;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-size: medium;
+}
+
+.botaoCriarIntercorrencia {
+  margin-top: 1vh;
+  padding: 5px;
+  background-color: lightgreen;
+  border-radius: 30px;
+  width: 6vw;
+  margin-bottom: 1vh;
+}
+
+.divSuperior {
+  display: flex;
+  justify-content: center;
+}
+
+.botaoAdicionarIntercorrencia {
+  display: flex;
+  position: absolute;
+  top: 16vh;
+  right: 4vw;
+  background-color: lightgreen;
+  color: white;
+  padding: 5px;
+  border-radius: 20px;
+}
+
+/* Grid de intercorrências */
+.lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18vw, 1fr));
+  gap: 2vw;
+  list-style: none;
+  width: 80vw;
+  margin: 4vh auto;
+  padding: 0;
+}
+
+/* Cada quadradinho (card) de intercorrência */
+.item {
+  background-color: #ffffff;
+  border-radius: 1vw;
+  box-shadow: 0 0.8vw 1.5vw rgba(0, 0, 0, 0.1);
+  padding: 2vh 1.5vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: default;
+  min-height: 20vh;
+}
+
+.item:hover {
+  transform: translateY(-0.4vh);
+  box-shadow: 0 1vw 2vw rgba(0, 0, 0, 0.15);
+}
+
+/* Conteúdo do card */
+.info {
+  flex: 1;
+  font-size: 1vw;
+  color: #222;
+}
+
+.info strong {
+  font-size: 1.2vw;
+  color: #4e54c8;
+  display: block;
+  margin-bottom: 1vh;
+}
+
+.info p {
+  font-size: 0.95vw;
+  margin: 0.5vh 0 1vh 0;
+  color: #333;
+  line-height: 1.3;
+}
+
+.info small {
+  color: #666;
+  font-size: 0.85vw;
+}
+
+/* Botão de excluir dentro do card */
+.excluir {
+  align-self: flex-end;
+  margin-top: 1vh;
+  background-color: #dc2626;
+  border: none;
+  border-radius: 0.5vw;
+  color: white;
+  cursor: pointer;
+  padding: 0.6vh 1vw;
+  font-size: 0.9vw;
+  transition: background 0.3s;
+}
+
+.excluir:hover {
+  background-color: #b91c1c;
+}
+
+.erro {
+  color: red;
+  font-weight: 500;
+  text-align: center;
+  font-size: 1.2vw;
+  margin-bottom: 2vh;
+}

@@ -100,6 +100,12 @@ class Usuario {
     await pool.query('UPDATE Usuarios SET senha_hash = ? WHERE id = ?', [senha_hash, id]);
   }
 
+  // Muda a senha antiga para a senha nova
+  static async mudarSenhaAntigaSenhaNova(id: number, senha_antiga: string): Promise<void> {
+    const senha_hash = await bcrypt.hash(senha_antiga, 10);
+    await pool.query('UPDATE Usuarios SET senha_hash = ? WHERE id = ?', [senha_hash, id]);
+  }
+
   // Validação de permissão
   static canResetSenha(
     loggedUser: { admin: boolean; supervisor: boolean },

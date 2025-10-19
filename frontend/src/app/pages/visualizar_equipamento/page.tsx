@@ -69,6 +69,11 @@ export default function VisualizacaoHorarioPage() {
     router.push(`/pages/agendar?equipamentoId=${equipamentoId}&data=${formatDate(date)}`);
   };
 
+  const handleIntercorrencia = () => {
+    if (!equipamentoId) return;
+    router.push(`/pages/intercorrencias?equipamentoId=${equipamentoId}`);
+  };
+
   return (
     <>
       <Header />
@@ -85,10 +90,14 @@ export default function VisualizacaoHorarioPage() {
             <button
               className={styles.editButton}
               onClick={() =>
-                router.push(`/pages/editar_equipamento?equipamentoId=${equipamento.id}`)
+                router.push(`/pages/editar_equipamento?equipamentoId=${equipamento.id}/`)
               }
             >
               Editar equipamento
+            </button>
+            {/* Botão de intercorrências */}
+            <button className={styles.intercorrenciaButton} onClick={handleIntercorrencia}>
+              Ver intercorrências
             </button>
           </div>
         )}

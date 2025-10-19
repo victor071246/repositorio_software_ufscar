@@ -7,6 +7,7 @@ export default function HomePage() {
   return (
     <div className={styles.loadingContainer}>
       <FaSpinner className={styles.spinner}></FaSpinner>
+      <span>Altere sua senha</span>
     </div>
   );
 }

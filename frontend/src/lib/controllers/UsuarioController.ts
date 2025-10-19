@@ -107,6 +107,36 @@ class UsuarioController {
       return NextResponse.json({ error: message }, { status: 500 });
     }
   }
+
+  static async resetSenhaParaSenhaDesejada(req: NextRequest) {
+    try {
+      const loggedUser = await getUserFromServer();
+      if (!loggedUser) {
+        return NextResponse.json({ error: 'Não autorizado ' }, { status: 401 });
+      }
+
+      const body = await req.json();
+      const { new_password, old_password } = body;
+
+      if (!new_password || !old_password) {
+        return NextResponse.json(
+          { message: 'Usuário, senha e senha antiga são obrigatórios' },
+          {
+            status: 400,
+          },
+        );
+      }
+
+      const user = await Usuario.findById(loggedUser.id);
+      const senhaValida = await Usuario.comparePassword(old_password, user!.senha_hash);
+
+      if (senhaValida) {
+        await Usuario.mudarSenhaAntigaSenhaNova(user!.id, new_password);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
 }
 
 export default UsuarioController;

@@ -8,3 +8,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   return UsuarioController.create(req);
 }
+
+export async function PATCH(req: NextRequest) {
+  return UsuarioController.resetSenhaParaSenhaDesejada(req);
+}
