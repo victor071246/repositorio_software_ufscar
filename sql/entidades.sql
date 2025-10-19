@@ -18,15 +18,26 @@ CREATE TABLE Equipamentos (
 
 CREATE TABLE Intercorrencias (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    tipo VARCHAR(30) NOT NULL,
-    descricao VARCHAR(255) NOT NULL,
-    data_e_hora DATETIME NOT NULL,
+    titulo VARCHAR(255) NOT NULL,
+    descricao TEXT NOT NULL,
+    usuario_id INT NOT NULL,
     equipamento_id INT NOT NULL,
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    CONSTRAINT fk_intercorrencia_usuario
+        FOREIGN KEY (usuario_id)
+        REFERENCES Usuarios(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+        
     CONSTRAINT fk_intercorrencia_equipamento
         FOREIGN KEY (equipamento_id)
         REFERENCES Equipamentos(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
+
+
 
 CREATE TABLE Usuarios (
     id INT PRIMARY KEY AUTO_INCREMENT,
