@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Header from '@/app/components/header';
 import styles from './agendar.module.css';
+import { FaTrash } from 'react-icons/fa6';
 
 type Reserva = {
   id: number;
@@ -47,8 +48,12 @@ export default function AgendarPage() {
   const handleAgendar = async () => {
     if (!equipamentoId || !usuarioId || !data) return;
 
-    const inicio = `${data}T${horaInicio.toString().padStart(2, '0')}:00:00`;
-    const fim = `${data}T${horaFim.toString().padStart(2, '0')}:00:00`;
+    // Converter de "DD/MM/YYYY" → "YYYY-MM-DD"
+    const [dia, mes, ano] = data.split('/');
+    const dataISO = `${ano}-${mes}-${dia}`;
+
+    const inicio = `${dataISO} ${horaInicio.toString().padStart(2, '0')}:00:00`;
+    const fim = `${dataISO} ${horaFim.toString().padStart(2, '0')}:00:00`;
 
     try {
       const res = await fetch('/api/reservas', {
@@ -78,45 +83,82 @@ export default function AgendarPage() {
     });
   };
 
+  const handleLimparAgendamentos = async () => {
+    if (!equipamentoId || !data) return;
+    const confirm = window.confirm(
+      'Tem certeza que deseja limpar todos os agendamentos deste dia?',
+    );
+    if (!confirm) return;
+
+    const [dia, mes, ano] = data.split('/');
+    const dataISO = `${ano}-${mes}-${dia}`;
+
+    try {
+      const res = await fetch(`/api/reservas?equipamentoId=${equipamentoId}&data=${dataISO}`, {
+        method: 'DELETE',
+      });
+
+      const result = await res.json();
+      if (res.ok) {
+        setMensagem('Agendamentos removidos com sucesso');
+        setReservas([]);
+      } else {
+        setMensagem(result.error || 'Erro ao limpar agendamentos');
+      }
+    } catch (e) {
+      setMensagem('Erro ao limpar agendamentos');
+      console.log(e);
+    }
+  };
+
   return (
     <>
-      <Header />
-      <main className={styles.container}>
-        <h1 className={styles.title}>Agendar equipamento</h1>
-        <p>Equipamento: {equipamentoId}</p>
-        <p>Data: {data}</p>
+      <div className={styles.body}>
+        <Header />
 
-        <div className={styles.horas}>
-          <label>
-            Hora início:
-            <select value={horaInicio} onChange={(e) => setHoraInicio(Number(e.target.value))}>
-              {horas.map((h) => (
-                <option key={h} value={h} disabled={horaOcupada(h)}>
-                  {h}:00
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            Hora fim:
-            <select value={horaFim} onChange={(e) => setHoraFim(Number(e.target.value))}>
-              {horas
-                .filter((h) => h > horaInicio)
-                .map((h) => (
-                  <option key={h} value={h} disabled={horaOcupada(h - 1)}>
+        <main className={styles.container}>
+          <div className={styles.containerInfo}>
+            <h1 className={styles.title}>Agendar equipamento</h1>
+            <p>Equipamento: {equipamentoId}</p>
+            <p>Data: {data}</p>
+          </div>
+          <div className={styles.topButtons}>
+            <button className={styles.limparButton} onClick={handleLimparAgendamentos}>
+              <FaTrash className={styles.trashIcon} /> Limpar agendamentos
+            </button>
+          </div>
+          <div className={styles.horas}>
+            <label>
+              Hora início:
+              <select value={horaInicio} onChange={(e) => setHoraInicio(Number(e.target.value))}>
+                {horas.map((h) => (
+                  <option key={h} value={h} disabled={horaOcupada(h)}>
                     {h}:00
                   </option>
                 ))}
-            </select>
-          </label>
-        </div>
+              </select>
+            </label>
+            <label>
+              Hora fim:
+              <select value={horaFim} onChange={(e) => setHoraFim(Number(e.target.value))}>
+                {horas
+                  .filter((h) => h > horaInicio)
+                  .map((h) => (
+                    <option key={h} value={h} disabled={horaOcupada(h - 1)}>
+                      {h}:00
+                    </option>
+                  ))}
+              </select>
+            </label>
+          </div>
 
-        <button className={styles.agendarButton} onClick={handleAgendar}>
-          Agendar
-        </button>
+          <button className={styles.agendarButton} onClick={handleAgendar}>
+            Agendar
+          </button>
 
-        {mensagem && <p className={styles.mensagem}>{mensagem}</p>}
-      </main>
+          {mensagem && <p className={styles.mensagem}>{mensagem}</p>}
+        </main>
+      </div>
     </>
   );
 }

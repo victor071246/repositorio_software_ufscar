@@ -50,6 +50,7 @@ export default function PesquisaUsuariosPage() {
               className={styles.item}
               onClick={() => router.push(`/pages/visualizar_usuario?id=${u.id}`)}
             >
+              <span>{u.id} </span>
               <strong>{u.nome}</strong> ({u.usuario}) - {u.departamento} {u.admin && '[Admin]'}{' '}
               {u.supervisor && '[Supervisor]'}
             </li>

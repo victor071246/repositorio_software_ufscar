@@ -4,11 +4,68 @@
   padding: 1rem;
 }
 
+.equipamentoInfo {
+  display: flex;
+  justify-content: space-between;
+}
+
+.body {
+  background-color: #eaf2fd;
+  color: black;
+}
+.editButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1vw;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  padding: 0vw 1vw 0vw 1vw;
+  height: 5vh;
+  background-color: white;
+}
+
+.botaoSemana {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5vw;
+  background-color: white;
+  border-radius: 15px;
+}
+
+.intercorrenciaButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1vw;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  padding: 0vw 1vw 0vw 1vw;
+  height: 5vh;
+  background-color: white;
+}
+
+.equipamentoInfoTexto {
+  border-radius: 20px;
+  padding: 0vw 1vw 0vw 1vw;
+}
+
 .navigation {
+  margin-top: 5vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.spanSemana {
+  background-color: white;
+  padding: 1vh;
+  border-radius: 15px;
 }
 
 .navigation button {
@@ -28,17 +85,20 @@
   border-radius: 0.5rem;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);
   padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .date {
   font-weight: bold;
-  margin-bottom: 0.5rem;
   font-size: 1rem;
+  margin: auto auto 1vh auto;
 }
 
 .hours {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 0.25rem;
 }
 
@@ -50,11 +110,19 @@
 }
 
 .booked {
-  background-color: #f56565; /* vermelho */
-  color: #fff;
+  color: black;
+  text-decoration: line-through red; /* riscado pontilhado vermelho */
+  text-decoration-thickness: 2px; /* espessura opcional */
 }
 
 .free {
-  background-color: #48bb78; /* verde */
-  color: #fff;
+  color: black;
+}
+
+.agendarButton {
+  background-color: black;
+  color: white;
+  border-radius: 10px;
+  width: 8vw;
+  margin: 1vh auto auto auto;
 }
