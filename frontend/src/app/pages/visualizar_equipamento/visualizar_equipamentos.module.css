@@ -4,6 +4,42 @@
   padding: 1rem;
 }
 
+.equipamentoInfo {
+  display: flex;
+  justify-content: space-between;
+}
+
+.body {
+  background-color: #eaf2fd;
+  color: black;
+}
+.editButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1vw;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  padding: 0vw 1vw 0vw 1vw;
+  height: 5vh;
+}
+
+.intercorrenciaButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1vw;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  padding: 0vw 1vw 0vw 1vw;
+  height: 5vh;
+}
+
+.equipamentoInfoTexto {
+  border-radius: 20px;
+  padding: 0vw 1vw 0vw 1vw;
+}
+
 .navigation {
   display: flex;
   justify-content: space-between;
@@ -37,8 +73,8 @@
 }
 
 .hours {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 0.25rem;
 }
 
@@ -50,11 +86,12 @@
 }
 
 .booked {
+  color: black;
   background-color: #f56565; /* vermelho */
-  color: #fff;
+  text-decoration: line-through dotted red; /* riscado pontilhado vermelho */
+  text-decoration-thickness: 2px; /* espessura opcional */
 }
 
 .free {
-  background-color: #48bb78; /* verde */
-  color: #fff;
+  color: black;
 }

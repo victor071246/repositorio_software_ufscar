@@ -32,26 +32,28 @@ export default function PesquisaEquipamentosPage() {
 
   return (
     <>
-      <Header />
-      <main className={styles.main}>
-        <h1 className={styles.title}>Pesquisar Equipamentos</h1>
+      <body className={styles.body}>
+        <Header />
+        <main className={styles.main}>
+          <h1 className={styles.title}>Pesquisar Equipamentos</h1>
 
-        <SearchBar onSearch={handleSearch} />
+          <SearchBar onSearch={handleSearch} />
 
-        {mensagem && <p className={styles.mensagem}>{mensagem}</p>}
+          {mensagem && <p className={styles.mensagem}>{mensagem}</p>}
 
-        <ul className={styles.lista}>
-          {resultados.map((eq) => (
-            <li
-              key={eq.id}
-              className={styles.item}
-              onClick={() => router.push(`/pages/visualizar_equipamento?equipamentoId=${eq.id}`)}
-            >
-              <strong>{eq.nome}</strong> - {eq.descricao}
-            </li>
-          ))}
-        </ul>
-      </main>
+          <ul className={styles.lista}>
+            {resultados.map((eq) => (
+              <li
+                key={eq.id}
+                className={styles.item}
+                onClick={() => router.push(`/pages/visualizar_equipamento?equipamentoId=${eq.id}`)}
+              >
+                <strong>{eq.nome}</strong> - {eq.descricao}
+              </li>
+            ))}
+          </ul>
+        </main>
+      </body>
     </>
   );
 }

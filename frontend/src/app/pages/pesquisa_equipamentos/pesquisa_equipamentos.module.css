@@ -1,13 +1,14 @@
 /* pesquisa_equipamentos.module.css */
 
+.body {
+  background-color: #eaf2fd;
+}
 .main {
   max-width: 90%;
   margin: 2rem auto;
   padding: 1.5rem;
-  background-color: #1a1a1a;
-  color: #fff;
+  color: black;
   border-radius: 1rem;
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
 }
@@ -40,6 +41,8 @@
   display: flex;
   flex-direction: column;
   transition: transform 0.2s ease, background-color 0.2s ease;
+  background-color: #eaf2fd;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
 }
 
 .item strong {
