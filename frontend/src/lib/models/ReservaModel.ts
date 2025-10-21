@@ -70,4 +70,16 @@ export default class Reserva {
       [equipamento_id, usuario_id, horario_inicio, horario_fim],
     );
   }
+
+  static async deleteByEquipamentoEData(equipamento_id: number, data: string): Promise<void> {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(data)) {
+      throw new Error('Formato de data inválido');
+    }
+    await pool.query(
+      `DELETE FROM Agendamentos
+   WHERE equipamento_id = ?
+     AND horario_inicio LIKE CONCAT(?, '%')`,
+      [equipamento_id, data], // data = '2025-09-22'
+    );
+  }
 }

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import styles from './cadastro.module.css';
+import Header from '@/app/components/header';
 
 type UserPayload = {
   id: number;
@@ -83,71 +84,74 @@ export default function CadastroPage() {
   if (loading) return <p>Carregando...</p>;
 
   return (
-    <div className={styles.bodyContainer}>
-      <div className={styles.loginContainer}>
-        <h2 className={styles.loginTitle}>Cadastro de Usuário</h2>
-        <form className={styles.loginForm} onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Usuário"
-            value={usuario}
-            onChange={(e) => setUsuario(e.target.value)}
-            className={styles.loginInput}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Nome"
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
-            className={styles.loginInput}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Departamento"
-            value={departamento}
-            onChange={(e) => setDepartamento(e.target.value)}
-            className={styles.loginInput}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Senha"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            className={styles.loginInput}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Confirmar senha"
-            value={confirmar}
-            onChange={(e) => setConfirmar(e.target.value)}
-            className={styles.loginInput}
-            required
-          />
+    <>
+      <div className={styles.bodyContainer}>
+        <Header></Header>
+        <div className={styles.loginContainer}>
+          <h2 className={styles.loginTitle}>Cadastro de Usuário</h2>
+          <form className={styles.loginForm} onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Usuário"
+              value={usuario}
+              onChange={(e) => setUsuario(e.target.value)}
+              className={styles.loginInput}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Nome"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              className={styles.loginInput}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Departamento"
+              value={departamento}
+              onChange={(e) => setDepartamento(e.target.value)}
+              className={styles.loginInput}
+              required
+            />
+            <input
+              type="password"
+              placeholder="Senha"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              className={styles.loginInput}
+              required
+            />
+            <input
+              type="password"
+              placeholder="Confirmar senha"
+              value={confirmar}
+              onChange={(e) => setConfirmar(e.target.value)}
+              className={styles.loginInput}
+              required
+            />
 
-          {userLogged?.admin && (
-            <div className={styles.checkboxContainer}>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={supervisor}
-                  onChange={(e) => setSupervisor(e.target.checked)}
-                />
-                Criar como supervisor
-              </label>
-            </div>
-          )}
+            {userLogged?.admin && (
+              <div className={styles.checkboxContainer}>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={supervisor}
+                    onChange={(e) => setSupervisor(e.target.checked)}
+                  />
+                  Criar como supervisor
+                </label>
+              </div>
+            )}
 
-          <p className={styles.erro}>{erro}</p>
+            <p className={styles.erro}>{erro}</p>
 
-          <button type="submit" className={styles.loginButton} disabled={saving}>
-            {saving ? 'Salvando...' : 'Cadastrar'}
-          </button>
-        </form>
+            <button type="submit" className={styles.loginButton} disabled={saving}>
+              {saving ? 'Salvando...' : 'Cadastrar'}
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

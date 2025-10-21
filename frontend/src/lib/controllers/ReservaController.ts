@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Reserva from '../models/ReservaModel';
+import { getUserFromServer } from '../auth';
 
 export default class ReservaController {
   static async list(req: NextRequest) {
@@ -33,7 +34,11 @@ export default class ReservaController {
           { status: 400 },
         );
       }
-      if (new Date(fim) <= new Date(inicio)) {
+      // força formato ISO local e evita conversão UTC
+      const inicioDate = new Date(inicio.replace(' ', 'T'));
+      const fimDate = new Date(fim.replace(' ', 'T'));
+
+      if (fimDate <= inicioDate) {
         return NextResponse.json({ error: 'fim deve ser > início' }, { status: 400 });
       }
 
@@ -49,6 +54,31 @@ export default class ReservaController {
       const message = e instanceof Error ? e.message : 'Erro interno';
       const status = message.includes('Conflito') ? 409 : 500;
       return NextResponse.json({ error: message }, { status });
+    }
+  }
+
+  static async delete(req: NextRequest) {
+    try {
+      const user = await getUserFromServer();
+      if (!user?.supervisor)
+        return NextResponse.json({ message: 'Usuário não é supervisor' }, { status: 403 });
+
+      const url = new URL(req.url);
+      const equipamento_id = url.searchParams.get('equipamentoId');
+      const data = url.searchParams.get('data');
+
+      if (!equipamento_id || !data) {
+        return NextResponse.json(
+          { error: 'equipamentoId e data são obrigatórios' },
+          { status: 400 },
+        );
+      }
+
+      await Reserva.deleteByEquipamentoEData(Number(equipamento_id), data);
+      return NextResponse.json({ ok: true });
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : 'Erro interno';
+      return NextResponse.json({ error: message }, { status: 500 });
     }
   }
 }

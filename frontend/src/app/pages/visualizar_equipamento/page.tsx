@@ -5,6 +5,7 @@ import Header from '@/app/components/header';
 import styles from './visualizar_equipamentos.module.css';
 import { FaGear } from 'react-icons/fa6';
 import { FaExclamationTriangle } from 'react-icons/fa';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 type Reserva = {
   id: number;
@@ -42,8 +43,9 @@ export default function VisualizacaoHorarioPage() {
   // Carregar reservas da semana
   useEffect(() => {
     if (!equipamentoId) return;
-    const start = formatDateBR(currentWeekStart);
-    const end = formatDateBR(new Date(currentWeekStart.getTime() + 6 * 86400000));
+    const start = currentWeekStart.toISOString().split('T')[0];
+    const end = new Date(currentWeekStart.getTime() + 6 * 86400000).toISOString().split('T')[0];
+
     fetch(`/api/reservas?equipamentoId=${equipamentoId}&start=${start}&end=${end}`)
       .then((res) => res.json())
       .then((data) => setReservas(data));
@@ -84,8 +86,14 @@ export default function VisualizacaoHorarioPage() {
           {equipamento && (
             <div className={styles.equipamentoInfo}>
               <div className={styles.equipamentoInfoTexto}>
-                <h1>{equipamento.nome}</h1>
-                <p>{equipamento.descricao}</p>
+                <h1>
+                  <strong>Título: </strong>
+                  {equipamento.nome}
+                </h1>
+                <p>
+                  <strong>Descrição: </strong>
+                  {equipamento.descricao}
+                </p>
                 <p>
                   <strong>Status:</strong>{' '}
                   {equipamento.estado === 'disponível' ? 'Disponível' : 'Indisponível'}
@@ -108,28 +116,52 @@ export default function VisualizacaoHorarioPage() {
           )}
 
           <div className={styles.navigation}>
-            <button onClick={prevWeek}>&lt; Semana</button>
-            <span>
+            <button className={styles.botaoSemana} onClick={prevWeek}>
+              <FaArrowLeft /> Semana
+            </button>
+
+            <span className={styles.spanSemana}>
               {formatDateBR(currentWeekStart)} -{' '}
               {formatDateBR(new Date(currentWeekStart.getTime() + 6 * 86400000))}
             </span>
-            <button onClick={nextWeek}>Semana &gt;</button>
+
+            <button className={styles.botaoSemana} onClick={nextWeek}>
+              Semana <FaArrowRight />
+            </button>
           </div>
 
           <div className={styles.grid}>
             {days.map((day, i) => (
               <div key={i} className={styles.tile}>
-                <div className={styles.date}>{day.date.toDateString()}</div>
+                <div className={styles.date}>
+                  {capitalizeFirstLetter(
+                    day.date.toLocaleDateString('pt-BR', {
+                      weekday: 'long',
+                      day: '2-digit',
+                      month: '2-digit',
+                    }),
+                  )}
+                </div>
+
                 <div className={styles.hours}>
                   {hours.map((hour) => {
-                    const isBooked = day.reservas.some((r) => {
+                    const reserva = day.reservas.find((r) => {
                       const hi = new Date(r.horario_inicio).getHours();
                       const hf = new Date(r.horario_fim).getHours();
                       return hour >= hi && hour < hf;
                     });
+
+                    const isBooked = !!reserva;
+
                     return (
                       <div key={hour} className={isBooked ? styles.booked : styles.free}>
-                        {String(hour).padStart(2, '0')}:00
+                        <span>{String(hour).padStart(2, '0')}:00</span>
+                        {isBooked && (
+                          <span className={styles.responsavel}>
+                            {' → '}
+                            {reserva?.responsavel || `Usuário ${reserva?.usuario_id}`}
+                          </span>
+                        )}
                       </div>
                     );
                   })}
@@ -159,4 +191,8 @@ function formatDateBR(d: Date) {
     month: '2-digit',
     year: 'numeric',
   });
+}
+
+function capitalizeFirstLetter(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }

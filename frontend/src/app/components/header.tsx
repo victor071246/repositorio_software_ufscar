@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import LogoutButton from './logout_button';
 import styles from './header.module.css';
 import ConfigButton from './config_button';
+import HomeButton from './home_button';
 
 type UserPayload = {
   id: number;
@@ -35,8 +36,11 @@ export default function Header() {
     <header className={styles.header}>
       <div className={styles.userArea}>
         <span>Bem vindo, {user?.usuario ?? '...'}</span>
-        <ConfigButton></ConfigButton>
-        <LogoutButton></LogoutButton>
+        <div className={styles.icones}>
+          <HomeButton></HomeButton>
+          <ConfigButton></ConfigButton>
+          <LogoutButton></LogoutButton>
+        </div>
       </div>
     </header>
   );

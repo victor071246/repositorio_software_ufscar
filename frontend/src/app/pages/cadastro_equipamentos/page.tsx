@@ -33,32 +33,35 @@ export default function CriarEquipamentosPage() {
 
   return (
     <>
-      <Header></Header>
-      <main className={styles.container}>
-        <h1 className={styles.titulo}>Criar Novo Equipamento</h1>
-        <form className={styles.form} onSubmit={handleSubmit}>
-          <label className={styles.label}>
-            Nome:
-            <input
-              className={styles.input}
-              type="text"
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
-              required
-            />
-          </label>
-          <label className={styles.label}>
-            Descrição:
-            <textarea
-              className={styles.textarea}
-              value={descricao}
-              onChange={(e) => setDescricao(e.target.value)}
-            ></textarea>
-          </label>
-          <button className={styles.submitButton}>Cadastrar</button>
-        </form>
-        {mensagem && <p className={styles.mensagem}>{mensagem}</p>}
-      </main>
+      <div className={styles.body}>
+        <Header></Header>
+
+        <main className={styles.container}>
+          <h1 className={styles.titulo}>Criar Novo Equipamento</h1>
+          <form className={styles.form} onSubmit={handleSubmit}>
+            <label className={styles.label}>
+              Nome:
+              <input
+                className={styles.input}
+                type="text"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+                required
+              />
+            </label>
+            <label className={styles.label}>
+              Descrição:
+              <textarea
+                className={styles.textarea}
+                value={descricao}
+                onChange={(e) => setDescricao(e.target.value)}
+              ></textarea>
+            </label>
+            <button className={styles.submitButton}>Cadastrar</button>
+          </form>
+          {mensagem && <p className={styles.mensagem}>{mensagem}</p>}
+        </main>
+      </div>
     </>
   );
 }
