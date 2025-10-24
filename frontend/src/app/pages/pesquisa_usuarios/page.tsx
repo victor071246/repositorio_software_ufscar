@@ -35,28 +35,30 @@ export default function PesquisaUsuariosPage() {
 
   return (
     <>
-      <Header />
-      <main className={styles.main}>
-        <h1 className={styles.title}>Pesquisar Funcionários</h1>
+      <div className={styles.body}>
+        <Header />
+        <main className={styles.main}>
+          <h1 className={styles.title}>Pesquisar Funcionários</h1>
 
-        <SearchBar onSearch={handleSearch} />
+          <SearchBar onSearch={handleSearch} />
 
-        {mensagem && <p className={styles.mensagem}>{mensagem}</p>}
+          {mensagem && <p className={styles.mensagem}>{mensagem}</p>}
 
-        <ul className={styles.lista}>
-          {resultados.map((u) => (
-            <li
-              key={u.id}
-              className={styles.item}
-              onClick={() => router.push(`/pages/visualizar_usuario?id=${u.id}`)}
-            >
-              <span>{u.id} </span>
-              <strong>{u.nome}</strong> ({u.usuario}) - {u.departamento} {u.admin && '[Admin]'}{' '}
-              {u.supervisor && '[Supervisor]'}
-            </li>
-          ))}
-        </ul>
-      </main>
+          <ul className={styles.lista}>
+            {resultados.map((u) => (
+              <li
+                key={u.id}
+                className={styles.item}
+                onClick={() => router.push(`/pages/visualizar_usuario?id=${u.id}`)}
+              >
+                <span>{u.id} </span>
+                <strong>{u.nome}</strong> ({u.usuario}) - {u.departamento} {u.admin && '[Admin]'}{' '}
+                {u.supervisor && '[Supervisor]'}
+              </li>
+            ))}
+          </ul>
+        </main>
+      </div>
     </>
   );
 }
