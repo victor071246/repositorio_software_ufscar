@@ -78,3 +78,13 @@
   margin-top: 0.5rem;
   color: #16a34a; /* verde para sucesso */
 }
+
+@media (min-width: 768px) {
+  .container {
+    width: 100vw;
+    }
+
+}
+
+
+
