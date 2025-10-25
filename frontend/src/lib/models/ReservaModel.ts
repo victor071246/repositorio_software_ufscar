@@ -29,11 +29,11 @@ export default class Reserva {
     }
     if (filtros.start) {
       where.push('a.horario_fim >= ?');
-      params.push(`${filtros.start} 00:00:00`);
+      params.push(filtros.start);
     }
     if (filtros.end) {
       where.push('a.horario_inicio <= ?');
-      params.push(`${filtros.end} 23:59:59`);
+      params.push(filtros.end);
     }
 
     const sql = `

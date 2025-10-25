@@ -23,6 +23,12 @@
   padding: 0vw 1vw 0vw 1vw;
   height: 5vh;
   background-color: white;
+  transition: 0.3s background-color ease-in-out;
+  cursor: pointer;
+}
+
+.editButton:hover {
+  background-color: rgb(138, 138, 138);
 }
 
 .botaoSemana {
@@ -32,6 +38,12 @@
   gap: 0.5vw;
   background-color: white;
   border-radius: 15px;
+  transition: 0.3s color ease-in-out;
+  cursor: pointer;
+}
+
+.botaoSemana:hover {
+  color: rgb(138, 138, 138);
 }
 
 .intercorrenciaButton {
@@ -44,6 +56,12 @@
   padding: 0vw 1vw 0vw 1vw;
   height: 5vh;
   background-color: white;
+  transition: 0.3s background-color ease-in-out;
+  cursor: pointer;
+}
+
+.intercorrenciaButton:hover {
+  background-color: rgb(138, 138, 138);
 }
 
 .equipamentoInfoTexto {
@@ -125,4 +143,10 @@
   border-radius: 10px;
   width: 8vw;
   margin: 1vh auto auto auto;
+  transition: 0.3s background-color ease-in-out;
+  cursor: pointer;
+}
+
+.agendarButton:hover {
+  background-color: rgb(138, 138, 138);
 }

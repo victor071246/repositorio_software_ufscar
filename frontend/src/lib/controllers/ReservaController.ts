@@ -10,15 +10,28 @@ export default class ReservaController {
       const start = url.searchParams.get('start');
       const end = url.searchParams.get('end');
 
-      const reservas = await Reserva.findAll({
+      console.log('📥 [GET /api/reservas] Requisição recebida');
+      console.log('🔍 Parâmetros recebidos:', { equipamento_id, start, end });
+
+      const filtros = {
         equipamento_id: equipamento_id ? Number(equipamento_id) : undefined,
         start: start || undefined,
         end: end || undefined,
-      });
+      };
 
-      return NextResponse.json(reservas);
+      console.log('🧩 Filtros aplicados:', filtros);
+
+      const reservas = await Reserva.findAll(filtros);
+
+      console.log('📤 Resultado da consulta (reservas encontradas):', reservas.length);
+      if (reservas.length > 0) {
+        console.log('🗓️ Exemplo de reserva:', reservas[0]);
+      }
+
+      return NextResponse.json(reservas, { status: 200 });
     } catch (e: unknown) {
       const message = e instanceof Error ? e.message : 'Erro interno';
+      console.error('❌ Erro em ReservaController.list:', message);
       return NextResponse.json({ error: message }, { status: 500 });
     }
   }
@@ -34,18 +47,18 @@ export default class ReservaController {
           { status: 400 },
         );
       }
-      // força formato ISO local e evita conversão UTC
+
       const inicioDate = new Date(inicio.replace(' ', 'T'));
       const fimDate = new Date(fim.replace(' ', 'T'));
 
       if (fimDate <= inicioDate) {
-        return NextResponse.json({ error: 'fim deve ser > início' }, { status: 400 });
+        return NextResponse.json({ error: 'Fim deve ser maior que início' }, { status: 400 });
       }
 
       await Reserva.create({
         equipamento_id,
         usuario_id,
-        horario_inicio: inicio,
+        horario_inicio: inicio, // mantém formato MySQL
         horario_fim: fim,
       });
 

@@ -1,7 +1,6 @@
 'use client';
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
-export const revalidate = 0;
 export const runtime = 'edge';
 
 import { useState, useEffect } from 'react';
@@ -37,14 +36,25 @@ export default function AgendarPage() {
       .catch(() => setUsuarioId(null));
   }, []);
 
-  // Puxar reservas existentes do equipamento e data
   useEffect(() => {
     if (!equipamentoId || !data) return;
-    const start = `${data} 00:00:00`;
-    const end = `${data} 23:59:59`;
+
+    // Converte "DD/MM/YYYY" para "YYYY-MM-DD"
+    let dataISO = data;
+    if (data.includes('/')) {
+      const [dia, mes, ano] = data.split('/');
+      dataISO = `${ano}-${mes}-${dia}`;
+    }
+
+    const start = `${dataISO} 00:00:00`;
+    const end = `${dataISO} 23:59:59`;
+
     fetch(`/api/reservas?equipamentoId=${equipamentoId}&start=${start}&end=${end}`)
       .then((res) => res.json())
-      .then((data) => setReservas(data))
+      .then((data) => {
+        console.log('📦 RESERVAS RECEBIDAS DO BACKEND:', data);
+        setReservas(data);
+      })
       .catch(() => setReservas([]));
   }, [equipamentoId, data]);
 
@@ -54,9 +64,14 @@ export default function AgendarPage() {
     if (!equipamentoId || !usuarioId || !data) return;
 
     // Converter de "DD/MM/YYYY" → "YYYY-MM-DD"
-    const [dia, mes, ano] = data.split('/');
-    const dataISO = `${ano}-${mes}-${dia}`;
+    // Detecta automaticamente o formato (DD/MM/YYYY ou YYYY-MM-DD)
+    let dataISO = data;
+    if (data.includes('/')) {
+      const [dia, mes, ano] = data.split('/');
+      dataISO = `${ano}-${mes}-${dia}`;
+    }
 
+    // exemplo: "2025-10-20 06:00:00"
     const inicio = `${dataISO} ${horaInicio.toString().padStart(2, '0')}:00:00`;
     const fim = `${dataISO} ${horaFim.toString().padStart(2, '0')}:00:00`;
 
@@ -82,8 +97,23 @@ export default function AgendarPage() {
   // Função para verificar se a hora está ocupada
   const horaOcupada = (h: number) => {
     return reservas.some((r) => {
-      const hi = new Date(r.horario_inicio).getHours();
-      const hf = new Date(r.horario_fim).getHours();
+      // MySQL → ISO (UTC): "2025-10-20T03:00:00.000Z"
+      const inicioDate = new Date(r.horario_inicio);
+      const fimDate = new Date(r.horario_fim);
+
+      if (isNaN(inicioDate.getTime()) || isNaN(fimDate.getTime())) {
+        console.log('❌ Data inválida:', r.horario_inicio, r.horario_fim);
+        return false;
+      }
+
+      // Pega hora local corretamente
+      const hi = inicioDate.getHours();
+      const hf = fimDate.getHours();
+
+      console.log(
+        `🕒 Comparando ${h}:00 com ${hi}:00–${hf}:00 (${r.horario_inicio} → ${r.horario_fim})`,
+      );
+
       return h >= hi && h < hf;
     });
   };
