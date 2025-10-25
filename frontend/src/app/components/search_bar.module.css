@@ -28,7 +28,7 @@
 .button {
   height: 3rem;
   padding: 0 1rem;
-  border: none;
+  border-left: 0.5px solid black;
   cursor: pointer;
   transition: background 0.3s ease;
   background-color: white;
@@ -37,4 +37,10 @@
 
 .button:hover {
   background-color: rgb(148, 148, 148);
+}
+
+@media (max-width: 768px) {
+  .button {
+    width: 30vw;
+  }
 }

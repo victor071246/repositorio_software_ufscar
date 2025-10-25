@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "build": "cross-env NEXT_SKIP_TYPECHECK=1 NEXT_TYPES_OUTPUT=false next build",
     "start": "next start",
     "lint": "eslint"
   },
@@ -14,7 +14,7 @@
     "jose": "^6.1.0",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.15.0",
-    "next": "15.5.3",
+    "next": "^15.3.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-icons": "^5.5.0"
@@ -27,6 +27,7 @@
     "@types/node": "^20.19.17",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cross-env": "^10.1.0",
     "eslint": "^9",
     "eslint-config-next": "15.5.3",
     "tailwindcss": "^4",

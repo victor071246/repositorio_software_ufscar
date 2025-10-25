@@ -1,4 +1,9 @@
 'use client';
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+export const revalidate = 0;
+export const runtime = 'edge';
+
 import React, { useState } from 'react';
 import styles from './login_page.module.css';
 
@@ -57,9 +62,6 @@ export default function LoginPage() {
               Entrar
             </button>
           </form>
-          <p className={styles.signup}>
-            <a>Cadastrar Novo Pesquisador</a>
-          </p>
         </div>
       </div>
     </>

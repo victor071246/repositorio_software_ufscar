@@ -1,4 +1,9 @@
 'use client';
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+export const revalidate = 0;
+export const runtime = 'edge';
+
 import { useState } from 'react';
 import Header from '@/app/components/header';
 import styles from './cadastro_equipamentos.module.css';

@@ -1,8 +1,13 @@
 'use client';
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+export const revalidate = 0;
+export const runtime = 'edge';
+
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Header from '@/app/components/header';
-import styles from './visualizar_usuario.module.css';
+import styles from '../visualizar_usuario/visualizar_usuario.module.css';
 
 type Usuario = {
   id: number;

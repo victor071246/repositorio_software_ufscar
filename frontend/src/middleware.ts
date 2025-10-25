@@ -5,37 +5,35 @@ import { jwtVerify } from 'jose';
 const SECRET = new TextEncoder().encode(process.env.TOKEN_SECRET!);
 
 export async function middleware(req: NextRequest) {
-  const token = req.cookies.get('token')?.value;
-  const url = req.nextUrl.clone();
-
-  if (req.nextUrl.pathname === '/login') {
+  if (req.nextUrl.pathname === 'pages/login') {
     return NextResponse.next();
   }
-  if (req.nextUrl.pathname === '/' || req.nextUrl.pathname === '') {
-    if (token) {
-      try {
-        const { payload } = await jwtVerify(token, SECRET);
-        console.log(payload);
-        console.log('token_logado');
-        // const user_id = payload.id;
-        // const username = payload.usuario;
-        // const admin = payload.admin;
-        // const supervisor = payload.supervisor;
+  const token = req.cookies.get('token')?.value;
+  const url = req.nextUrl.clone();
+  if (token) {
+    const { payload } = await jwtVerify(token, SECRET);
 
-        url.pathname = '/dashboard';
-      } catch (e) {
-        url.pathname = '/pages/login';
-      }
-    } else {
-      url.pathname = '/pages/login';
-      console.log('token_não_logado');
+    if (payload) {
+      console.log(payload);
+      console.log('token_logado');
+      // const user_id = payload.id;
+      // const username = payload.usuario;
+      // const admin = payload.admin;
+      // const supervisor = payload.supervisor;
     }
+  }
+  if (req.nextUrl.pathname === '/' && token) {
+    url.pathname = '/dashboard';
     return NextResponse.redirect(url);
   }
-
+  if (req.nextUrl.pathname !== '/pages/login' && !token) {
+    url.pathname = '/pages/login';
+    console.log('token_não_logado');
+    return NextResponse.redirect(url);
+  }
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/:path*'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|login).*)'],
 };

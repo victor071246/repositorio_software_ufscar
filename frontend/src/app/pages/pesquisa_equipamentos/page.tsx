@@ -1,4 +1,9 @@
 'use client';
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+export const revalidate = 0;
+export const runtime = 'edge';
+
 import { useState } from 'react';
 import Header from '@/app/components/header';
 import SearchBar from '@/app/components/search_bar';
@@ -32,7 +37,7 @@ export default function PesquisaEquipamentosPage() {
 
   return (
     <>
-      <body className={styles.body}>
+      <div className={styles.body}>
         <Header />
         <main className={styles.main}>
           <h1 className={styles.title}>Pesquisar Equipamentos</h1>
@@ -53,7 +58,7 @@ export default function PesquisaEquipamentosPage() {
             ))}
           </ul>
         </main>
-      </body>
+      </div>
     </>
   );
 }
