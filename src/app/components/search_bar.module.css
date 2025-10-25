@@ -38,3 +38,9 @@
 .button:hover {
   background-color: rgb(148, 148, 148);
 }
+
+@media (max-width: 768px) {
+  .button {
+    width: 30vw;
+  }
+}
