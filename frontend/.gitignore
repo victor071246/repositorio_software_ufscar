@@ -10,6 +10,13 @@
 !.yarn/versions
 node_modules
 
+# Next.js build output
+.next/
+out/
+# Optional cache folders
+.turbo/
+
+
 # testing
 /coverage
 
