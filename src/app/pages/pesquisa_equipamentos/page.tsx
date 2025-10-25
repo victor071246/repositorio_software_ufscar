@@ -32,7 +32,7 @@ export default function PesquisaEquipamentosPage() {
 
   return (
     <>
-      <body className={styles.body}>
+      <div className={styles.body}>
         <Header />
         <main className={styles.main}>
           <h1 className={styles.title}>Pesquisar Equipamentos</h1>
@@ -53,7 +53,7 @@ export default function PesquisaEquipamentosPage() {
             ))}
           </ul>
         </main>
-      </body>
+      </div>
     </>
   );
 }
