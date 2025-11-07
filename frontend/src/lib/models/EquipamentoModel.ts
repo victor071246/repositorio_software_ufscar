@@ -6,21 +6,19 @@ export type EquipamentoType = {
   nome: string;
   descricao?: string;
   estado: string;
-  departamento_id: number;
 };
 
 class Equipamento {
   static async create(data: Partial<EquipamentoType>) {
-    const { nome, descricao, estado = 'disponível', departamento_id } = data;
-    const sql = ` insert into Equipamentos (nome, descricao, estado, departamento_id) values (?, ?, ?, ?) `;
+    const { nome, descricao, estado = 'disponível', } = data;
+    const sql = ` insert into Equipamentos (nome, descricao, estado) values (?, ?, ?) `;
 
     const [result] = await pool.query<ResultSetHeader>(sql, [
       nome,
       descricao,
       estado,
-      departamento_id,
     ]);
-    return { id: result.insertId, nome, descricao, estado, departamento_id };
+    return { id: result.insertId, nome, descricao, estado };
   }
 
   static async update(
@@ -29,22 +27,19 @@ class Equipamento {
       nome,
       descricao,
       estado,
-      departamento_id,
     }: {
       nome?: string;
       descricao?: string;
       estado?: 'disponível' | 'indisponível';
-      departamento_id?: number;
     },
   ): Promise<Equipamento | null> {
-    const sql = `update Equipamentos SET nome = ?, descricao = ?, estado = ?, departamento_id = ?
+    const sql = `update Equipamentos SET nome = ?, descricao = ?, estado = ?
     where id = ?`;
 
     const [result] = await pool.query<ResultSetHeader>(sql, [
       nome,
       descricao,
       estado,
-      departamento_id,
       id,
     ]);
 
@@ -61,7 +56,6 @@ class Equipamento {
   static async findAll(filters?: {
     nome?: string;
     estado?: 'disponível' | 'indisponível';
-    departamento_id?: number;
   }): Promise<EquipamentoType[]> {
     let sql = 'select * from Equipamentos';
     const params: (string | number)[] = [];
@@ -74,10 +68,6 @@ class Equipamento {
     if (filters?.estado) {
       whereClauses.push('LOWER(estado) = LOWER(?)');
       params.push(filters.estado);
-    }
-    if (filters?.departamento_id) {
-      whereClauses.push('departamento_id = ?');
-      params.push(filters.departamento_id);
     }
     if (whereClauses.length > 0) {
       sql += ` WHERE ${whereClauses.join(' AND ')}`;

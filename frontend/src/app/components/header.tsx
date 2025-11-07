@@ -1,10 +1,12 @@
 'use client';
-
+if (typeof window === 'undefined') {
+  console.log('🚨 Executando no servidor!');
+}
 import { useEffect, useState } from 'react';
 import LogoutButton from './logout_button';
-import styles from './header.module.css';
 import ConfigButton from './config_button';
 import HomeButton from './home_button';
+import styles from './header.module.css';
 
 type UserPayload = {
   id: number;
@@ -35,11 +37,11 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.userArea}>
-        <span>Bem vindo, {user?.usuario ?? '...'}</span>
+        <span>Bem-vindo, {user?.usuario ?? '...'}</span>
         <div className={styles.icones}>
-          <HomeButton></HomeButton>
-          <ConfigButton></ConfigButton>
-          <LogoutButton></LogoutButton>
+          <HomeButton />
+          <ConfigButton />
+          <LogoutButton />
         </div>
       </div>
     </header>

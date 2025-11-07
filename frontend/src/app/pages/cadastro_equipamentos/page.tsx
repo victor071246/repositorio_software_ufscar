@@ -14,25 +14,35 @@ export default function CriarEquipamentosPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+try {
+  const res = await fetch('/api/equipamentos/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nome, descricao }),
+  });
 
+  if (!res.ok) {
+    // tenta ler o corpo da resposta (pode ser texto ou JSON)
+    let errorMsg = 'Erro ao criar equipamento';
     try {
-      const res = await fetch('/api/equipamentos/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ nome, descricao }),
-      });
-
-      if (!res.ok) throw new Error('Erro ao criar equipamento');
-
-      setMensagem('Equipamento criado com sucesso!');
-      setNome('');
-      setDescricao('');
-    } catch (e) {
-      console.error('Erro ao criar um equipamento: ', e);
-      setMensagem('Erro ao criar equipamento');
+      const data = await res.json();
+      if (data?.error) errorMsg = data.error;
+    } catch {
+      const text = await res.text();
+      if (text) errorMsg = text;
     }
+
+    throw new Error(errorMsg);
+  }
+
+  setMensagem('Equipamento criado com sucesso!');
+  setNome('');
+  setDescricao('');
+} catch (e:any) {
+  console.error('Erro ao criar um equipamento:', e);
+  setMensagem(e.message || 'Erro desconhecido');
+}
+
   };
 
   return (

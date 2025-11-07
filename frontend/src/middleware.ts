@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
 
+
 const SECRET = new TextEncoder().encode(process.env.TOKEN_SECRET!);
 
 export async function middleware(req: NextRequest) {

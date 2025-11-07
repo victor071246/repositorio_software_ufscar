@@ -9,7 +9,6 @@ async function criarAdmin() {
     const senha = process.env.ADMIN_PASSWORD!;
     const supervisor = true;
     const admin = true;
-    const departamento_id = 1;
 
     const saltRounds = 10;
 
@@ -18,15 +17,14 @@ async function criarAdmin() {
     const senha_hash = await bcrypt.hash(senha, saltRounds);
 
     const sql = `
-        insert into Usuarios (usuario, senha_hash, supervisor, admin, departamento_id)
-        values (?, ?, ?, ?, ?)
+        insert into Usuarios (usuario, senha_hash, supervisor, admin)
+        values (?, ?, ?, ?)
     `;
     const [result] = await pool.query(sql, [
       usuario,
       senha_hash,
       supervisor,
       admin,
-      departamento_id,
     ]);
     console.log('Usuário admin criado com sucesso: ', result);
   } catch (error) {

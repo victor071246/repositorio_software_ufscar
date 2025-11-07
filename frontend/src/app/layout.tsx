@@ -1,6 +1,16 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
+if (typeof window === 'undefined') {
+  // Mock seguro de localStorage apenas no servidor (evita crash do Next dev)
+  global.localStorage = {
+    getItem: () => null,
+    setItem: () => {},
+    removeItem: () => {},
+    clear: () => {},
+  };
+}
+
 
 const geistSans = Geist({
   variable: '--font-geist-sans',

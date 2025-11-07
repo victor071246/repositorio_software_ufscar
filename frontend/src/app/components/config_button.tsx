@@ -1,16 +1,21 @@
-// ConfigButton
 'use client';
-
+if (typeof window === 'undefined') {
+  console.log('🚨 Executando no servidor!');
+}
 import { FaCog } from 'react-icons/fa';
+import { useRouter } from 'next/navigation';
 import styles from './header.module.css';
+
 export default function ConfigButton() {
-  const config = () => {
-    window.location.href = '/pages/redefinir_senha';
+  const router = useRouter();
+
+  const goToConfig = () => {
+    router.push('/pages/redefinir_senha');
   };
 
   return (
-    <button className={styles.configContainer} onClick={config}>
-      <FaCog>Alterar Senha</FaCog>
+    <button className={styles.configContainer} onClick={goToConfig}>
+      <FaCog />
       <span>Configurações</span>
     </button>
   );

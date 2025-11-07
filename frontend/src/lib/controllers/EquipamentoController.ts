@@ -4,17 +4,16 @@ import Equipamento from '../models/EquipamentoModel';
 class EquipamentoController {
   static async create(req: NextRequest) {
     try {
-      const { nome, descricao, estado, departamento_id } = await req.json();
+      const { nome, descricao, estado} = await req.json();
 
-      if (!nome || !departamento_id) {
-        return NextResponse.json({ error: 'Nome e departamento obrigatórios' }, { status: 400 });
+      if (!nome ) {
+        return NextResponse.json({ error: 'Nome obrigatório' }, { status: 400 });
       }
 
       const novoEquipamento = await Equipamento.create({
         nome,
         descricao,
         estado,
-        departamento_id,
       });
 
       return NextResponse.json(novoEquipamento, { status: 201 });
@@ -51,9 +50,9 @@ class EquipamentoController {
   static async update(req: NextRequest, idParam: string) {
     try {
       const id = Number(idParam);
-      const { nome, descricao, estado, departamento_id } = await req.json();
+      const { nome, descricao, estado } = await req.json();
 
-      const updated = await Equipamento.update(id, { nome, descricao, estado, departamento_id });
+      const updated = await Equipamento.update(id, { nome, descricao, estado });
 
       if (!updated)
         return NextResponse.json({ error: 'Equipamento não encontrado' }, { status: 404 });
