@@ -8,37 +8,96 @@
   color: black;
 }
 
+/* 🔹 Modal principal */
 .popupFullScreen {
   display: flex;
-  overflow: hidden;
-  position: absolute;
+  position: fixed; /* cobre tudo */
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: black;
-  opacity: 0.8;
+  background-color: rgba(0, 0, 0, 0.5);
   justify-content: center;
   align-items: center;
-  color: black;
+  z-index: 1000; /* sempre acima dos cards */
 }
 
+.popupFullScreen .divCriarIntercorrenciaForm {
+  opacity: 1.0;
+}
+
+/* 🔹 Conteúdo interno do modal */
+.divCriarIntercorrenciaForm {
+  position: relative;
+  border-radius: 10px;
+  background-color: white;
+  height: 30.5vh;
+  width: 20vw;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-size: medium;
+  z-index: 1001;
+}
+
+/* ❌ botão de fechar no canto superior direito do modal */
+.excluirModal {
+  position: absolute;
+  top: 2vh;
+  right: 2vw;
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 1.5vw;
+  cursor: pointer;
+  transition: color 0.2s;
+  z-index: 1002;
+}
+
+.excluirModal:hover {
+  color: #000;
+}
+
+/* 🔹 Botão "Fechar" do modal */
+.botaoFecharModal {
+  margin-top: 1vh;
+  padding: 5px 15px;
+  background-color: #ddd;
+  border-radius: 20px;
+  color: #333;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+    border-radius: 30px;
+  width: 6vw;
+}
+
+.botaoFecharModal:hover {
+  background-color: #ccc;
+}
+
+.botaoCriarIntercorrencia:hover{
+  background-color: #ccc;
+}
+
+/* 🔹 Campos dentro do modal */
 .boxTitulo {
   margin-top: 2vh;
   display: flex;
   flex-direction: column;
   width: 90%;
 }
+
 .boxTitulo input {
   width: 100%;
   padding: 1.2vh 1vw;
   border: 0.1vw solid #ccc;
   border-radius: 0.6vw;
-  font-size: 1vw;
   font-family: 'Segoe UI', sans-serif;
   transition: border 0.3s ease, box-shadow 0.3s ease;
   font-size: medium;
 }
+
 .boxTitulo input:focus {
   border-color: #000000;
   box-shadow: 0 0 0.8vw rgba(78, 84, 200, 0.3);
@@ -57,7 +116,6 @@
   padding: 1.2vh 1vw;
   border: 0.1vw solid #ccc;
   border-radius: 0.6vw;
-  font-size: 1vw;
   font-family: 'Segoe UI', sans-serif;
   resize: none;
   transition: border 0.3s ease, box-shadow 0.3s ease;
@@ -70,6 +128,25 @@
   outline: none;
 }
 
+/* 🔹 Botão "Criar" dentro do modal */
+.botaoCriarIntercorrencia {
+  margin-top: 1vh;
+  padding: 5px;
+  background-color: #ddd;
+  border-radius: 30px;
+  width: 6vw;
+  margin-bottom: 1vh;
+}
+
+
+
+/* 🔹 Cabeçalho e botão superior */
+.divSuperior {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .titulo {
   color: #4e54c8;
   font-size: 2.2vw;
@@ -77,49 +154,26 @@
   text-align: center;
 }
 
-.excluirModal {
-  position: absolute;
-  left: 96vw;
-  top: 4vh;
-}
-
-.divCriarIntercorrenciaForm {
-  border-radius: 10px;
-  background-color: white;
-  height: 30.5vh;
-  width: 20vw;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  font-size: medium;
-}
-
-.botaoCriarIntercorrencia {
-  margin-top: 1vh;
-  padding: 5px;
-  background-color: lightgreen;
-  border-radius: 30px;
-  width: 6vw;
-  margin-bottom: 1vh;
-}
-
-.divSuperior {
-  display: flex;
-  justify-content: center;
-}
-
 .botaoAdicionarIntercorrencia {
+  margin-top: 2vh;
   display: flex;
   position: absolute;
   top: 16vh;
   right: 4vw;
-  background-color: lightgreen;
+  background-color: rgb(176, 174, 174);
   color: white;
   padding: 5px;
   border-radius: 20px;
+  transition: background 0.3s ease-in-out;
+  cursor: pointer;
 }
 
-/* Grid de intercorrências */
+.botaoAdicionarIntercorrencia:hover{
+  background-color: rgb(95, 95, 95);
+
+}
+
+/* 🔹 Grid de intercorrências */
 .lista {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(18vw, 1fr));
@@ -130,12 +184,11 @@
   padding: 0;
 }
 
-/* Cada quadradinho (card) de intercorrência */
+/* 🔹 Cada card */
 .item {
   background-color: #ffffff;
   border-radius: 1vw;
   box-shadow: 0 0 0.8vw rgba(0, 0, 0, 0.3);
-
   width: 20vw;
   height: 30vh;
   padding: 2vh 1.5vw;
@@ -145,6 +198,7 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: default;
   min-height: 20vh;
+  position: relative;
 }
 
 .item:hover {
@@ -152,7 +206,7 @@
   box-shadow: 0 1vw 2vw rgba(0, 0, 0, 0.15);
 }
 
-/* Conteúdo do card */
+/* 🔹 Conteúdo dos cards */
 .info {
   flex: 1;
   font-size: 1vw;
@@ -183,24 +237,26 @@
   font-size: 0.85vw;
 }
 
-/* Botão de excluir dentro do card */
+/* 🔹 Botão de excluir card */
 .excluir {
-  align-self: flex-end;
-  margin-top: 1vh;
+  position: absolute;
+  z-index: 1; /* ← agora fica atrás do modal */
   background-color: #dc2626;
   border: none;
-  border-radius: 0.5vw;
+  border-radius: 5px;
   color: white;
   cursor: pointer;
   padding: 0.6vh 1vw;
   font-size: 0.9vw;
   transition: background 0.3s;
+  left: 15vw;
 }
 
 .excluir:hover {
   background-color: #b91c1c;
 }
 
+/* 🔹 Mensagem de erro */
 .erro {
   color: red;
   font-weight: 500;
@@ -208,41 +264,94 @@
   font-size: 1.2vw;
   margin-bottom: 2vh;
 }
-@media (max-width: 700px) {
-/* grid da parte de items */
-  .lista {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(30vw, 1fr));
-  gap: 2vw;
-  list-style: none;
-  width: 100%;
-  margin: 4vh auto;
-  padding: 0;
 
-  /**/
+/* 🔹 Responsividade */
+@media (max-width: 700px) {
+  .lista {
+    grid-template-columns: repeat(auto-fit, minmax(30vw, 1fr));
+    width: 100%;
+    margin: 4vh auto;
+    padding: 0;
+  }
+
   .item {
     width: 100%;
   }
+
   .info {
     width: 100%;
     font-size: x-large;
   }
-}
-}
 
-@media(max-width: 480px) {
-  .lista {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(50vw, 1fr));
-  gap: 2vw;
-  list-style: none;
-  width: 100%;
-  margin: 4vh auto;
-  padding: 0;
+  .info strong {
+    font-size: x-large;
+  }
 
-  .item {
-  box-shadow: 0 0 0.8vw rgba(0, 0, 0, 0.3);
-    border: 1px solid black;
+  .info p {
+    font-size: large;
+  }
+
+  .info small {
+    font-size: small;
+  }
+
+  .excluir {
+    width: 7vw;
+    height: 7vw;
+    font-size: large;
+    position: absolute;
+    top: 40vw;
+    z-index: 1;
+  }
+
+  .item:hover {
+    transform: none;
   }
 }
+
+@media (max-width: 580px) {
+  .lista {
+    grid-template-columns: repeat(auto-fit, minmax(50vw, 1fr));
+    width: 100%;
+  }
+
+  .info small {
+    font-size: large;
+  }
+
+  .divCriarIntercorrenciaForm {
+    width: 70vw;
+    height: 40vh;
+    z-index: 1001;
+    opacity: 1;
+  }
+
+  .botaoCriarIntercorrencia {
+    width: 20vw;
+  }
+
+  .info strong {
+    text-align: center;
+  }
+
+  .botaoFecharModal {
+  margin-top: 1vh;
+  padding: 5px 15px;
+  background-color: #ddd;
+  border-radius: 20px;
+  color: black;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+    border-radius: 30px;
+  width: 20vw;
+}
+
+  .excluir {
+    left: 70vw;
+  }
+
+  .titulo {
+    font-size: large;
+  }
 }

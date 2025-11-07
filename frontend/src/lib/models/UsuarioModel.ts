@@ -10,7 +10,6 @@ export type UsuarioType = {
   senha_hash: string;
   admin: boolean;
   supervisor: boolean;
-  departamento: string;
   criador?: number;
 };
 
@@ -56,7 +55,6 @@ class Usuario {
     senha,
     admin = false,
     supervisor = false,
-    departamento,
     criador,
   }: {
     usuario: string;
@@ -64,13 +62,12 @@ class Usuario {
     senha: string;
     admin?: boolean;
     supervisor?: boolean;
-    departamento: string;
     criador?: number;
   }): Promise<UsuarioType> {
     const senha_hash = await bcrypt.hash(senha, 10);
     const sql = `
-      INSERT INTO Usuarios (usuario, nome, senha_hash, admin, supervisor, departamento, criador)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO Usuarios (usuario, nome, senha_hash, admin, supervisor, criador)
+      VALUES (?, ?, ?, ?, ?, ?)
     `;
     const [result] = await pool.query<ResultSetHeader>(sql, [
       usuario,
@@ -78,7 +75,6 @@ class Usuario {
       senha_hash,
       admin ? 1 : 0,
       supervisor ? 1 : 0,
-      departamento,
       criador ?? null,
     ]);
 
@@ -89,7 +85,6 @@ class Usuario {
       senha_hash,
       admin,
       supervisor,
-      departamento,
       criador,
     };
   }

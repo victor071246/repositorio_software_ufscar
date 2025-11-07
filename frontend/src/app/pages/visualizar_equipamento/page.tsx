@@ -84,7 +84,7 @@ export default function VisualizacaoHorarioPage() {
 
   return (
     <>
-      <body className={styles.body}>
+      <div className={styles.body}>
         <Header />
         <main className={styles.container}>
           {equipamento && (
@@ -177,7 +177,7 @@ export default function VisualizacaoHorarioPage() {
             ))}
           </div>
         </main>
-      </body>
+      </div>
     </>
   );
 }

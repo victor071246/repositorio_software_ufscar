@@ -83,3 +83,14 @@
   font-size: 1rem;
   color: #f5a623; /* amarelo para alertas */
 }
+@media (max-width: 520px) {
+  .container {
+    width: 90vw;
+  }
+
+  .limparButton {
+    position: absolute;
+    top: 24vh;
+  }
+  
+}

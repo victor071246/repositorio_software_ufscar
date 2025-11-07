@@ -54,7 +54,7 @@ export default function IntercorrenciasPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id }),
       });
-      if (!response.ok) throw new Error('Erro ao excluir intercorrencia');
+      if (!response.ok) throw new Error('Erro ao excluir intercorrência');
       setIntercorrencias((value) => value.filter((item) => item.id !== id));
     } catch (e) {
       console.log(e);
@@ -67,7 +67,11 @@ export default function IntercorrenciasPage() {
     descricao: string,
   ) {
     try {
-      console.log(equipamento_id);
+      if (!titulo.trim() || !descricao.trim()) {
+        alert('Preencha título e descrição antes de criar.');
+        return;
+      }
+
       const response = await fetch('/api/intercorrencias', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -86,7 +90,11 @@ export default function IntercorrenciasPage() {
 
       const data = await response.json();
       const dataDoDia = new Date();
-      setMensagem(`Nova intercorrência criada às ${dataDoDia}, ${data}`);
+      setMensagem(`Nova intercorrência criada às ${dataDoDia.toLocaleString('pt-BR')}`);
+      setIntercorrencias((prev) => [...prev, data]);
+      setTitulo('');
+      setDescricao('');
+      fecharPopup();
     } catch (e) {
       console.log(e);
     }
@@ -98,6 +106,9 @@ export default function IntercorrenciasPage() {
 
   function fecharPopup() {
     setMostrarPopup(false);
+    setMensagem('');
+    setTitulo('');
+    setDescricao('');
   }
 
   return (
@@ -106,17 +117,19 @@ export default function IntercorrenciasPage() {
       <main className={styles.container}>
         <div className={styles.divSuperior}>
           <h1 className={styles.titulo}>Intercorrências do Equipamento #{equipamentoId}</h1>
-          <button className={styles.botaoAdicionarIntercorrencia} onClick={() => abrirPopup()}>
+          <button className={styles.botaoAdicionarIntercorrencia} onClick={abrirPopup}>
             Criar Intercorrência
           </button>
         </div>
 
         {erro && <p className={styles.erro}>{erro}</p>}
 
+        {/* POPUP DE CRIAÇÃO */}
         {mostrarPopup && (
           <div className={styles.popupFullScreen}>
             <div className={styles.divCriarIntercorrenciaForm}>
               <h4>{mensagem}</h4>
+
               <div className={styles.boxTitulo}>
                 <label>Título</label>
                 <input
@@ -125,8 +138,9 @@ export default function IntercorrenciasPage() {
                   required
                   onChange={(e) => setTitulo(e.target.value)}
                   value={titulo}
-                ></input>
+                />
               </div>
+
               <div className={styles.boxDescricao}>
                 <label>Descrição</label>
                 <textarea
@@ -135,19 +149,28 @@ export default function IntercorrenciasPage() {
                   value={descricao}
                 ></textarea>
               </div>
+
               <button
                 className={styles.botaoCriarIntercorrencia}
                 onClick={() => adicionarIntercorrencia(equipamentoId!, titulo, descricao)}
               >
                 Criar
               </button>
-              <button className={styles.excluirModal} onClick={() => fecharPopup()}>
+
+              {/* 🔻 botão de fechar modal */}
+              <button className={styles.botaoFecharModal} onClick={fecharPopup}>
+                Fechar
+              </button>
+
+              {/* ❌ canto superior direito */}
+              <button className={styles.excluirModal} onClick={fecharPopup}>
                 ❌
               </button>
             </div>
           </div>
         )}
 
+        {/* LISTA DE INTERCORRÊNCIAS */}
         {intercorrencias.length === 0 ? (
           <p>Nenhuma intercorrência encontrada.</p>
         ) : (
@@ -156,11 +179,15 @@ export default function IntercorrenciasPage() {
               <li key={i.id} className={styles.item}>
                 <div className={styles.info}>
                   <strong>{i.titulo}</strong>
-                  <span>{i.usuario_nome}</span>
+                  <span>Criado por: {i.usuario_nome}</span>
                   <p>{i.descricao}</p>
                   <small>Criada em {new Date(i.criado_em).toLocaleString('pt-BR')}</small>
                 </div>
-                <button className={styles.excluir} onClick={() => excluirIntercorrencia(i.id)}>
+                <button
+                  className={styles.excluir}
+                  onClick={() => excluirIntercorrencia(i.id)}
+                  title="Excluir intercorrência"
+                >
                   ❌
                 </button>
               </li>

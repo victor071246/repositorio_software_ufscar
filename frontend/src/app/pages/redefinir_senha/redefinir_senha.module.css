@@ -1,12 +1,13 @@
 /* Container principal */
 .container {
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #4e54c8, #8f94fb);
+  background-color: #eaf2fd;
+
   height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
   padding: 1rem;
+  padding-top: 10vh;
 }
 
 /* Caixa branca central */
@@ -19,6 +20,7 @@
   max-width: 25rem;
   text-align: center;
   animation: fadeIn 0.8s ease;
+  height: 50vh;
 }
 
 /* Animação de entrada */

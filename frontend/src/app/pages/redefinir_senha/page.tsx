@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { FormEvent } from 'react';
 import styles from '../redefinir_senha/redefinir_senha.module.css';
 import Link from 'next/link';
+import Header from '@/app/components/header';
 
 export default function RedefinirSenha() {
   const [novaSenha, setNovaSenha] = useState('');
@@ -63,9 +64,10 @@ export default function RedefinirSenha() {
 
   return (
     <>
+    <Header></Header>
       <div className={styles.container}>
         <div className={styles.card}>
-          <h2 className={styles.title}>RedefinirSenha</h2>
+          <h2 className={styles.title}>Redefinir Senha</h2>
 
           <form onSubmit={handleSubmit}>
             <input

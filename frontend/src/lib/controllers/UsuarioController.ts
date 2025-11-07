@@ -17,8 +17,11 @@ class UsuarioController {
         senha,
         admin = false,
         supervisor = false,
-        departamento,
       } = await req.json();
+
+      if (supervisor == true && !user!.admin){
+        return NextResponse.json({ error: "Apenas administradores podem criar supervisores "}, { status: 403});
+      } 
 
       if (!usuario || !senha) {
         return NextResponse.json(
@@ -36,7 +39,6 @@ class UsuarioController {
         nome,
         senha,
         admin,
-        departamento,
         supervisor,
         criador: user!.id,
       });

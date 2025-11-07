@@ -99,9 +99,6 @@ export default function VisualizarUsuarioPage() {
             <strong>Usuário:</strong> {usuario.usuario}
           </p>
           <p>
-            <strong>Departamento:</strong> {usuario.departamento}
-          </p>
-          <p>
             <strong>Admin:</strong> {usuario.admin ? 'Sim' : 'Não'}
           </p>
           <p>

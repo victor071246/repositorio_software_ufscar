@@ -20,7 +20,6 @@ export default function CadastroPage() {
   const [senha, setSenha] = useState('');
   const [confirmar, setConfirmar] = useState('');
   const [supervisor, setSupervisor] = useState(false);
-  const [departamento, setDepartamento] = useState('');
   const [erro, setErro] = useState('');
   const [loading, setLoading] = useState(true);
   const [userLogged, setUserLogged] = useState<UserPayload | null>(null);
@@ -49,11 +48,7 @@ export default function CadastroPage() {
       return;
     }
 
-    // Permissão: supervisor só cria usuários comuns
-    if (userLogged.supervisor && supervisor) {
-      setErro('Você não tem permissão para criar um supervisor.');
-      return;
-    }
+
 
     setSaving(true);
     setErro('');
@@ -62,7 +57,7 @@ export default function CadastroPage() {
       const res = await fetch('/api/usuarios', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ usuario, nome, senha, supervisor, departamento }),
+        body: JSON.stringify({ usuario, nome, senha, supervisor }),
       });
 
       const data = await res.json();
@@ -106,14 +101,6 @@ export default function CadastroPage() {
               placeholder="Nome"
               value={nome}
               onChange={(e) => setNome(e.target.value)}
-              className={styles.loginInput}
-              required
-            />
-            <input
-              type="text"
-              placeholder="Departamento"
-              value={departamento}
-              onChange={(e) => setDepartamento(e.target.value)}
               className={styles.loginInput}
               required
             />
