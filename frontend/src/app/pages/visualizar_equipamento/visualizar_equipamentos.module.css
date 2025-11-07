@@ -150,3 +150,42 @@
 .agendarButton:hover {
   background-color: rgb(138, 138, 138);
 }
+
+@media (max-width: 590) {
+  .equipamentoInfo {
+    flex-direction: column-reverse;
+    width: 100%;
+    gap: 1vw;
+}
+
+.equipamentoInfoTexto{
+  margin-top: 5vw;
+}
+  
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.spanSemana{
+  padding: 0px;
+  text-align: center;
+}
+
+.agendarButton {
+  width: 30vw;
+}
+
+}
+
+@media (max-width: 425px) {
+  .botaoSemana span {
+  display: none;
+  }
+  
+}

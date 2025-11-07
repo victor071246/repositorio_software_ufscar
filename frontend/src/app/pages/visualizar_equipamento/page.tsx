@@ -121,7 +121,7 @@ export default function VisualizacaoHorarioPage() {
 
           <div className={styles.navigation}>
             <button className={styles.botaoSemana} onClick={prevWeek}>
-              <FaArrowLeft /> Semana
+              <FaArrowLeft /> <span>Semana</span>
             </button>
 
             <span className={styles.spanSemana}>
@@ -130,7 +130,7 @@ export default function VisualizacaoHorarioPage() {
             </span>
 
             <button className={styles.botaoSemana} onClick={nextWeek}>
-              Semana <FaArrowRight />
+              <span>Semana</span> <FaArrowRight />
             </button>
           </div>
 

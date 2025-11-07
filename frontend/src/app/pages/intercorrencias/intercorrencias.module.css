@@ -40,7 +40,7 @@
   font-size: medium;
 }
 .boxTitulo input:focus {
-  border-color: #4e54c8;
+  border-color: #000000;
   box-shadow: 0 0 0.8vw rgba(78, 84, 200, 0.3);
   outline: none;
 }
@@ -134,7 +134,8 @@
 .item {
   background-color: #ffffff;
   border-radius: 1vw;
-  box-shadow: 0 0.8vw 1.5vw rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0.8vw rgba(0, 0, 0, 0.3);
+
   width: 20vw;
   height: 30vh;
   padding: 2vh 1.5vw;
@@ -206,4 +207,42 @@
   text-align: center;
   font-size: 1.2vw;
   margin-bottom: 2vh;
+}
+@media (max-width: 700px) {
+/* grid da parte de items */
+  .lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(30vw, 1fr));
+  gap: 2vw;
+  list-style: none;
+  width: 100%;
+  margin: 4vh auto;
+  padding: 0;
+
+  /**/
+  .item {
+    width: 100%;
+  }
+  .info {
+    width: 100%;
+    font-size: x-large;
+  }
+}
+}
+
+@media(max-width: 480px) {
+  .lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(50vw, 1fr));
+  gap: 2vw;
+  list-style: none;
+  width: 100%;
+  margin: 4vh auto;
+  padding: 0;
+
+  .item {
+  box-shadow: 0 0 0.8vw rgba(0, 0, 0, 0.3);
+    border: 1px solid black;
+  }
+}
 }
