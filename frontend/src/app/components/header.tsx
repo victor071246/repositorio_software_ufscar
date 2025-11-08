@@ -1,7 +1,4 @@
 'use client';
-if (typeof window === 'undefined') {
-  console.log('🚨 Executando no servidor!');
-}
 import { useEffect, useState } from 'react';
 import LogoutButton from './logout_button';
 import ConfigButton from './config_button';
@@ -17,7 +14,24 @@ type UserPayload = {
 
 export default function Header() {
   const [user, setUser] = useState<UserPayload | null>(null);
+  const [dark, setDark] = useState(false);
 
+  // Carrega preferências do tema do usuário
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setDark(true);
+      document.body.classList.add('dark-theme');
+    }
+  }, []);
+
+  // Aplica mudança de tema global
+  useEffect(() => {
+    document.body.classList.toggle('dark-theme', dark);
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+  }, [dark]);
+
+  // Busca usuário autenticado
   useEffect(() => {
     async function fetchUser() {
       try {
@@ -30,7 +44,6 @@ export default function Header() {
         setUser(null);
       }
     }
-
     fetchUser();
   }, []);
 
@@ -42,6 +55,15 @@ export default function Header() {
           <HomeButton />
           <ConfigButton />
           <LogoutButton />
+
+          {/* 🔘 Botão de alternância de tema */}
+          <button
+            onClick={() => setDark(!dark)}
+            className={styles.themeButton}
+            title={dark ? 'Ativar modo claro' : 'Ativar modo escuro'}
+          >
+            {dark ? '☀️' : '🌙'}
+          </button>
         </div>
       </div>
     </header>

@@ -1,29 +1,35 @@
+/* ===========================
+   📋 Página com Formulário Centralizado
+   =========================== */
+
 /* Container principal */
 .container {
   font-family: 'Segoe UI', sans-serif;
-  background-color: #eaf2fd;
-
+  background-color: var(--bg-body); /* 🔹 usa variável do tema */
   height: 100vh;
   display: flex;
   justify-content: center;
   padding: 1rem;
   padding-top: 10vh;
+  overflow: hidden;
+  color: var(--text-color); /* 🔹 texto acompanha o tema */
 }
 
-/* Caixa branca central */
+/* Caixa branca (ou escura no tema dark) */
 .card {
-  background-color: #fff;
+  background-color: var(--bg-container); /* 🔹 dinâmico */
   padding: 2rem;
   border-radius: 1rem;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.5rem 1rem var(--shadow-color);
   width: 100%;
   max-width: 25rem;
   text-align: center;
   animation: fadeIn 0.8s ease;
-  height: 50vh;
+  height: 45vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Animação de entrada */
+/* Animação */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -38,7 +44,7 @@
 /* Título */
 .title {
   margin-bottom: 1.5rem;
-  color: black;
+  color: var(--text-color);
   font-size: 1.8rem;
 }
 
@@ -47,15 +53,17 @@
   width: 100%;
   padding: 0.75rem;
   margin: 0.75rem 0;
-  border: 1px solid #ccc;
+  border: 1px solid var(--input-border);
+  background-color: var(--input-bg);
+  color: var(--text-color);
   border-radius: 0.5rem;
   font-size: 1rem;
-  transition: border 0.3s ease, box-shadow 0.3s ease;
+  transition: border 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 .input:focus {
-  border-color: #4e54c8;
-  box-shadow: 0 0 5px rgba(78, 84, 200, 0.3);
+  border-color: var(--accent);
+  box-shadow: 0 0 5px var(--accent-hover);
   outline: none;
 }
 
@@ -63,29 +71,30 @@
 .button {
   width: 100%;
   padding: 0.75rem;
-  background-color: #4e54c8;
+  background-color: var(--accent);
   color: white;
   border: none;
   border-radius: 0.5rem;
   cursor: pointer;
   font-size: 1rem;
-  transition: background 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .button:hover {
-  background-color: #3b3fc1;
+  background-color: var(--accent-hover);
+  transform: scale(1.02);
 }
 
 /* Mensagens */
 .erro {
   font-size: 0.9rem;
-  color: red;
+  color: #ef4444;
   margin-bottom: 0.5rem;
 }
 
 .sucesso {
   font-size: 0.95rem;
-  color: green;
+  color: #22c55e;
   margin-bottom: 0.5rem;
 }
 
@@ -96,7 +105,7 @@
 }
 
 .login a {
-  color: #4e54c8;
+  color: var(--accent);
   text-decoration: none;
 }
 
@@ -108,6 +117,7 @@
 @media (max-width: 30rem) {
   .card {
     padding: 1.5rem;
+    height: 48vh;
   }
 
   .input,

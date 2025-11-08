@@ -1,73 +1,94 @@
+/* ===========================
+   🎓 Dashboard com Contraste e Profundidade Refinados
+   =========================== */
+
 .container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  font-family: 'Segoe UI', sans-serif;
-  overflow: hidden;
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  background-color: var(--bg-body);
+  color: var(--text-color);
+  overflow-x: hidden;
 }
 
+/* ===========================
+   📦 Grid principal
+   =========================== */
 .content {
   flex: 1;
-  padding: 2rem;
-  background-color: #eaf2fd;
+  padding: 3rem 4rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  gap: 1.5rem;
-  font-size: xx-large;
-  font-style: normal;
-  color: black;
+  gap: 2rem;
+  background-color: var(--bg-body);
 }
 
+/* ===========================
+   🧱 Card base
+   =========================== */
 .block {
-  background-color: white;
-  border-radius: 0.5rem;
-  padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: background 0.3s ease-in-out;
+  border-radius: 0.9rem;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1.3rem;
+  letter-spacing: 0.3px;
+  line-height: 1.4;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease,
+    box-shadow 0.3s ease,
+    color 0.3s ease;
 }
 
-.block:hover {
-  background-color: rgb(209, 209, 209);
+/* ===========================
+   ☀️ Tema Claro — cinza-ciano com contraste real
+   =========================== */
+body:not(.dark-theme) .block {
+  background-color: #dde3ea; /* 🔹 cinza-azulado mais visível */
+  color: #1e1e1e;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
-@media (max-width: 768px) {
-  .container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    font-family: 'Segoe UI', sans-serif;
-  }
+body:not(.dark-theme) .block:hover {
+  background-color: #d1d8e0; /* 🔹 ligeiramente mais escuro no hover */
+  transform: translateY(-4px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+}
 
+/* ===========================
+   🌙 Tema Escuro — ciano grafite aprimorado
+   =========================== */
+body.dark-theme .block {
+  background-color: #1b242b; /* 🔹 tom ciano-grafite equilibrado */
+  color: #e6e8ea;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.55);
+}
+
+body.dark-theme .block:hover {
+  background-color: #24313a; /* 🔹 realce sutil */
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0, 255, 255, 0.08);
+}
+
+/* ===========================
+   📱 Responsividade
+   =========================== */
+@media (max-width: 900px) {
   .content {
-    flex: 1;
-    padding: 3rem;
-    background-color: #eaf2fd;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 1rem;
-    font-size: xx-large;
-    font-style: normal;
-    color: black;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 1.2rem;
+    padding: 2rem;
   }
 
   .block {
-    background-color: white;
-    border-radius: 0.5rem;
+    font-size: 1.1rem;
     padding: 1.5rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 40vw;
-    font-size: x-large;
-    text-align: center;
-    height: 30vh;
   }
 }

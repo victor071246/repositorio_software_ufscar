@@ -1,28 +1,70 @@
+/* ===========================
+   🎓 Header Fixo e Responsivo
+   =========================== */
+
 .header {
   width: 100%;
   display: flex;
-  justify-content: left;
-  gap: 50%;
+  justify-content: space-between;
   align-items: center;
-  background-color: #eaf2fd;
-  color: black;
-  padding: 1rem 1.5rem;
+  background-color: var(--bg-container);
+  color: var(--text-color);
+  padding: 1rem 2rem;
   font-family: 'Segoe UI', sans-serif;
   font-size: larger;
+  box-shadow: 0 2px 6px var(--shadow-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* ===========================
+   🧩 Área do Usuário
+   =========================== */
 .userArea {
   display: flex;
   align-items: center;
-  gap: 0;
-  margin-left: 1vw;
+  gap: 1rem;
 }
 
+.userArea span {
+  font-weight: 500;
+}
+
+/* ===========================
+   🧠 Ícones e Botões
+   =========================== */
 .icones {
   display: flex;
-  margin-left: 76vw;
-  gap: 5vw;
+  align-items: center;
+  gap: 2.5rem;
+  color: var(--text-color);
+  background: transparent;
 }
+
+/* 🔘 Botão de alternar tema */
+.themeButton {
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  padding: 0.5rem 0.8rem;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.themeButton:hover {
+  background-color: var(--accent-hover);
+  transform: scale(1.1);
+}
+
+.themeButton svg {
+  background: transparent;
+  color: white;
+}
+
+/* ====================
+   🧩 Botões existentes
+   ==================== */
 
 .logoutButton {
   background-color: #dc2626;
@@ -30,109 +72,129 @@
   cursor: pointer;
   border: none;
   color: white;
-  transition: color 0.2s;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  display: flex;
   align-items: center;
-}
-
-.logoutButton:hover {
-  /* color: ; */
-}
-
-.logoutButton span {
-  width: 0.5vw;
+  justify-content: center;
+  padding: 0.4rem 0.7rem;
+  background: transparent;
 }
 
 .logoutButton:hover {
   background-color: #b91c1c;
+  transform: scale(1.05);
 }
 
-.logoutContainer {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  width: 0.5vw;
-  color: black;
-  cursor: pointer;
-  transition: 0.3s color;
-}
-
-.logoutContainer:hover {
-  color: rgb(196, 196, 196);
-}
-
+/* ===========================
+   🔹 Containers de Ícones
+   =========================== */
+.logoutContainer,
 .configContainer {
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin-right: 0;
-  width: 0.5vw;
-  transition: 0.3s color;
   cursor: pointer;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+  background: transparent;
+  border: none;
 }
 
+.logoutContainer:hover,
 .configContainer:hover {
-  color: rgb(196, 196, 196);
+  color: var(--accent);
+  background: transparent;
 }
 
-@media (max-width: 768px) {
-  .header {
-    width: 100%;
-    display: flex;
-    justify-content: left;
-    gap: 50%;
-    align-items: center;
-    background-color: #eaf2fd;
-    color: black;
-    padding: 1rem 1.5rem;
-    font-family: 'Segoe UI', sans-serif;
-    font-size: larger;
-  }
+/* ===========================
+   🔹 Ícones SVG
+   =========================== */
+.logoutContainer svg,
+.configContainer svg,
+.icones svg {
+  width: 1.3rem;
+  height: 1.3rem;
+  color: inherit;
+  background: transparent;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
 
-  .userArea {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    margin-left: 1vw;
-  }
-  .userArea span {
-    width: 24vw;
+.logoutContainer:hover svg,
+.configContainer:hover svg {
+  transform: scale(1.1);
+}
+
+/* ===========================
+   📱 Responsividade
+   =========================== */
+@media (max-width: 900px) {
+  .header {
+    justify-content: space-between;
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
   }
 
   .icones {
-    display: flex;
-    margin-left: 35vw;
-    gap: 12vw;
+    gap: 1.8rem;
   }
 
-  /* .logoutButton {
-    background-color: #dc2626;
-    border-radius: 0.375rem;
-    cursor: pointer;
-    border: none;
-    color: white;
-    transition: background-color 0.2s;
-    align-items: center;
+  .themeButton {
+    padding: 0.4rem 0.7rem;
+    font-size: 1rem;
   }
 
-  .logoutButton:hover {
-    background-color: #b91c1c;
-  } */
-  .logoutContainer {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    color: black;
-    transition: color 0.3s;
+  .logoutButton {
+    padding: 0.35rem 0.6rem;
+  }
+}
+
+/* 🔹 Abaixo de 600px: mantém tudo visível, centralizado */
+@media (max-width: 600px) {
+  .header {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    gap: 1rem;
   }
 
-  .configContainer {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    margin-right: 0;
+  .userArea {
+    order: 1;
+    flex: 1 1 100%;
+    justify-content: center;
   }
 
-  .icones span {
-    display: none;
+  .icones {
+    order: 2;
+    flex: 1 1 100%;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .themeButton,
+  .logoutButton {
+    transform: scale(0.95);
+  }
+}
+
+/* ===========================
+   🎯 Margem do botão Home
+   =========================== */
+
+/* Desktop */
+.icones button:first-child {
+  margin-left: 65vw;
+}
+
+/* Notebook */
+@media (max-width: 900px) {
+  .icones button:first-child {
+    margin-left: 33vw;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .icones button:first-child {
+    margin-left: 30vw;
   }
 }
