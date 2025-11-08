@@ -1,64 +1,123 @@
-/* pesquisa_equipamentos.module.css */
+/* ===========================
+   🔍 Página de Pesquisa de Usuários (refinada)
+   =========================== */
 
 .body {
-  background-color: #eaf2fd;
-  width: 100vw;
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  background-color: var(--bg-body);
+  color: var(--text-color);
+  overflow-x: hidden;
+  padding: 0;
+  margin: 0;
 }
+
+/* ===========================
+   📦 Conteúdo principal
+   =========================== */
 .main {
   max-width: 90%;
   margin: 2rem auto;
-  padding: 1.5rem;
-  color: black;
+  padding: 1rem;
   border-radius: 1rem;
+  background-color: transparent;
+  box-shadow: none;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .title {
   font-size: 2rem;
+  font-weight: 600;
   margin-bottom: 1.5rem;
   text-align: center;
+  color: var(--text-color);
 }
 
+/* ===========================
+   💬 Mensagens
+   =========================== */
 .mensagem {
   margin-top: 1rem;
   font-size: 1rem;
-  color: #f87171; /* vermelho leve para erros */
+  color: #ef4444;
   text-align: center;
 }
 
+/* ===========================
+   📋 Lista de resultados
+   =========================== */
 .lista {
   list-style: none;
   padding: 0;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
+  width: 100%;
   display: grid;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
+/* ===========================
+   🧱 Card de usuário
+   =========================== */
 .item {
-  padding: 1rem;
-  background-color: #2a2a2a;
-  border-radius: 0.75rem;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-  /* background-color: #eaf2fd; */
-  background-color: white;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+  background-color: var(--bg-container);
+  border: 1px solid var(--input-border);
+  border-radius: 0.8rem;
+  padding: 1.25rem 1rem;
+  color: var(--text-color);
+  box-shadow: 0 0.4rem 1rem var(--shadow-color);
+  transition:
+    background-color 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.25s ease;
+  cursor: pointer;
 }
 
 .item strong {
   font-size: 1.1rem;
-  margin-bottom: 0.25rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: var(--text-color);
 }
 
 .item:hover {
-  background-color: #3a3a3a;
-  transform: translateY(-0.1rem);
+  background-color: var(--bg-container-hover, #e4e7eb);
+  transform: translateY(-4px);
+  box-shadow: 0 0.6rem 1.2rem var(--shadow-color);
 }
 
-/* Responsividade */
+/* ===========================
+   ☀️ Modo claro — realce suave
+   =========================== */
+:global(body:not(.dark-theme)) .item {
+  background-color: #f7f9fc;
+  box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.06);
+}
+
+:global(body:not(.dark-theme)) .item:hover {
+  background-color: #edf0f3;
+}
+
+/* ===========================
+   🌙 Modo escuro — contraste elevado
+   =========================== */
+:global(body.dark-theme) .item {
+  background-color: #1f2932;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.55);
+}
+
+:global(body.dark-theme) .item:hover {
+  background-color: #26333d;
+}
+
+/* ===========================
+   📱 Responsividade
+   =========================== */
 @media (min-width: 768px) {
   .lista {
     grid-template-columns: repeat(2, 1fr);

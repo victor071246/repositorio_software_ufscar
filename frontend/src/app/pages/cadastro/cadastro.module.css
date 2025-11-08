@@ -1,77 +1,116 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* 🔒 impede scroll global */
+}
+
 .bodyContainer {
+  position: absolute; /* 🔹 precisa pra overflow funcionar em filhos absolutos */
   height: 100vh;
   width: 100vw;
-  display: flex;
   overflow: hidden;
-  top: 0;
+  display: flex;
   flex-direction: column;
   align-items: center;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #eaf2fd;
-  color: black;
+  background-color: var(--bg-body);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+
+/* Caixa principal */
 .loginContainer {
   margin-top: 10vh;
-  background-color: white;
+  background-color: var(--bg-container);
   padding: 2rem;
   border-radius: 1rem;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.5rem 1rem var(--shadow-color);
   width: 100%;
   max-width: 400px;
   text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Título */
 .loginTitle {
   margin-bottom: 1.5rem;
-  color: #4e54c8;
+  color: var(--accent);
   font-size: 1.8rem;
 }
 
+/* Formulário */
 .loginForm {
   width: 100%;
 }
 
+/* Inputs */
 .loginInput {
   width: 100%;
   padding: 0.75rem;
   margin: 0.75rem 0;
-  border: 1px solid #ccc;
+  border: 1px solid var(--input-border);
   border-radius: 0.5rem;
   font-size: 1rem;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  transition: border 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
+.loginInput:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 5px var(--accent-hover);
+  outline: none;
+}
+
+/* Botão */
 .loginButton {
   width: 100%;
   padding: 0.75rem;
-  background-color: #4e54c8;
+  background-color: var(--accent);
   color: white;
   border: none;
   border-radius: 0.5rem;
   cursor: pointer;
   font-size: 1rem;
-  transition: background 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .loginButton:hover {
-  background-color: #3b3fc1;
+  background-color: var(--accent-hover);
+  transform: scale(1.02);
 }
 
+/* Checkbox */
 .checkboxContainer {
   text-align: left;
   margin: 0.5rem 0;
   font-size: 0.9rem;
-  color: #555;
+  color: var(--text-color);
 }
 
 .checkboxContainer input {
   margin-right: 0.5rem;
 }
 
+/* Mensagem de erro */
 .erro {
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
-  color: red;
+  color: #ef4444;
+}
+
+/* ===========================
+   🌙 Ajustes de tema escuro
+   =========================== */
+:global(body.dark-theme) .loginContainer {
+  background-color: #1f2932;
+  box-shadow: 0 0.5rem 1.2rem rgba(0, 0, 0, 0.6);
+}
+
+:global(body.dark-theme) .loginTitle {
+  color: #a5b4fc; /* roxo claro */
 }
 
 /* Responsividade */

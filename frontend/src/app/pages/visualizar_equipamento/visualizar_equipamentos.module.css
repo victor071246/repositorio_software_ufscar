@@ -1,34 +1,90 @@
+/* ===========================
+   ⚙️ Página de Visualização de Equipamento (visual limpo)
+   =========================== */
+
+.body {
+  background-color: var(--bg-body);
+  color: var(--text-color);
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+  padding: 0;
+  margin: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ===========================
+   📦 Estrutura principal
+   =========================== */
 .container {
   max-width: 80vw;
   margin: 0 auto;
   padding: 1rem;
+  background: none; /* 🔹 sem fundo envolta */
+  box-shadow: none;
 }
 
+/* ===========================
+   ℹ️ Informações do equipamento
+   =========================== */
 .equipamentoInfo {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  background: none; /* 🔹 sem fundo azul extra */
+  box-shadow: none;
 }
 
-.body {
-  background-color: #eaf2fd;
-  color: black;
+.equipamentoInfoTexto {
+  border-radius: 20px;
+  padding: 0 1vw;
 }
-.editButton {
+
+/* ===========================
+   ✏️ Botões principais
+   =========================== */
+.editButton,
+.intercorrenciaButton {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1vw;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   border-radius: 20px;
-  padding: 0vw 1vw 0vw 1vw;
+  padding: 0 1vw;
   height: 5vh;
-  background-color: white;
+  background-color: #eaf2fd; /* 🔹 azul padrão interno */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   transition: 0.3s background-color ease-in-out;
   cursor: pointer;
+  border: none;
 }
 
-.editButton:hover {
-  background-color: rgb(138, 138, 138);
+.editButton:hover,
+.intercorrenciaButton:hover {
+  background-color: #d8e8fc;
+}
+
+/* ===========================
+   🗓️ Navegação semanal
+   =========================== */
+.navigation {
+  margin-top: 5vh;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 15px;
+  background: none; /* 🔹 sem fundo da faixa */
+  box-shadow: none;
+}
+
+.spanSemana {
+  background: transparent;
+  border: none;
+  padding: 1vh;
+  color: black; /* 🔹 data preta no modo claro */
+  font-weight: 600;
 }
 
 .botaoSemana {
@@ -36,62 +92,20 @@
   justify-content: center;
   align-items: center;
   gap: 0.5vw;
-  background-color: white;
+  background-color: #eaf2fd;
+  border: none;
   border-radius: 15px;
-  transition: 0.3s color ease-in-out;
+  transition: 0.3s color ease-in-out, 0.3s background-color ease-in-out;
   cursor: pointer;
 }
 
 .botaoSemana:hover {
-  color: rgb(138, 138, 138);
+  background-color: #d8e8fc;
 }
 
-.intercorrenciaButton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1vw;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  border-radius: 20px;
-  padding: 0vw 1vw 0vw 1vw;
-  height: 5vh;
-  background-color: white;
-  transition: 0.3s background-color ease-in-out;
-  cursor: pointer;
-}
-
-.intercorrenciaButton:hover {
-  background-color: rgb(138, 138, 138);
-}
-
-.equipamentoInfoTexto {
-  border-radius: 20px;
-  padding: 0vw 1vw 0vw 1vw;
-}
-
-.navigation {
-  margin-top: 5vh;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-  background-color: white;
-  border-radius: 15px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-}
-
-.spanSemana {
-  background-color: white;
-  padding: 1vh;
-  border-radius: 15px;
-}
-
-.navigation button {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
+/* ===========================
+   📆 Grade de horários
+   =========================== */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
@@ -99,13 +113,14 @@
 }
 
 .tile {
-  background-color: #fff;
+  background-color: #eaf2fd; /* 🔹 cor interna azul */
   border-radius: 0.5rem;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  color: black;
 }
 
 .date {
@@ -129,14 +144,17 @@
 
 .booked {
   color: black;
-  text-decoration: line-through red; /* riscado pontilhado vermelho */
-  text-decoration-thickness: 2px; /* espessura opcional */
+  text-decoration: line-through red;
+  text-decoration-thickness: 2px;
 }
 
 .free {
   color: black;
 }
 
+/* ===========================
+   📅 Botão de agendamento
+   =========================== */
 .agendarButton {
   background-color: black;
   color: white;
@@ -151,41 +169,58 @@
   background-color: rgb(138, 138, 138);
 }
 
-@media (max-width: 590) {
+/* ===========================
+   🌙 Tema escuro
+   =========================== */
+body.dark-theme :global(.tile),
+body.dark-theme :global(.editButton),
+body.dark-theme :global(.intercorrenciaButton),
+body.dark-theme :global(.botaoSemana) {
+  background-color: #1f2932;
+  color: #f0f6fc;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+  border: none;
+}
+
+body.dark-theme :global(.spanSemana) {
+  color: black; /* 🔹 data preta no modo escuro */
+}
+
+body.dark-theme :global(.booked) {
+  color: #f87171;
+  text-decoration-color: #f87171;
+}
+
+body.dark-theme :global(.agendarButton) {
+  background-color: #238636;
+  color: #fff;
+}
+
+body.dark-theme :global(.agendarButton:hover) {
+  background-color: #2ea043;
+}
+
+/* ===========================
+   📱 Responsividade
+   =========================== */
+@media (max-width: 590px) {
   .equipamentoInfo {
     flex-direction: column-reverse;
     width: 100%;
     gap: 1vw;
-}
+  }
 
-.equipamentoInfoTexto{
-  margin-top: 5vw;
-}
-  
-.navigation {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-  background-color: white;
-  border-radius: 15px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-}
+  .equipamentoInfoTexto {
+    margin-top: 5vw;
+  }
 
-.spanSemana{
-  padding: 0px;
-  text-align: center;
-}
-
-.agendarButton {
-  width: 30vw;
-}
-
+  .agendarButton {
+    width: 30vw;
+  }
 }
 
 @media (max-width: 425px) {
   .botaoSemana span {
-  display: none;
+    display: none;
   }
-  
 }
