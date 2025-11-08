@@ -17,6 +17,13 @@
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+.logo {
+  position: absolute;
+  margin-left: 20VW;
+  width: 50PX;
+  top: 1VW;
+}
+
 /* ===========================
    🧩 Área do Usuário
    =========================== */
@@ -189,13 +196,21 @@
 /* Notebook */
 @media (max-width: 900px) {
   .icones button:first-child {
-    margin-left: 33vw;
+    margin-left: 30vw;
   }
 }
 
 /* Mobile */
 @media (max-width: 600px) {
   .icones button:first-child {
-    margin-left: 30vw;
+    margin-left: 10vw;
   }
+  .logo {
+  position: absolute;
+  margin-left: 20VW;
+  width: 50PX;
+  top: 5VW;
+  left: 8vw;
+}
+
 }
