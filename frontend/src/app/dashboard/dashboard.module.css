@@ -1,5 +1,5 @@
 /* ===========================
-   🎓 Dashboard com Contraste e Profundidade Refinados
+   🎓 Dashboard Integrado ao Tema Global
    =========================== */
 
 .container {
@@ -10,6 +10,8 @@
   background-color: var(--bg-body);
   color: var(--text-color);
   overflow-x: hidden;
+  padding: 0px;
+  margin: 0px;
 }
 
 /* ===========================
@@ -26,10 +28,12 @@
 }
 
 /* ===========================
-   🧱 Card base
+   🧱 Card base (agora com mesmo esquema de cores do redefinir senha)
    =========================== */
 .block {
-  border-radius: 0.9rem;
+  background-color: var(--bg-container); /* mesmo container do redefinir senha */
+  color: var(--text-color);
+  border-radius: 1rem;
   padding: 2rem;
   text-align: center;
   cursor: pointer;
@@ -37,6 +41,7 @@
   font-size: 1.3rem;
   letter-spacing: 0.3px;
   line-height: 1.4;
+  box-shadow: 0 0.5rem 1rem var(--shadow-color);
   transition:
     background-color 0.3s ease,
     transform 0.2s ease,
@@ -45,35 +50,13 @@
 }
 
 /* ===========================
-   ☀️ Tema Claro — cinza-ciano com contraste real
+   ✨ Hover e interação
    =========================== */
-body:not(.dark-theme) .block {
-  background-color: #dde3ea; /* 🔹 cinza-azulado mais visível */
-  color: #1e1e1e;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-}
-
-body:not(.dark-theme) .block:hover {
-  background-color: #d1d8e0; /* 🔹 ligeiramente mais escuro no hover */
+.block:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
-}
-
-/* ===========================
-   🌙 Tema Escuro — ciano grafite aprimorado
-   =========================== */
-body.dark-theme .block {
-  background-color: #1b242b; /* 🔹 tom ciano-grafite equilibrado */
-  color: #e6e8ea;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.55);
-}
-
-body.dark-theme .block:hover {
-  background-color: #24313a; /* 🔹 realce sutil */
-  transform: translateY(-4px);
-  box-shadow: 0 8px 18px rgba(0, 255, 255, 0.08);
+  box-shadow: 0 0.7rem 1.3rem var(--shadow-color);
+  background-color: var(--bg-container-hover, var(--accent-hover));
+  transition: all 0.25s ease;
 }
 
 /* ===========================

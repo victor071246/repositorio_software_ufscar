@@ -3,13 +3,14 @@
    =========================== */
 
 .header {
-  width: 100%;
+  width: 95vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: var(--bg-container);
   color: var(--text-color);
   padding: 1rem 2rem;
+  border-radius: 5px;
   font-family: 'Segoe UI', sans-serif;
   font-size: larger;
   box-shadow: 0 2px 6px var(--shadow-color);
@@ -182,7 +183,7 @@
 
 /* Desktop */
 .icones button:first-child {
-  margin-left: 65vw;
+  margin-left: 60vw;
 }
 
 /* Notebook */

@@ -11,37 +11,30 @@
    =========================== */
 
 /* Tema Claro — com mais contraste */
-/* ===========================
-   🎨 Tema Claro — com contraste melhorado nos cards
-   =========================== */
-
 :root {
-  --bg-body: #e8ecf3;           /* fundo geral */
-  --text-color: #1a1a1a;
-  --bg-container: #dee3eb;      /* 🔹 cinza-azulado mais escuro (melhor contraste) */
+  --bg-body: #e8ecf3;           /* fundo geral levemente azulado (cinza-ciano) */
+  --text-color: #1a1a1a;        /* texto principal mais escuro */
+  --bg-container: #f0f2f5;      /* fundo dos cards: cinza suave */
   --shadow-color: rgba(0, 0, 0, 0.15);
   --input-border: #bfc3ca;
   --input-bg: #ffffff;
-  --accent: #3a7ca5;
+  --accent: #3a7ca5;            /* azul-ciano */
   --accent-hover: #2f6e94;
   --text-secondary: #4a4a4a;
 }
 
-/* ===========================
-   🌙 Tema Escuro — mantido como estava
-   =========================== */
+/* Tema Escuro — com fundo ciano-acinzentado */
 body.dark-theme {
-  --bg-body: #1a1f26;
+  --bg-body: #1a1f26;           /* fundo geral escuro */
   --text-color: #e8e8e8;
-  --bg-container: #26313d;      /* continua ciano escuro suave */
+  --bg-container: #26313d;      /* fundo dos cards: ciano escuro suave */
   --shadow-color: rgba(0, 0, 0, 0.6);
   --input-border: #3c4a57;
   --input-bg: #1f2730;
-  --accent: #4fb2c9;
+  --accent: #4fb2c9;            /* ciano vibrante */
   --accent-hover: #3c9ab1;
   --text-secondary: #b0b8bf;
 }
-
 
 
 /* 🔄 Transições suaves entre temas */
