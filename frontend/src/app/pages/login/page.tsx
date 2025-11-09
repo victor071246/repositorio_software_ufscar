@@ -5,6 +5,7 @@ export const runtime = 'edge';
 
 import React, { useState } from 'react';
 import styles from './login_page.module.css';
+import Link from 'next/link';
 
 export default function LoginPage() {
   const [usuario, setUsuario] = useState('');
@@ -38,6 +39,14 @@ export default function LoginPage() {
   return (
     <>
       <div className={styles.bodyContainer}>
+              <Link href="/">
+      <img
+        src="/lbga.png"
+        alt="Logo"
+        className={styles.logo}
+        draggable={false}
+      />
+      </Link>
         <div className={styles.loginContainer}>
           <h2 className={styles.loginTitle}>Bem-vindo</h2>
           {error && <div className={styles.erro}>{error}</div>}
