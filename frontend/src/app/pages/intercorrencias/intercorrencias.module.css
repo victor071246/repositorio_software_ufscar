@@ -160,7 +160,7 @@
 }
 
 .titulo {
-  color: #4e54c8;
+  color: #2e2e2e;
   font-size: 2.2vw;
   margin-bottom: 3vh;
   text-align: center;
@@ -227,7 +227,7 @@
 .info strong {
   margin-top: 3VH;
   font-size: 1.2vw;
-  color: #4e54c8;
+  color: #838383;
   display: block;
   margin-bottom: 1vh;
 }
@@ -242,7 +242,7 @@
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: normal;
-  margin-bottom: 10vh;
+  margin-bottom: 8vh;
 }
 
 .info small {
