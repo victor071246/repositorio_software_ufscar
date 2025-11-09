@@ -72,8 +72,17 @@ export default function AgendarPage() {
     }
 
     // exemplo: "2025-10-20 06:00:00"
-    const inicio = `${dataISO} ${horaInicio.toString().padStart(2, '0')}:00:00`;
-    const fim = `${dataISO} ${horaFim.toString().padStart(2, '0')}:00:00`;
+// Função que converte o horário local para UTC sem perder o valor real escolhido
+function toUTCStringLocal(dateStr: string) {
+  const local = new Date(dateStr.replace(' ', 'T'));
+  const utc = new Date(local.getTime() - local.getTimezoneOffset() * 60000);
+  return utc.toISOString().slice(0, 19).replace('T', ' ');
+}
+
+// Constrói as datas com a conversão correta
+const inicio = toUTCStringLocal(`${dataISO} ${horaInicio.toString().padStart(2, '0')}:00:00`);
+const fim = toUTCStringLocal(`${dataISO} ${horaFim.toString().padStart(2, '0')}:00:00`);
+
 
     try {
       const res = await fetch('/api/reservas', {

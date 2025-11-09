@@ -48,8 +48,9 @@ export default class ReservaController {
         );
       }
 
-      const inicioDate = new Date(inicio.replace(' ', 'T'));
-      const fimDate = new Date(fim.replace(' ', 'T'));
+const inicioDate = new Date(`${inicio.replace(' ', 'T')}Z`);
+const fimDate = new Date(`${fim.replace(' ', 'T')}Z`);
+
 
       if (fimDate <= inicioDate) {
         return NextResponse.json({ error: 'Fim deve ser maior que início' }, { status: 400 });
