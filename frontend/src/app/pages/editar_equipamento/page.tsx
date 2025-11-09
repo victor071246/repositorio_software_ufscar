@@ -28,10 +28,11 @@ export default function EditarEquipamentoPage() {
   useEffect(() => {
     if (!equipamentoId) return;
 
-    fetch(`/api/equipamentos?equipamentoId=${equipamentoId}`)
+    const idLimpo = equipamentoId.replace('/', ''); // remove / se vier da URL
+    fetch(`/api/equipamentos/${idLimpo}`)
       .then((res) => res.json())
-      .then((data: Equipamento[]) => {
-        if (data.length > 0) setEquipamento(data[0]);
+      .then((data: Equipamento) => {
+        setEquipamento(data);
         setLoading(false);
       })
       .catch(() => {

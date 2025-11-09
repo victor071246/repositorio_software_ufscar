@@ -26,38 +26,47 @@ class EquipamentoController {
 static async list(req: NextRequest) {
   try {
     const url = new URL(req.url);
-    const params = Object.fromEntries(url.searchParams);
-    const { equipamentoId, nome, estado, departamento_id } = params;
+    const equipamentoId = url.searchParams.get('equipamentoId');
+    const nome = url.searchParams.get('nome');
+    const estado = url.searchParams.get('estado');
 
-    // 🔍 Se veio um equipamentoId, busca individualmente
+    // 🔹 Caso venha um equipamentoId, retorna só esse equipamento
     if (equipamentoId) {
       const equipamento = await Equipamento.findById(Number(equipamentoId));
-      if (!equipamento) {
+      if (!equipamento)
         return NextResponse.json({ error: 'Equipamento não encontrado' }, { status: 404 });
-      }
-      return NextResponse.json([equipamento], { status: 200 }); // mantém formato array pro front
+      return NextResponse.json([equipamento]); // mantém compatibilidade com o front atual
     }
 
-    // 🔍 Caso contrário, aplica os filtros normais
-    const filtros: {
-      nome?: string;
-      estado?: 'disponível' | 'indisponível';
-      departamento_id?: number;
-    } = {};
-
+    // 🔹 Caso contrário, lista todos
+    const filtros: { nome?: string; estado?: 'disponível' | 'indisponível' } = {};
     if (nome) filtros.nome = nome;
-    if (estado === 'disponível' || estado === 'indisponível') filtros.estado = estado;
-    if (departamento_id) filtros.departamento_id = Number(departamento_id);
+if (estado === 'disponível' || estado === 'indisponível') {
+  filtros.estado = estado;
+}
+
 
     const equipamentos = await Equipamento.findAll(filtros);
-
     return NextResponse.json(equipamentos, { status: 200 });
-  } catch (e: unknown) {
-    const message = e instanceof Error ? e.message : 'Erro interno';
-    console.error('❌ Erro em EquipamentoController.list:', message);
-    return NextResponse.json({ error: message }, { status: 500 });
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }
+
+static async getById(req: NextRequest, idParam: string) {
+  try {
+    const id = Number(idParam);
+    const equipamento = await Equipamento.findById(id);
+
+    if (!equipamento)
+      return NextResponse.json({ error: 'Equipamento não encontrado' }, { status: 404 });
+
+    return NextResponse.json(equipamento, { status: 200 });
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message }, { status: 500 });
+  }
+}
+
 
   static async update(req: NextRequest, idParam: string) {
     try {

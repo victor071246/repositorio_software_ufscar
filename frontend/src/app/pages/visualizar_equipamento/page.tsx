@@ -39,20 +39,27 @@ export default function VisualizacaoHorarioPage() {
   // Carregar equipamento
   useEffect(() => {
     if (!equipamentoId) return;
-    fetch(`/api/equipamentos?equipamentoId=${equipamentoId}`)
+
+    const idLimpo = equipamentoId.replace('/', ''); // previne bug "8/"
+
+    fetch(`/api/equipamentos?equipamentoId=${idLimpo}`)
       .then((res) => res.json())
-      .then((data) => setEquipamento(data[0] || null));
+      .then((data) => setEquipamento(data[0] || null))
+      .catch(() => setEquipamento(null));
   }, [equipamentoId]);
 
   // Carregar reservas da semana
   useEffect(() => {
     if (!equipamentoId) return;
+
+    const idLimpo = equipamentoId.replace('/', '');
     const start = currentWeekStart.toISOString().split('T')[0];
     const end = new Date(currentWeekStart.getTime() + 6 * 86400000).toISOString().split('T')[0];
 
-    fetch(`/api/reservas?equipamentoId=${equipamentoId}&start=${start}&end=${end}`)
+    fetch(`/api/reservas?equipamentoId=${idLimpo}&start=${start}&end=${end}`)
       .then((res) => res.json())
-      .then((data) => setReservas(data));
+      .then((data) => setReservas(data))
+      .catch(() => setReservas([]));
   }, [equipamentoId, currentWeekStart]);
 
   const nextWeek = () => setCurrentWeekStart(new Date(currentWeekStart.getTime() + 7 * 86400000));
@@ -74,12 +81,14 @@ export default function VisualizacaoHorarioPage() {
 
   const handleAgendar = (date: Date) => {
     if (!equipamentoId) return;
-    router.push(`/pages/agendar?equipamentoId=${equipamentoId}&data=${formatDateBR(date)}`);
+    const idLimpo = equipamentoId.replace('/', '');
+    router.push(`/pages/agendar?equipamentoId=${idLimpo}&data=${formatDateBR(date)}`);
   };
 
   const handleIntercorrencia = () => {
     if (!equipamentoId) return;
-    router.push(`/pages/intercorrencias?equipamentoId=${equipamentoId}`);
+    const idLimpo = equipamentoId.replace('/', '');
+    router.push(`/pages/intercorrencias?equipamentoId=${idLimpo}`);
   };
 
   return (
@@ -103,18 +112,19 @@ export default function VisualizacaoHorarioPage() {
                   {equipamento.estado === 'disponível' ? 'Disponível' : 'Indisponível'}
                 </p>
               </div>
-              {/* Botão de editar */}
+              {/* 🔹 Botão de editar corrigido (sem / no final) */}
               <button
                 className={styles.editButton}
                 onClick={() =>
-                  router.push(`/pages/editar_equipamento?equipamentoId=${equipamento.id}/`)
+                  router.push(`/pages/editar_equipamento?equipamentoId=${equipamento.id}`)
                 }
               >
-                Editar equipamento <FaGear></FaGear>
+                Editar equipamento <FaGear />
               </button>
+
               {/* Botão de intercorrências */}
               <button className={styles.intercorrenciaButton} onClick={handleIntercorrencia}>
-                Ver intercorrências <FaExclamationTriangle></FaExclamationTriangle>
+                Ver intercorrências <FaExclamationTriangle />
               </button>
             </div>
           )}
@@ -170,6 +180,7 @@ export default function VisualizacaoHorarioPage() {
                     );
                   })}
                 </div>
+
                 <button className={styles.agendarButton} onClick={() => handleAgendar(day.date)}>
                   Agendar
                 </button>

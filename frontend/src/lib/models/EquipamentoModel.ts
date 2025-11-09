@@ -52,6 +52,21 @@ class Equipamento {
     const [result] = await pool.query<ResultSetHeader>(sql, [id]);
     return result.affectedRows > 0;
   }
+  static async getById(req: NextRequest, idParam: string) {
+  try {
+    const id = Number(idParam);
+    const equipamento = await Equipamento.findById(id);
+
+    if (!equipamento) {
+      return NextResponse.json({ error: 'Equipamento não encontrado' }, { status: 404 });
+    }
+
+    return NextResponse.json(equipamento, { status: 200 });
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message || 'Erro interno' }, { status: 500 });
+  }
+}
+
 
   static async findAll(filters?: {
     nome?: string;

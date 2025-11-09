@@ -1,11 +1,20 @@
 import { NextRequest } from 'next/server';
 import EquipamentoController from '@/lib/controllers/EquipamentoController';
 
-export async function PUT(req: NextRequest, context: any) {
-  const { id } = context.params;
-  return EquipamentoController.update(req, id);
+// ✅ GET por ID
+export async function GET(
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
+  const { id } = await context.params; // aguarda params
+  return EquipamentoController.getById(req, id);
 }
 
-export async function GET(req: NextRequest) {
-  return EquipamentoController.list(req);
+// ✅ PUT (atualizar equipamento)
+export async function PUT(
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
+  const { id } = await context.params; // idem
+  return EquipamentoController.update(req, id);
 }
