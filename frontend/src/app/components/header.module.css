@@ -19,9 +19,9 @@
 
 .logo {
   position: absolute;
-  margin-left: 20VW;
+  margin-left: 30VW;
   width: 50PX;
-  top: 1VW;
+  top: 0VW;
 }
 
 /* ===========================
@@ -209,7 +209,7 @@
   position: absolute;
   margin-left: 20VW;
   width: 50PX;
-  top: 5VW;
+  top: 5%;
   left: 8vw;
 }
 
