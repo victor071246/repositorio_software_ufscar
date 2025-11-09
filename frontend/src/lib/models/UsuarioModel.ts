@@ -36,18 +36,21 @@ class Usuario {
     return bcrypt.compare(senha, hash);
   }
 
-  static async findAll({ search }: { search?: string }): Promise<UsuarioType[]> {
-    let sql = 'SELECT * FROM Usuarios';
-    const params: (string | undefined)[] = [];
+static async findAll({ search }: { search?: string }): Promise<UsuarioType[]> {
+  let sql = 'SELECT id, usuario, nome, admin, supervisor, criador FROM Usuarios';
+  const params: string[] = [];
 
-    if (search) {
-      sql += ' WHERE usuario LIKE ? OR nome LIKE ? OR departamento LIKE ?';
-      params.push(`%${search}%`, `%${search}%`, `%${search}%`);
-    }
-
-    const [rows] = await pool.query<RowDataPacket[]>(sql, params);
-    return rows as UsuarioType[];
+  if (search && search.trim() !== '') {
+    sql += ' WHERE usuario LIKE ? OR nome LIKE ?';
+    const term = `%${search}%`;
+    params.push(term, term);
   }
+
+  sql += ' ORDER BY nome ASC';
+
+  const [rows] = await pool.query<RowDataPacket[]>(sql, params);
+  return rows as UsuarioType[];
+}
 
   static async create({
     usuario,
