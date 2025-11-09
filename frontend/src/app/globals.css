@@ -3,39 +3,30 @@
    =========================== */
 
 /* 🔹 Tema Claro — cinza-azulado suave */
-/* ===========================
-   🔆 Tema Claro — Cinza-azulado com contraste real
-   =========================== */
-/* ===========================
-   🎨 Sistema de Tema Global
-   =========================== */
-
-/* Tema Claro — com mais contraste */
 :root {
-  --bg-body: #e8ecf3;           /* fundo geral levemente azulado (cinza-ciano) */
-  --text-color: #1a1a1a;        /* texto principal mais escuro */
-  --bg-container: #f0f2f5;      /* fundo dos cards: cinza suave */
-  --shadow-color: rgba(0, 0, 0, 0.15);
-  --input-border: #bfc3ca;
-  --input-bg: #ffffff;
-  --accent: #3a7ca5;            /* azul-ciano */
-  --accent-hover: #2f6e94;
-  --text-secondary: #4a4a4a;
+  --bg-body: #e3e6ea;          /* fundo geral levemente azulado */
+  --text-color: #1d1f23;       /* texto principal mais escuro */
+  --bg-container: #f3f5f7;     /* cartões um tom acima do fundo */
+  --shadow-color: rgba(0, 0, 0, 0.12);
+  --input-border: #b5b9be;     /* bordas sutis */
+  --input-bg: #ffffff;         /* branco equilibrado */
+  --accent: #4b6a82;           /* azul acinzentado institucional */
+  --accent-hover: #3d5a70;     /* tom levemente mais escuro */
+  --text-secondary: #4e545a;   /* cinza frio pra textos secundários */
 }
 
-/* Tema Escuro — com fundo ciano-acinzentado */
+/* 🔹 Tema Escuro — base em ciano acinzentado */
 body.dark-theme {
-  --bg-body: #1a1f26;           /* fundo geral escuro */
-  --text-color: #e8e8e8;
-  --bg-container: #26313d;      /* fundo dos cards: ciano escuro suave */
+  --bg-body: #101317;          /* fundo quase preto, com tom azul */
+  --text-color: #d9dee3;       /* texto frio, acinzentado */
+  --bg-container: #1a1e24;     /* cartões com azul grafite sutil */
   --shadow-color: rgba(0, 0, 0, 0.6);
-  --input-border: #3c4a57;
-  --input-bg: #1f2730;
-  --accent: #4fb2c9;            /* ciano vibrante */
-  --accent-hover: #3c9ab1;
-  --text-secondary: #b0b8bf;
+  --input-border: #2b3138;
+  --input-bg: #15191e;
+  --accent: #4b92a0;           /* ciano acinzentado (sem neon) */
+  --accent-hover: #3b788b;     /* tom mais escuro no hover */
+  --text-secondary: #9aa4ad;   /* cinza frio e legível */
 }
-
 
 /* 🔄 Transições suaves entre temas */
 * {

@@ -1,3 +1,8 @@
+/* ===========================
+   👤 Página: Visualizar Usuário
+   =========================== */
+
+/* Container principal */
 .container {
   height: 100vh;
   display: flex;
@@ -6,88 +11,111 @@
   justify-content: flex-start;
   padding: 2rem;
   font-family: 'Segoe UI', sans-serif;
-  color: black;
-  background-color: #eaf2fd;
-}
-
-.title {
-  margin-bottom: 2rem;
-  color: #4e54c8;
-  font-size: 2rem;
-}
-
-.info {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 1rem;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
-  width: 100%;
-  max-width: 400px;
-  margin-bottom: 1.5rem;
+  background-color: #eaf2fd; /* fundo claro azulado */
+  color: #1a1a1a;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.info p {
-  margin: 0.5rem 0;
-  font-size: 1rem;
+/* Título */
+.title {
+  margin-top: 2vh;
+  margin-bottom: 2rem;
+  color: #4e54c8; /* azul principal */
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+  transition: color 0.3s ease;
 }
 
+/* Caixa de informações */
+.info {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.info p {
+  margin: 0.6rem 0;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+/* Botão principal */
 .resetButton {
   padding: 0.75rem 1rem;
   background-color: #4e54c8;
-  color: white;
+  color: #fff;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 0.6rem;
   cursor: pointer;
   font-size: 1rem;
+  font-weight: 500;
   transition: background 0.3s ease, transform 0.2s ease;
+  width: 100%;
+  max-width: 400px;
 }
 
 .resetButton:hover {
   background-color: #3b3fc1;
-  transform: scale(1.02);
+  transform: scale(1.03);
 }
 
+/* Mensagem de erro */
 .error {
-  color: red;
-  margin-bottom: 1rem;
+  color: #ef4444;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  text-align: center;
 }
 
 /* ===========================
-   🌙 Tema escuro (apenas cores)
+   🌙 Tema Escuro — com escopo global
    =========================== */
-body.dark-theme .container {
-  background-color: #0d1117;
-  color: #f0f6fc;
+:global(body.dark-theme) .container {
+  background-color: #101317; /* fundo escuro */
+  color: #d9dee3;
 }
 
-body.dark-theme .title {
-  color: #a5b4fc; /* azul claro/lilás */
+:global(body.dark-theme) .title {
+  color: #4b92a0; /* ciano acinzentado */
 }
 
-body.dark-theme .info {
-  background-color: #1f2932;
-  color: #f0f6fc;
-  box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.7);
+:global(body.dark-theme) .info {
+  background-color: #1a1e24;
+  color: #d9dee3;
+  box-shadow: 0 0.8rem 1.4rem rgba(0, 0, 0, 0.7);
+  border: 1px solid #2b3138;
 }
 
-body.dark-theme .resetButton {
-  background-color: #4e54c8; /* mantém o mesmo azul do claro */
+:global(body.dark-theme) .info p strong {
+  color: #9aa4ad; /* tom secundário */
+}
+
+:global(body.dark-theme) .resetButton {
+  background-color: #4b92a0;
   color: #fff;
 }
 
-body.dark-theme .resetButton:hover {
-  background-color: #3b3fc1;
+:global(body.dark-theme) .resetButton:hover {
+  background-color: #3b788b;
 }
 
-/* Responsivo */
+/* ===========================
+   📱 Responsividade
+   =========================== */
 @media (max-width: 480px) {
   .info {
     padding: 1.5rem;
   }
 
   .title {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
   }
 
   .resetButton {
