@@ -113,6 +113,7 @@ export default function IntercorrenciasPage() {
 
   return (
     <>
+    <div className={styles.body}>
       <Header />
       <main className={styles.container}>
         <div className={styles.divSuperior}>
@@ -195,6 +196,7 @@ export default function IntercorrenciasPage() {
           </ul>
         )}
       </main>
+      </div>
     </>
   );
 }
