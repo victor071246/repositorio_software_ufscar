@@ -25,7 +25,7 @@
   max-width: 25rem;
   text-align: center;
   animation: fadeIn 0.8s ease;
-  height: 45vh;
+  height: 40vh;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -69,6 +69,7 @@
 
 /* Botão */
 .button {
+  margin-top: 5vh;
   width: 100%;
   padding: 0.75rem;
   background-color: var(--accent);
@@ -129,4 +130,20 @@
   .title {
     font-size: 1.5rem;
   }
+}
+
+@media (max-width: 700px) {
+  .button {
+  margin-top: 0vh;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+  
 }

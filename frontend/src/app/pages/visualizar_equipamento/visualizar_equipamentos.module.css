@@ -1,5 +1,5 @@
 /* ===========================
-   ⚙️ Página de Visualização de Equipamento (visual limpo)
+   ⚙️ Página de Visualização de Equipamento
    =========================== */
 
 .body {
@@ -8,10 +8,8 @@
   font-family: 'Poppins', 'Segoe UI', sans-serif;
   min-height: 100vh;
   width: 100vw;
-  overflow-x: hidden;
-  padding: 0;
-  margin: 0;
   transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
 }
 
 /* ===========================
@@ -21,8 +19,6 @@
   max-width: 80vw;
   margin: 0 auto;
   padding: 1rem;
-  background: none; /* 🔹 sem fundo envolta */
-  box-shadow: none;
 }
 
 /* ===========================
@@ -31,14 +27,11 @@
 .equipamentoInfo {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  background: none; /* 🔹 sem fundo azul extra */
-  box-shadow: none;
 }
 
 .equipamentoInfoTexto {
   border-radius: 20px;
-  padding: 0 1vw;
+  padding: 0vw 1vw 0vw 1vw;
 }
 
 /* ===========================
@@ -50,19 +43,18 @@
   justify-content: center;
   align-items: center;
   gap: 1vw;
-  border-radius: 20px;
-  padding: 0 1vw;
-  height: 5vh;
-  background-color: #eaf2fd; /* 🔹 azul padrão interno */
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  padding: 0vw 1vw 0vw 1vw;
+  height: 5vh;
+  background-color: #eaf2fd; /* 🔹 trocado de branco pra azul */
   transition: 0.3s background-color ease-in-out;
   cursor: pointer;
-  border: none;
 }
 
 .editButton:hover,
 .intercorrenciaButton:hover {
-  background-color: #d8e8fc;
+  background-color: rgb(138, 138, 138);
 }
 
 /* ===========================
@@ -70,21 +62,21 @@
    =========================== */
 .navigation {
   margin-top: 5vh;
-  margin-bottom: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1rem;
+  background-color: #eaf2fd; /* 🔹 trocado de branco pra azul */
   border-radius: 15px;
-  background: none; /* 🔹 sem fundo da faixa */
-  box-shadow: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
+/* 🔹 Semana sem borda ou fundo */
 .spanSemana {
-  background: transparent;
-  border: none;
+  background-color: transparent;
   padding: 1vh;
-  color: black; /* 🔹 data preta no modo claro */
-  font-weight: 600;
+  border-radius: 0;
+  color: black;
 }
 
 .botaoSemana {
@@ -92,15 +84,21 @@
   justify-content: center;
   align-items: center;
   gap: 0.5vw;
-  background-color: #eaf2fd;
-  border: none;
+  background-color: #eaf2fd; /* 🔹 trocado de branco pra azul */
   border-radius: 15px;
-  transition: 0.3s color ease-in-out, 0.3s background-color ease-in-out;
+  transition: 0.3s color ease-in-out;
   cursor: pointer;
+  border: transparent;
 }
 
 .botaoSemana:hover {
-  background-color: #d8e8fc;
+  color: rgb(138, 138, 138);
+}
+
+.navigation button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
 /* ===========================
@@ -113,14 +111,14 @@
 }
 
 .tile {
-  background-color: #eaf2fd; /* 🔹 cor interna azul */
+  background-color: #eaf2fd; /* 🔹 trocado de branco pra azul */
   border-radius: 0.5rem;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: black;
+  color: bla;
 }
 
 .date {
@@ -172,18 +170,31 @@
 /* ===========================
    🌙 Tema escuro
    =========================== */
-body.dark-theme :global(.tile),
-body.dark-theme :global(.editButton),
-body.dark-theme :global(.intercorrenciaButton),
-body.dark-theme :global(.botaoSemana) {
-  background-color: #1f2932;
-  color: #f0f6fc;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
-  border: none;
+body.dark-theme :global(.spanSemana) {
+  background-color: transparent;
+  color: black; /* 🔹 agora a data fica preta no modo escuro */
+  border-radius: 0;
 }
 
+
+body.dark-theme :global(.container),
+body.dark-theme :global(.equipamentoInfo),
+body.dark-theme :global(.navigation),
+body.dark-theme :global(.tile),
+body.dark-theme :global(.botaoSemana),
+body.dark-theme :global(.editButton),
+body.dark-theme :global(.intercorrenciaButton) {
+  background-color: #1f2932; /* 🔹 trocado de #161b22 pra azul escuro */
+  color: #ba;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+  border-color: #30363d;
+}
+
+/* 🔹 Semana no dark mode sem caixa */
 body.dark-theme :global(.spanSemana) {
-  color: black; /* 🔹 data preta no modo escuro */
+  background-color: transparent;
+  color: black;
+  border-radius: 0;
 }
 
 body.dark-theme :global(.booked) {
