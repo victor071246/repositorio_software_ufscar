@@ -23,66 +23,100 @@ export default function AgendarPage() {
   const data = searchParams.get('data');
 
   const [reservas, setReservas] = useState<Reserva[]>([]);
-  const [usuarioId, setUsuarioId] = useState<number | null>(null); // pegar do header/auth
+  const [usuarioId, setUsuarioId] = useState<number | null>(null);
   const [horaInicio, setHoraInicio] = useState<number>(0);
   const [horaFim, setHoraFim] = useState<number>(1);
   const [mensagem, setMensagem] = useState('');
 
-  // Puxar usuário logado do backend/header
+  // 🔹 Carrega usuário logado
   useEffect(() => {
     fetch('/api/usuarios_cookie')
       .then((res) => res.json())
-      .then((data) => setUsuarioId(data.id))
-      .catch(() => setUsuarioId(null));
+      .then((data) => {
+        console.log('📥 Usuário logado:', data);
+        setUsuarioId(data.id);
+      })
+      .catch((e) => {
+        console.error('⚠️ Erro ao carregar usuário:', e);
+        setUsuarioId(null);
+      });
   }, []);
 
-  useEffect(() => {
+  // 🔹 Busca reservas do dia
+  async function carregarReservas() {
     if (!equipamentoId || !data) return;
 
-    // Converte "DD/MM/YYYY" para "YYYY-MM-DD"
-    let dataISO = data;
-    if (data.includes('/')) {
-      const [dia, mes, ano] = data.split('/');
-      dataISO = `${ano}-${mes}-${dia}`;
-    }
+    let dataISO = data.includes('/')
+      ? data.split('/').reverse().join('-')
+      : data;
 
     const start = `${dataISO} 00:00:00`;
     const end = `${dataISO} 23:59:59`;
 
-    fetch(`/api/reservas?equipamentoId=${equipamentoId}&start=${start}&end=${end}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('📦 RESERVAS RECEBIDAS DO BACKEND:', data);
-        setReservas(data);
-      })
-      .catch(() => setReservas([]));
+    try {
+      const res = await fetch(
+        `/api/reservas?equipamentoId=${equipamentoId}&start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`
+      );
+      const json = await res.json();
+      console.log('📦 Reservas recebidas:', json);
+      setReservas(json);
+    } catch (e) {
+      console.error('⚠️ Erro ao buscar reservas:', e);
+      setReservas([]);
+    }
+  }
+
+  useEffect(() => {
+    carregarReservas();
   }, [equipamentoId, data]);
 
-  const horas = Array.from({ length: 24 }, (_, i) => i); // 0–23
+  const horas = Array.from({ length: 24 }, (_, i) => i);
 
+  // 🕒 Criar agendamento
   const handleAgendar = async () => {
-    if (!equipamentoId || !usuarioId || !data) return;
+    console.log('🟡 Clique em "Agendar" detectado');
 
-    // Converter de "DD/MM/YYYY" → "YYYY-MM-DD"
-    // Detecta automaticamente o formato (DD/MM/YYYY ou YYYY-MM-DD)
-    let dataISO = data;
-    if (data.includes('/')) {
-      const [dia, mes, ano] = data.split('/');
-      dataISO = `${ano}-${mes}-${dia}`;
+    if (!equipamentoId || !usuarioId || !data) {
+      console.warn('⚠️ Dados insuficientes:', { equipamentoId, usuarioId, data });
+      setMensagem('Erro: dados incompletos');
+      return;
     }
 
-    // exemplo: "2025-10-20 06:00:00"
-// Função que converte o horário local para UTC sem perder o valor real escolhido
-function toUTCStringLocal(dateStr: string) {
-  const local = new Date(dateStr.replace(' ', 'T'));
-  const utc = new Date(local.getTime() - local.getTimezoneOffset() * 60000);
-  return utc.toISOString().slice(0, 19).replace('T', ' ');
-}
+    // 🔧 Lê valores diretamente dos selects (sem depender do estado React)
+    const inicioSelect = document.querySelector('select[name="inicio"]') as HTMLSelectElement | null;
+    const fimSelect = document.querySelector('select[name="fim"]') as HTMLSelectElement | null;
 
-// Constrói as datas com a conversão correta
-const inicio = toUTCStringLocal(`${dataISO} ${horaInicio.toString().padStart(2, '0')}:00:00`);
-const fim = toUTCStringLocal(`${dataISO} ${horaFim.toString().padStart(2, '0')}:00:00`);
+    const hi = inicioSelect ? Number(inicioSelect.value) : horaInicio;
+    const hf = fimSelect ? Number(fimSelect.value) : horaFim;
 
+    console.log('🧭 Horários capturados:', { hi, hf });
+
+    if (isNaN(hi) || isNaN(hf)) {
+      console.error('⚠️ Hora inválida detectada:', { hi, hf });
+      setMensagem('Selecione horários válidos.');
+      return;
+    }
+
+    // ✅ Agora compara corretamente
+    if (hf <= hi) {
+      console.error('❌ Validação front: horário final <= inicial', { hi, hf });
+      setMensagem('O horário final deve ser maior que o inicial');
+      return;
+    }
+
+    const dataISO = data.includes('/')
+      ? data.split('/').reverse().join('-')
+      : data;
+
+    const inicio = `${dataISO} ${hi.toString().padStart(2, '0')}:00:00`;
+    const fim = `${dataISO} ${hf.toString().padStart(2, '0')}:00:00`;
+
+    console.log('📤 Enviando tentativa de agendamento:', {
+      equipamento_id: Number(equipamentoId),
+      usuario_id: usuarioId,
+      inicio,
+      fim,
+    });
 
     try {
       const res = await fetch('/api/reservas', {
@@ -95,47 +129,38 @@ const fim = toUTCStringLocal(`${dataISO} ${horaFim.toString().padStart(2, '0')}:
           fim,
         }),
       });
-      const data = await res.json();
-      if (res.ok) setMensagem('Agendamento criado com sucesso!');
-      else setMensagem(data.error);
+
+      const json = await res.json();
+      console.log('📥 Resposta backend:', json);
+
+      if (res.ok) {
+        setMensagem('✅ Agendamento criado com sucesso!');
+        await carregarReservas();
+      } else {
+        setMensagem(`❌ Erro: ${json.error || 'Falha ao criar agendamento'}`);
+      }
     } catch (e) {
+      console.error('💥 Erro de rede:', e);
       setMensagem('Erro ao criar agendamento.');
     }
   };
 
-  // Função para verificar se a hora está ocupada
-  const horaOcupada = (h: number) => {
-    return reservas.some((r) => {
-      // MySQL → ISO (UTC): "2025-10-20T03:00:00.000Z"
-      const inicioDate = new Date(r.horario_inicio);
-      const fimDate = new Date(r.horario_fim);
-
-      if (isNaN(inicioDate.getTime()) || isNaN(fimDate.getTime())) {
-        console.log('❌ Data inválida:', r.horario_inicio, r.horario_fim);
-        return false;
-      }
-
-      // Pega hora local corretamente
-      const hi = inicioDate.getHours();
-      const hf = fimDate.getHours();
-
-      console.log(
-        `🕒 Comparando ${h}:00 com ${hi}:00–${hf}:00 (${r.horario_inicio} → ${r.horario_fim})`,
-      );
-
+  // 🔹 Marca hora ocupada (sem UTC)
+  const horaOcupada = (h: number) =>
+    reservas.some((r) => {
+      const hi = Number(r.horario_inicio.split(' ')[1]?.split(':')[0]);
+      const hf = Number(r.horario_fim.split(' ')[1]?.split(':')[0]);
       return h >= hi && h < hf;
     });
-  };
 
+  // 🔹 Limpar agendamentos
   const handleLimparAgendamentos = async () => {
     if (!equipamentoId || !data) return;
-    const confirm = window.confirm(
-      'Tem certeza que deseja limpar todos os agendamentos deste dia?',
-    );
-    if (!confirm) return;
+    if (!window.confirm('Tem certeza que deseja limpar todos os agendamentos deste dia?')) return;
 
-    const [dia, mes, ano] = data.split('/');
-    const dataISO = `${ano}-${mes}-${dia}`;
+    const dataISO = data.includes('/')
+      ? data.split('/').reverse().join('-')
+      : data;
 
     try {
       const res = await fetch(`/api/reservas?equipamentoId=${equipamentoId}&data=${dataISO}`, {
@@ -143,66 +168,76 @@ const fim = toUTCStringLocal(`${dataISO} ${horaFim.toString().padStart(2, '0')}:
       });
 
       const result = await res.json();
+      console.log('🗑️ Resposta delete:', result);
+
       if (res.ok) {
-        setMensagem('Agendamentos removidos com sucesso');
+        setMensagem('🧹 Agendamentos removidos com sucesso');
         setReservas([]);
       } else {
         setMensagem(result.error || 'Erro ao limpar agendamentos');
       }
     } catch (e) {
+      console.error('💥 Erro ao limpar agendamentos:', e);
       setMensagem('Erro ao limpar agendamentos');
-      console.log(e);
     }
   };
 
   return (
-    <>
-      <div className={styles.body}>
-        <Header />
+    <div className={styles.body}>
+      <Header />
+      <main className={styles.container}>
+        <div className={styles.containerInfo}>
+          <h1 className={styles.title}>Agendar equipamento</h1>
+          <p>Equipamento: {equipamentoId}</p>
+          <p>Data: {data}</p>
+        </div>
 
-        <main className={styles.container}>
-          <div className={styles.containerInfo}>
-            <h1 className={styles.title}>Agendar equipamento</h1>
-            <p>Equipamento: {equipamentoId}</p>
-            <p>Data: {data}</p>
-          </div>
-          <div className={styles.topButtons}>
-            <button className={styles.limparButton} onClick={handleLimparAgendamentos}>
-              <FaTrash className={styles.trashIcon} /> Limpar agendamentos
-            </button>
-          </div>
-          <div className={styles.horas}>
-            <label>
-              Hora início:
-              <select value={horaInicio} onChange={(e) => setHoraInicio(Number(e.target.value))}>
-                {horas.map((h) => (
-                  <option key={h} value={h} disabled={horaOcupada(h)}>
+        <div className={styles.topButtons}>
+          <button className={styles.limparButton} onClick={handleLimparAgendamentos}>
+            <FaTrash className={styles.trashIcon} /> Limpar agendamentos
+          </button>
+        </div>
+
+        <div className={styles.horas}>
+          <label>
+            Hora início:
+            <select
+              name="inicio"
+              value={horaInicio}
+              onChange={(e) => setHoraInicio(Number(e.target.value))}
+            >
+              {horas.map((h) => (
+                <option key={h} value={h} disabled={horaOcupada(h)}>
+                  {h}:00
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label>
+            Hora fim:
+            <select
+              name="fim"
+              value={horaFim}
+              onChange={(e) => setHoraFim(Number(e.target.value))}
+            >
+              {horas
+                .filter((h) => h > horaInicio)
+                .map((h) => (
+                  <option key={h} value={h} disabled={horaOcupada(h - 1)}>
                     {h}:00
                   </option>
                 ))}
-              </select>
-            </label>
-            <label>
-              Hora fim:
-              <select value={horaFim} onChange={(e) => setHoraFim(Number(e.target.value))}>
-                {horas
-                  .filter((h) => h > horaInicio)
-                  .map((h) => (
-                    <option key={h} value={h} disabled={horaOcupada(h - 1)}>
-                      {h}:00
-                    </option>
-                  ))}
-              </select>
-            </label>
-          </div>
+            </select>
+          </label>
+        </div>
 
-          <button className={styles.agendarButton} onClick={handleAgendar}>
-            Agendar
-          </button>
+        <button className={styles.agendarButton} onClick={handleAgendar}>
+          Agendar
+        </button>
 
-          {mensagem && <p className={styles.mensagem}>{mensagem}</p>}
-        </main>
-      </div>
-    </>
+        {mensagem && <p className={styles.mensagem}>{mensagem}</p>}
+      </main>
+    </div>
   );
 }

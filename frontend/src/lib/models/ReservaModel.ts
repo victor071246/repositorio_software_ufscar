@@ -15,6 +15,7 @@ export type ReservaRow = ReservaType & {
 };
 
 export default class Reserva {
+  // 🔹 BUSCA COM FILTROS
   static async findAll(filtros: {
     equipamento_id?: number;
     start?: string;
@@ -50,36 +51,60 @@ export default class Reserva {
     return rows as ReservaRow[];
   }
 
-  static async create(reserva: ReservaType): Promise<void> {
-    const { equipamento_id, usuario_id, horario_inicio, horario_fim } = reserva;
+static async create(reserva: ReservaType): Promise<void> {
+  const { equipamento_id, usuario_id, horario_inicio, horario_fim } = reserva;
 
-    const [conf] = await pool.query<RowDataPacket[]>(
-      `SELECT 1 FROM Agendamentos
-       WHERE equipamento_id = ?
-         AND horario_inicio < ?
-         AND horario_fim > ?
-       LIMIT 1`,
-      [equipamento_id, horario_fim, horario_inicio],
-    );
+  const inicioFmt = horario_inicio.split('.')[0];
+  const fimFmt = horario_fim.split('.')[0];
 
-    if (conf.length) throw new Error('Conflito de agendamento para este equipamento.');
+  console.log('🕒 Tentando criar reserva:', { inicioFmt, fimFmt });
 
-    await pool.query<ResultSetHeader>(
-      `INSERT INTO Agendamentos (equipamento_id, usuario_id, horario_inicio, horario_fim)
-       VALUES (?, ?, ?, ?)`,
-      [equipamento_id, usuario_id, horario_inicio, horario_fim],
-    );
+  // 💡 Verifica conflito real — intervalos [inicio, fim)
+  const [conf] = await pool.query<RowDataPacket[]>(
+    `
+    SELECT 1
+    FROM Agendamentos
+    WHERE equipamento_id = ?
+      AND horario_inicio < CAST(? AS DATETIME)
+      AND horario_fim > CAST(? AS DATETIME)
+    LIMIT 1
+    `,
+    [equipamento_id, fimFmt, inicioFmt] // <- ordem correta!
+  );
+
+  console.log('🧩 Conflito detectado?', conf.length > 0);
+
+  if (conf.length > 0) {
+    throw new Error('Conflito de agendamento para este equipamento.');
   }
 
+  await pool.query<ResultSetHeader>(
+    `
+    INSERT INTO Agendamentos (equipamento_id, usuario_id, horario_inicio, horario_fim)
+    VALUES (?, ?, ?, ?)
+    `,
+    [equipamento_id, usuario_id, inicioFmt, fimFmt]
+  );
+
+  console.log('✅ Reserva salva com sucesso!');
+}
+
+
+
+
+  // 🔹 DELETAR RESERVAS DE UM DIA
   static async deleteByEquipamentoEData(equipamento_id: number, data: string): Promise<void> {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(data)) {
       throw new Error('Formato de data inválido');
     }
+
     await pool.query(
-      `DELETE FROM Agendamentos
-   WHERE equipamento_id = ?
-     AND horario_inicio LIKE CONCAT(?, '%')`,
-      [equipamento_id, data], // data = '2025-09-22'
+      `
+      DELETE FROM Agendamentos
+      WHERE equipamento_id = ?
+        AND horario_inicio LIKE CONCAT(?, '%')
+      `,
+      [equipamento_id, data]
     );
   }
 }
