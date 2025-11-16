@@ -2,39 +2,41 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
 
-
 const SECRET = new TextEncoder().encode(process.env.TOKEN_SECRET!);
 
 export async function middleware(req: NextRequest) {
-  if (req.nextUrl.pathname === 'pages/login') {
-    return NextResponse.next();
-  }
+  const { pathname } = req.nextUrl;
   const token = req.cookies.get('token')?.value;
   const url = req.nextUrl.clone();
-  if (token) {
-    const { payload } = await jwtVerify(token, SECRET);
 
-    if (payload) {
-      console.log(payload);
-      console.log('token_logado');
-      // const user_id = payload.id;
-      // const username = payload.usuario;
-      // const admin = payload.admin;
-      // const supervisor = payload.supervisor;
-    }
+  // Rota livre para login
+  if (pathname.startsWith('/login')) {
+    return NextResponse.next();
   }
-  if (req.nextUrl.pathname === '/' && token) {
+
+  // Sem token = manda para login
+  if (!token) {
+    url.pathname = '/login';
+    return NextResponse.redirect(url);
+  }
+
+  // Já logado e na home → dashboard
+  if (pathname === '/') {
     url.pathname = '/dashboard';
     return NextResponse.redirect(url);
   }
-  if (req.nextUrl.pathname !== '/pages/login' && !token) {
-    url.pathname = '/pages/login';
-    console.log('token_não_logado');
+
+  // Token existe → segue
+  try {
+    await jwtVerify(token, SECRET);
+  } catch {
+    url.pathname = '/login';
     return NextResponse.redirect(url);
   }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|login).*)'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };
