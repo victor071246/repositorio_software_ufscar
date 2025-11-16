@@ -82,7 +82,7 @@
 @media (max-width: 900px) {
   .logo {
   position: absolute;
-  top: 28vh;
+  top: 26vh;
   left: 50%;
   transform: translateX(-50%);
   width: 200px;
