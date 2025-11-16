@@ -54,7 +54,7 @@ export default function LoginPage() {
             <input
               className={styles.loginInput}
               type="text"
-              placeholder="Usuário"
+              placeholder=" Usuário"
               value={usuario}
               onChange={(e) => setUsuario(e.target.value)}
               required
@@ -62,7 +62,7 @@ export default function LoginPage() {
             <input
               className={styles.loginInput}
               type="password"
-              placeholder="Senha"
+              placeholder=" Senha"
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
             />

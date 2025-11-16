@@ -6,6 +6,7 @@
   padding: 1rem;
   background-color: var(--bg-body);
   color: var(--text-color);
+  box-sizing: border-box;
 }
 
 .loginContainer {
@@ -32,7 +33,7 @@
 }
 
 .loginInput {
-  width: 19.5vw;
+  width: 73%;
   padding: 0.75rem;
   margin: 0.75rem 0;
   border: 1px solid var(--input-border);
@@ -47,7 +48,7 @@
 }
 
 .loginButton {
-  width: 100%;
+  width: 80%;
   padding: 0.75rem;
   background-color: var(--accent);
   color: white;
@@ -86,6 +87,34 @@
   width: 200px;
   height: auto;
   z-index: 10;
+}
+
+
+.bodyContainer {
+  display: flex;
+  box-sizing: border-box;
+}
+.loginForm {
+  justify-content: center;
+  display: flex;
+  z-index: 0;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.loginInput {
+  width: 100%;
+  padding: 0.75rem 0px;
+  margin: 0.75rem 0;
+  border: 1px solid var(--input-border);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+}
+
+.loginButton {
+  width: 100%;
 }
 
 }
