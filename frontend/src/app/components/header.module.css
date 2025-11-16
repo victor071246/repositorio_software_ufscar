@@ -160,9 +160,12 @@
 @media (max-width: 600px) {
   .header {
     flex-wrap: wrap;
+    width: 100vw;
     justify-content: center;
     text-align: center;
-    gap: 1rem;
+  }
+  .logo {
+    display: none;
   }
 
   .userArea {
@@ -176,12 +179,14 @@
     flex: 1 1 100%;
     justify-content: center;
     gap: 1.5rem;
+    width: 10vw;
   }
 
   .themeButton,
   .logoutButton {
     transform: scale(0.95);
   }
+  
 }
 
 /* ===========================
@@ -203,8 +208,48 @@
 /* Mobile */
 @media (max-width: 600px) {
   .icones button:first-child {
-    margin-left: 10vw;
+    margin-left: 35vw;
   }
+
+  .icones span {
+    display: none;
+    justify-content: baseline;
+    gap: 0px;
+  }
+
+  .icones {
+    display: flex;
+    justify-content: start;
+    gap: 3%;
+  }
+
+  .logo {
+  position: absolute;
+  margin-left: 20VW;
+  width: 50PX;
+  top: 5VW;
+  left: 8vw;
+}
+
+}
+
+@media (max-width: 490px) {
+  .icones button:first-child {
+    margin-left: 20vw;
+  }
+
+  .icones span {
+    display: none;
+    justify-content: baseline;
+    gap: 0px;
+  }
+
+  .icones {
+    display: flex;
+    justify-content: start;
+    gap: 3%;
+  }
+
   .logo {
   position: absolute;
   margin-left: 20VW;

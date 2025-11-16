@@ -55,7 +55,7 @@ class UsuarioController {
     try {
       const url = new URL(req.url);
       const search = url.searchParams.get('search') || '';
-      const usuarios = await Usuario.findAll({ search });
+      const usuarios = await Usuario.findAll(search);
       return NextResponse.json(usuarios);
     } catch (e) {
       const message = e instanceof Error ? e.message : 'Erro interno';

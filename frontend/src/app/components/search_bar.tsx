@@ -21,7 +21,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Pesquisar equipamento"
+          placeholder="Pesquisar..."
           className={styles.input}
         />
         <button type="submit" className={styles.button}>

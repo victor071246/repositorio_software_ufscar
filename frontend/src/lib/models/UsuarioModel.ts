@@ -36,12 +36,12 @@ class Usuario {
     return bcrypt.compare(senha, hash);
   }
 
-  static async findAll({ search }: { search?: string }): Promise<UsuarioType[]> {
+  static async findAll(search?: string): Promise<UsuarioType[]> {
     let sql = 'SELECT * FROM Usuarios';
     const params: (string | undefined)[] = [];
 
     if (search) {
-      sql += ' WHERE usuario LIKE ? OR nome LIKE ? OR departamento LIKE ?';
+      sql += ' WHERE usuario LIKE ? OR nome LIKE ?';
       params.push(`%${search}%`, `%${search}%`, `%${search}%`);
     }
 

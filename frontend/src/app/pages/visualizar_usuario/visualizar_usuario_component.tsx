@@ -33,16 +33,53 @@ export default function VisualizarUsuarioComponent() {
   useEffect(() => {
     fetch('/api/usuarios_cookie')
       .then(res => res.json())
-      .then((data: UserLogged) => setUserLogged(data));
+      .then((data: UserLogged) => setUserLogged(data))
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
     if (!usuarioId) return;
+
     fetch(`/api/usuarios/${usuarioId}`)
       .then(res => res.json())
       .then((data: Usuario) => setUsuario(data))
+      .catch(() => setError('Erro ao carregar usuário.'))
       .finally(() => setLoading(false));
   }, [usuarioId]);
+
+  const handleResetSenha = async () => {
+    if (!usuario) return;
+
+    if (
+      !userLogged ||
+      (!userLogged.admin &&
+        !(userLogged.supervisor && !usuario.supervisor && !usuario.admin))
+    ) {
+      setError('Você não tem permissão para resetar esta senha.');
+      return;
+    }
+
+    try {
+      setResetting(true);
+      setError('');
+
+      const res = await fetch(`/api/usuarios/${usuario.id}/reset-senha`, {
+        method: 'POST',
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || 'Erro ao resetar senha');
+      }
+
+      alert('Senha resetada para: 123456');
+    } catch (e) {
+      if (e instanceof Error) setError(e.message);
+      else setError('Erro desconhecido');
+    } finally {
+      setResetting(false);
+    }
+  };
 
   if (loading) return <p>Carregando...</p>;
   if (!usuario) return <p>Usuário não encontrado.</p>;
@@ -53,9 +90,26 @@ export default function VisualizarUsuarioComponent() {
       <main className={styles.container}>
         <h1 className={styles.title}>Informações do Usuário</h1>
         {error && <p className={styles.error}>{error}</p>}
+
         <div className={styles.info}>
           <p><strong>Nome:</strong> {usuario.nome}</p>
+          <p><strong>Usuário:</strong> {usuario.usuario}</p>
+          <p><strong>Admin:</strong> {usuario.admin ? 'Sim' : 'Não'}</p>
+          <p><strong>Supervisor:</strong> {usuario.supervisor ? 'Sim' : 'Não'}</p>
         </div>
+
+        {(userLogged?.admin ||
+          (userLogged?.supervisor &&
+            !usuario.supervisor &&
+            !usuario.admin)) && (
+          <button
+            className={styles.resetButton}
+            onClick={handleResetSenha}
+            disabled={resetting}
+          >
+            {resetting ? 'Resetando...' : 'Resetar Senha'}
+          </button>
+        )}
       </main>
     </>
   );

@@ -50,6 +50,7 @@
 
 /* Inputs */
 .input {
+  box-sizing: border-box;
   width: 100%;
   padding: 0.75rem;
   margin: 0.75rem 0;
@@ -145,5 +146,8 @@
   font-size: 1rem;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
-  
+
+.card{
+  height: 38vh;
+}
 }
